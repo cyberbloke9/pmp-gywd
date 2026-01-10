@@ -46,7 +46,6 @@
     "./commands/gywd/verify-work.md",
     "./commands/gywd/plan-fix.md",
     "./commands/gywd/remove-phase.md",
-    "./commands/gywd/help.md",
-    "./commands/gywd/auto.md"
+    "./commands/gywd/help.md"
   ]
 }
