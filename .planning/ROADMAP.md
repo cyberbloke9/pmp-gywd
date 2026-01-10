@@ -1,77 +1,103 @@
-# ROADMAP: PMP-GYWD v1.3.0
+# ROADMAP: PMP-GYWD v1.4.0
 
-## Overview
+## The Paradigm Shift
 
-Major feature expansion completed across 3 tiers: Quick Wins, Core Features, and Differentiators.
+**v1.0-1.3**: Feature accumulation - more commands, more capabilities
+**v1.4**: Paradigm shift - understanding decisions, not just generating code
+
+**Core Insight**: Code is crystallized decisions. Every function, every pattern exists because someone made a decision with context we've often lost. v1.4 makes those decisions explicit and queryable.
+
+---
 
 ## Release History
 
-| Version | Tier | Features | Status |
-|---------|------|----------|--------|
-| v1.1.0 | Baseline | Stable foundation | ✅ Complete |
-| v1.1.1 | Tier 1 | Quick Wins | ✅ Complete |
-| v1.2.0 | Tier 2 | Core Features | ✅ Complete |
-| v1.3.0 | Tier 3 | Differentiators | ✅ Complete |
+| Version | Focus | Commands | Status |
+|---------|-------|----------|--------|
+| v1.0.0 | Foundation | Base commands | ✅ |
+| v1.1.0 | Polish | Error handling, tests | ✅ |
+| v1.1.1 | Quick Wins | Context, preview, health | ✅ |
+| v1.2.0 | Core Features | Memory, drift, deps | ✅ |
+| v1.3.0 | Differentiators | Digest, rollback, GitHub | ✅ |
+| **v1.4.0** | **Decision Intelligence** | **7 new systems** | ✅ |
 
 ---
 
-## Tier 1: Quick Wins (v1.1.1) ✅
+## v1.4.0: Decision Intelligence
 
-| # | Feature | Command | Status |
-|---|---------|---------|--------|
-| 1 | Context Budget Visibility | `/gywd:context` | ✅ Done |
-| 2 | Pre-execution Review | `/gywd:preview-plan` | ✅ Done |
-| 3 | Partial Phase Execution | `--tasks` flag | ✅ Done |
-| 4 | Phase Health Dashboard | `/gywd:health` | ✅ Done |
+**Philosophy**: Understand WHY code exists, not just WHAT it does.
 
----
+### New Systems
 
-## Tier 2: Core Features (v1.2.0) ✅
+| System | Command | Purpose |
+|--------|---------|---------|
+| Decision Graph | `/gywd:extract-decisions` | Parse history into decision records |
+| Temporal Queries | `/gywd:history` | Query codebase evolution |
+| Adversarial Review | `/gywd:challenge` | Agents that attack plans/code |
+| Predictive Context | `/gywd:anticipate` | Know what you need before asking |
+| Developer Twin | `/gywd:profile` | Model of your patterns |
+| Reality Integration | `/gywd:impact` | Connect code to outcomes |
+| Why Queries | `/gywd:why` | Answer "why does this exist?" |
 
-| # | Feature | Command | Status |
-|---|---------|---------|--------|
-| 1 | Multi-session Memory | `/gywd:memory` | ✅ Done |
-| 2 | Spec Drift Detection | `/gywd:check-drift` | ✅ Done |
-| 3 | Confidence Scoring | Inline in plans | ✅ Done |
-| 4 | Dependency Visualization | `/gywd:deps` | ✅ Done |
+### Research Foundation
 
----
-
-## Tier 3: Differentiators (v1.3.0) ✅
-
-| # | Feature | Command | Status |
-|---|---------|---------|--------|
-| 1 | Adaptive Task Decomposition | Auto in planning | ✅ Done |
-| 2 | Codebase Digest | `/gywd:digest` | ✅ Done |
-| 3 | Rollback Checkpoints | `/gywd:rollback` | ✅ Done |
-| 4 | Integration Hooks | `/gywd:sync-github` | ✅ Done |
+Built on:
+- METR 2025: Developers 19% slower with AI (perception gap)
+- Cognitive science: 4±1 working memory chunks, 23 min focus recovery
+- Kasparov: Weak human + weak AI + great process > strong AI alone
+- Kleppmann: Formal verification goes mainstream via AI
 
 ---
 
-## New Commands Summary (v1.3.0)
+## Total Commands: 41
 
-### Progress & Monitoring
-- `/gywd:status` - Quick one-line status
-- `/gywd:context` - Context budget analysis
-- `/gywd:health` - Phase health dashboard
-- `/gywd:progress` - Detailed progress with routing
+### By Category
 
-### Execution Control
-- `/gywd:preview-plan` - Preview before execution
-- `/gywd:execute-plan --tasks` - Partial execution support
-- `/gywd:rollback` - Safe rollback to checkpoints
+**Project Setup (4)**
+- init, new-project, create-roadmap, map-codebase
 
-### Analysis & Memory
-- `/gywd:memory` - Multi-session memory
-- `/gywd:check-drift` - Spec drift detection
-- `/gywd:deps` - Dependency visualization
-- `/gywd:digest` - Compact codebase summary
+**Planning (7)**
+- plan-phase, discuss-phase, research-phase, list-phase-assumptions
+- add-phase, insert-phase, remove-phase
 
-### Integration
-- `/gywd:sync-github` - GitHub issues/PRs/milestones sync
+**Execution (4)**
+- execute-plan, preview-plan, verify-work, plan-fix
+
+**Progress (5)**
+- status, progress, context, health, deps
+
+**Memory & Analysis (4)**
+- memory, check-drift, digest, consider-issues
+
+**Decision Intelligence (7)** ← v1.4
+- extract-decisions, history, challenge, anticipate
+- profile, impact, why
+
+**Integration (3)**
+- sync-github, rollback, complete-milestone
+
+**Session (3)**
+- pause-work, resume-work, discuss-milestone, new-milestone
+
+**Utility (2)**
+- help, auto
 
 ---
 
-## Total Commands: 34
+## The Vision Beyond
 
-**v1.3.0 is feature complete.**
+### v2.0 Direction
+
+Full implementation of the 7 behemoth systems:
+1. Complete Decision Graph with causal linking
+2. Developer Digital Twin with persistent modeling
+3. Temporal Codebase as first-class citizen
+4. Adversarial Swarm with competing agents
+5. Semantic Compiler with formal verification
+6. Predictive Development with anticipation engine
+7. Reality-Grounded Development with outcome linking
+
+See VISION.md for full architectural vision.
+
+---
+
+**v1.4.0 is the bridge from features to understanding.**

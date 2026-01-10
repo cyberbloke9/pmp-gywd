@@ -17,7 +17,9 @@ Output ONLY the reference content below. Do NOT add:
 <reference>
 # GYWD Command Reference
 
-**GYWD** (Get Your Work Done) creates hierarchical project plans optimized for solo agentic development with Claude Code.
+**GYWD** (Get Your Work Done) is a decision-aware development system for Claude Code.
+
+**v1.4 Philosophy:** Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.
 
 ## Quick Start
 
@@ -43,6 +45,17 @@ Output ONLY the reference content below. Do NOT add:
 /gywd:progress    # Detailed progress
 /gywd:context     # Context budget analysis
 /gywd:health      # Project health dashboard
+```
+
+**Decision Intelligence (v1.4):**
+```
+/gywd:why <code>         # Why does this code exist?
+/gywd:extract-decisions  # Build decision graph from history
+/gywd:challenge          # Adversarial review of plans/code
+/gywd:history            # Query temporal codebase evolution
+/gywd:anticipate         # Predictive context loading
+/gywd:profile            # Developer digital twin
+/gywd:impact             # Connect code to production reality
 ```
 
 ## Core Workflow
@@ -355,6 +368,78 @@ Review deferred issues with codebase context.
 - Offers batch actions (close, insert phase, note for planning)
 
 Usage: `/gywd:consider-issues`
+
+### Decision Intelligence (v1.4)
+
+**`/gywd:why <target>`**
+Ask why code exists - trace to decisions.
+
+- Answers "why does this code exist?"
+- Traces to original decisions and context
+- Shows alternatives considered, trade-offs accepted
+- Links to incidents and history
+
+Usage: `/gywd:why src/utils/result.ts` or `/gywd:why "the retry logic in payments"`
+
+**`/gywd:extract-decisions`**
+Build decision graph from codebase history.
+
+- Parses git history, PRs, comments for decisions
+- Creates structured decision records
+- Links decisions causally (A led to B)
+- Identifies documentation gaps
+
+Usage: `/gywd:extract-decisions --depth deep`
+
+**`/gywd:history <query>`**
+Query temporal codebase evolution.
+
+- Natural language queries against history
+- "When did we start using this pattern?"
+- "What did auth look like before the rewrite?"
+- Hotspot detection and prediction
+
+Usage: `/gywd:history "Why did we remove Redux?"`
+
+**`/gywd:challenge [target]`**
+Adversarial review - agents that attack your plan/code.
+
+- Critic Agent: Finds logical flaws
+- Devil's Advocate: Argues for alternatives
+- Red Team: Security attack simulation
+- Chaos Agent: Edge case generation
+
+Usage: `/gywd:challenge .planning/phases/03-payment/03-01-PLAN.md`
+
+**`/gywd:anticipate`**
+Predictive development - know what you'll need.
+
+- Pre-loads relevant patterns before you ask
+- Surfaces similar past work
+- Warns about known pitfalls
+- Protects flow state
+
+Usage: `/gywd:anticipate --for "payment integration"`
+
+**`/gywd:profile [show|learn]`**
+Developer Digital Twin - model of your patterns.
+
+- Captures cognitive style and preferences
+- Maps expertise topology
+- Learns from your behavior
+- Adapts AI responses to YOU
+
+Usage: `/gywd:profile show` or `/gywd:profile learn`
+
+**`/gywd:impact <target>`**
+Reality integration - connect code to outcomes.
+
+- Production metrics per file/endpoint
+- Business impact attribution
+- Cost breakdown by code area
+- Incident history linkage
+
+Usage: `/gywd:impact src/api/checkout.ts`
 
 ### Utility Commands
 
