@@ -1,11 +1,10 @@
 <div align="center">
 
-# PMP - Get Your Work Done (GYWD)
+# PMP - GYWD (Get Your Work Done)
 
-**A light-weight and powerful meta-prompting, context engineering and spec-driven development system for Claude Code by cyberbloke9.**
+**A context-aware development framework for Claude Code that transforms how you ship MVPs.**
 
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/cyberbloke9/pmp-gywd?style=for-the-badge&logo=github&color=181717)](https://github.com/cyberbloke9/pmp-gywd)
 
 <br>
 
@@ -13,349 +12,257 @@
 npx pmp-gywd
 ```
 
-**Works on Mac, Windows, and Linux.**
-
-<br>
-
-*"If you know clearly what you want, this WILL build it for you. No bs."*
-
-*"By far the most powerful addition to my Claude Code. Nothing over-engineered. Literally just gets work done."*
-
-<br>
-
-[Why I Built This](#why-i-built-this) · [How It Works](#how-it-works) · [Commands](#commands) · [Why It Works](#why-it-works)
+**Cross-platform: Windows, Mac, Linux**
 
 </div>
 
 ---
 
-## Why I Built This
+## What is GYWD?
 
-I'm a developer who uses Claude Code to ship MVPs fast.
+GYWD is a structured development framework that leverages Claude Code's capabilities through intelligent context management. It solves the fundamental challenge of AI-assisted coding: maintaining quality and consistency throughout complex projects.
 
-Other spec-driven development tools exist, but they make things way more complicated than they need to be (sprint ceremonies, story points, stakeholder syncs, retrospectives, Jira workflows). I'm not a 50-person software company. I don't want to play enterprise theater. I'm just a builder trying to create great things that work.
+### The Problem
 
-So I forked and customized this system. The complexity is in the system, not in your workflow. Behind the scenes: context engineering, XML prompt formatting, subagent orchestration, state management. What you see: a few commands that just work.
+When working with AI coding assistants on larger projects, you'll notice:
+- Quality drops as conversations get longer
+- Context gets lost between sessions
+- Instructions need constant repetition
+- Output becomes inconsistent
 
-The system gives Claude everything it needs to do the work *and* verify it. I trust the workflow. It just does a good job.
+### The Solution
 
-That's what this is. No enterprise roleplay. Just an incredibly effective system for building cool stuff consistently using Claude Code.
-
-— **cyberbloke9**
+GYWD implements a **context engineering architecture** that:
+- Preserves project knowledge across sessions
+- Breaks work into optimally-sized chunks
+- Maintains consistent output quality
+- Automates documentation and version control
 
 ---
 
-Vibecoding has a bad reputation. You describe what you want, AI generates code, and you get inconsistent garbage that falls apart at scale.
+## Core Concepts
 
-GYWD fixes that. It's the context engineering layer that makes Claude Code reliable. Describe your idea, let the system extract everything it needs to know, and let Claude Code get to work.
+### Hierarchical Planning
 
----
+Projects are organized into:
+```
+Milestones → Phases → Plans → Tasks
+```
 
-## Who This Is For
+Each level has dedicated documentation that loads contextually, ensuring Claude always has relevant information without overload.
 
-People who want to describe what they want and have it built correctly — without pretending they're running a 50-person engineering org.
+### Session Persistence
+
+Your project state lives in `.planning/`:
+- Project vision and requirements
+- Current progress and position
+- Decisions made along the way
+- Issues deferred for later
+
+### Isolated Execution
+
+Each plan executes in a fresh context window. This prevents the quality degradation that occurs when context accumulates over long sessions.
 
 ---
 
 ## Getting Started
 
+### Installation
+
 ```bash
 npx pmp-gywd
 ```
 
-That's it. Verify with `/gywd:help`.
+Choose global (all projects) or local (current project only).
 
-<details>
-<summary><strong>Non-interactive Install (Docker, CI, Scripts)</strong></summary>
+### Verify Installation
 
-```bash
-npx pmp-gywd --global   # Install to ~/.claude/
-npx pmp-gywd --local    # Install to ./.claude/
+```
+/gywd:help
 ```
 
-Use `--global` (`-g`) or `--local` (`-l`) to skip the interactive prompt.
+### Recommended Setup
 
-</details>
-
-<details>
-<summary><strong>Development Installation</strong></summary>
-
-Clone the repository and run the installer locally:
-
-```bash
-git clone https://github.com/cyberbloke9/pmp-gywd.git
-cd pmp-gywd
-node bin/install.js --local
-```
-
-Installs to `./.claude/` for testing modifications before contributing.
-
-</details>
-
-### Recommended: Skip Permissions Mode
-
-GYWD is designed for frictionless automation. Run Claude Code with:
-
+For uninterrupted automation:
 ```bash
 claude --dangerously-skip-permissions
 ```
 
-> [!TIP]
-> This is how GYWD is intended to be used — stopping to approve `date` and `git commit` 50 times defeats the purpose.
-
 <details>
-<summary><strong>Alternative: Granular Permissions</strong></summary>
+<summary><strong>Alternative: Selective Permissions</strong></summary>
 
-If you prefer not to use that flag, add this to your project's `.claude/settings.json`:
-
+Add to `.claude/settings.json`:
 ```json
 {
   "permissions": {
     "allow": [
-      "Bash(date:*)",
-      "Bash(echo:*)",
-      "Bash(cat:*)",
-      "Bash(ls:*)",
-      "Bash(mkdir:*)",
-      "Bash(wc:*)",
-      "Bash(head:*)",
-      "Bash(tail:*)",
-      "Bash(sort:*)",
-      "Bash(grep:*)",
-      "Bash(tr:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git status:*)",
       "Bash(git log:*)",
-      "Bash(git diff:*)",
-      "Bash(git tag:*)"
+      "Bash(git diff:*)"
     ]
   }
 }
 ```
-
 </details>
 
 ---
 
-## How It Works
+## Workflow
 
-### 1. Start with an idea
-
-```
-/gywd:new-project
-```
-
-The system asks questions. Keeps asking until it has everything — your goals, constraints, tech preferences, edge cases. You go back and forth until the idea is fully captured. Creates **PROJECT.md**.
-
-### 2. Create roadmap
+### New Projects
 
 ```
-/gywd:create-roadmap
+/gywd:new-project       # Define your vision
+/gywd:create-roadmap    # Generate phases
+/gywd:plan-phase 1      # Detail first phase
+/gywd:execute-plan      # Build it
 ```
 
-Produces:
-- **ROADMAP.md** — Phases from start to finish
-- **STATE.md** — Living memory that persists across sessions
-
-### 3. Plan and execute phases
+### Existing Codebases
 
 ```
-/gywd:plan-phase 1      # System creates atomic task plans
-/gywd:execute-plan      # Subagent implements autonomously
+/gywd:map-codebase      # Analyze current code
+/gywd:new-project       # Define additions
+/gywd:create-roadmap    # Plan the work
+/gywd:plan-phase 1      # Detail tasks
+/gywd:execute-plan      # Implement
 ```
 
-Each phase breaks into 2-3 atomic tasks. Each task runs in a fresh subagent context — 200k tokens purely for implementation, zero degradation.
-
-### 4. Ship and iterate
+### Daily Development
 
 ```
-/gywd:complete-milestone   # Archive v1, prep for v2
-/gywd:add-phase            # Append new work
-/gywd:insert-phase 2       # Slip urgent work between phases
+/gywd:progress          # Check status
+/gywd:resume-work       # Restore context
 ```
-
-Ship your MVP in a day. Add features. Insert hotfixes. The system stays modular — you're never stuck.
 
 ---
 
-## Existing Projects (Brownfield)
+## Codebase Analysis
 
-Already have code? Start here instead.
+For existing projects, `/gywd:map-codebase` generates comprehensive documentation:
 
-### 1. Map the codebase
+| Document | Contents |
+|----------|----------|
+| `STACK.md` | Technologies and dependencies |
+| `ARCHITECTURE.md` | System design patterns |
+| `STRUCTURE.md` | File organization |
+| `CONVENTIONS.md` | Coding standards |
+| `TESTING.md` | Test infrastructure |
+| `INTEGRATIONS.md` | External connections |
+| `CONCERNS.md` | Technical debt |
 
-```
-/gywd:map-codebase
-```
-
-Spawns parallel agents to analyze your code. Creates `.planning/codebase/` with 7 documents:
-
-| Document | Purpose |
-|----------|---------|
-| `STACK.md` | Languages, frameworks, dependencies |
-| `ARCHITECTURE.md` | Patterns, layers, data flow |
-| `STRUCTURE.md` | Directory layout, where things live |
-| `CONVENTIONS.md` | Code style, naming patterns |
-| `TESTING.md` | Test framework, patterns |
-| `INTEGRATIONS.md` | External services, APIs |
-| `CONCERNS.md` | Tech debt, known issues, fragile areas |
-
-### 2. Initialize project
-
-```
-/gywd:new-project
-```
-
-Same as greenfield, but the system knows your codebase. Questions focus on what you're adding/changing, not starting from scratch.
-
-### 3. Continue as normal
-
-From here, it's the same: `/gywd:create-roadmap` → `/gywd:plan-phase` → `/gywd:execute-plan`
-
-The codebase docs load automatically during planning. Claude knows your patterns, conventions, and where to put things.
+This knowledge automatically informs all subsequent planning and execution.
 
 ---
 
-## Why It Works
+## Command Reference
 
-### Context Engineering
+### Project Setup
+| Command | Purpose |
+|---------|---------|
+| `/gywd:new-project` | Initialize with guided questions |
+| `/gywd:create-roadmap` | Generate phase breakdown |
+| `/gywd:map-codebase` | Analyze existing code |
 
-Claude Code is incredibly powerful *if* you give it the context it needs. Most people don't.
+### Planning
+| Command | Purpose |
+|---------|---------|
+| `/gywd:plan-phase [N]` | Create detailed task plan |
+| `/gywd:discuss-phase [N]` | Clarify phase vision |
+| `/gywd:research-phase [N]` | Deep-dive for complex domains |
+| `/gywd:list-phase-assumptions [N]` | Preview Claude's approach |
 
-GYWD handles it for you:
+### Execution
+| Command | Purpose |
+|---------|---------|
+| `/gywd:execute-plan` | Run current plan |
+| `/gywd:verify-work [N]` | Test completed work |
+| `/gywd:plan-fix [plan]` | Address issues found |
 
-| File | What it does |
-|------|--------------|
-| `PROJECT.md` | Project vision, always loaded |
-| `ROADMAP.md` | Where you're going, what's done |
-| `STATE.md` | Decisions, blockers, position — memory across sessions |
-| `PLAN.md` | Atomic task with XML structure, verification steps |
-| `SUMMARY.md` | What happened, what changed, committed to history |
-| `ISSUES.md` | Deferred enhancements tracked across sessions |
+### Progress
+| Command | Purpose |
+|---------|---------|
+| `/gywd:progress` | Status and next steps |
+| `/gywd:pause-work` | Save state for later |
+| `/gywd:resume-work` | Restore previous session |
 
-Size limits based on where Claude's quality degrades. Stay under, get consistent excellence.
+### Roadmap Changes
+| Command | Purpose |
+|---------|---------|
+| `/gywd:add-phase` | Append new phase |
+| `/gywd:insert-phase [N]` | Add urgent work mid-roadmap |
+| `/gywd:remove-phase [N]` | Delete future phase |
 
-### XML Prompt Formatting
+### Milestones
+| Command | Purpose |
+|---------|---------|
+| `/gywd:complete-milestone` | Archive and tag release |
+| `/gywd:discuss-milestone` | Plan next milestone |
+| `/gywd:new-milestone [name]` | Start fresh milestone |
 
-Every plan is structured XML optimized for Claude:
-
-```xml
-<task type="auto">
-  <name>Create login endpoint</name>
-  <files>src/app/api/auth/login/route.ts</files>
-  <action>
-    Use jose for JWT (not jsonwebtoken - CommonJS issues).
-    Validate credentials against users table.
-    Return httpOnly cookie on success.
-  </action>
-  <verify>curl -X POST localhost:3000/api/auth/login returns 200 + Set-Cookie</verify>
-  <done>Valid credentials return cookie, invalid return 401</done>
-</task>
-```
-
-Precise instructions. No guessing. Verification built in.
-
-### Subagent Execution
-
-As Claude fills its context window, quality degrades. You've seen it: *"Due to context limits, I'll be more concise now."* That "concision" is code for cutting corners.
-
-GYWD prevents this. Each plan is maximum 3 tasks. Each plan runs in a fresh subagent — 200k tokens purely for implementation, zero accumulated garbage.
-
-| Task | Context | Quality |
-|------|---------|---------|
-| Task 1 | Fresh | ✅ Full |
-| Task 2 | Fresh | ✅ Full |
-| Task 3 | Fresh | ✅ Full |
-
-No degradation. Walk away, come back to completed work.
-
-### Atomic Git Commits
-
-Each task gets its own commit immediately after completion:
-
-```bash
-abc123f docs(08-02): complete user registration plan
-def456g feat(08-02): add email confirmation flow
-hij789k feat(08-02): implement password hashing
-lmn012o feat(08-02): create registration endpoint
-```
-
-> [!NOTE]
-> **Benefits:** Git bisect finds exact failing task. Each task independently revertable. Clear history for Claude in future sessions. Better observability in AI-automated workflow.
-
-Every commit is surgical, traceable, and meaningful.
-
-### Modular by Design
-
-- Add phases to current milestone
-- Insert urgent work between phases
-- Complete milestones and start fresh
-- Adjust plans without rebuilding everything
-
-You're never locked in. The system adapts.
+### Utilities
+| Command | Purpose |
+|---------|---------|
+| `/gywd:consider-issues` | Review deferred items |
+| `/gywd:help` | Command reference |
 
 ---
 
-## Commands
+## Project Structure
 
-| Command | What it does |
-|---------|--------------|
-| `/gywd:new-project` | Extract your idea through questions, create PROJECT.md |
-| `/gywd:create-roadmap` | Create roadmap and state tracking |
-| `/gywd:map-codebase` | Map existing codebase for brownfield projects |
-| `/gywd:plan-phase [N]` | Generate task plans for phase |
-| `/gywd:execute-plan` | Run plan via subagent |
-| `/gywd:progress` | Where am I? What's next? |
-| `/gywd:verify-work [N]` | User acceptance test of phase or plan |
-| `/gywd:plan-fix [plan]` | Plan fixes for UAT issues from verify-work |
-| `/gywd:complete-milestone` | Ship it, prep next version |
-| `/gywd:discuss-milestone` | Gather context for next milestone |
-| `/gywd:new-milestone [name]` | Create new milestone with phases |
-| `/gywd:add-phase` | Append phase to roadmap |
-| `/gywd:insert-phase [N]` | Insert urgent work |
-| `/gywd:remove-phase [N]` | Remove future phase, renumber subsequent |
-| `/gywd:discuss-phase [N]` | Gather context before planning |
-| `/gywd:research-phase [N]` | Deep ecosystem research for niche domains |
-| `/gywd:list-phase-assumptions [N]` | See what Claude thinks before you correct it |
-| `/gywd:pause-work` | Create handoff file when stopping mid-phase |
-| `/gywd:resume-work` | Restore from last session |
-| `/gywd:consider-issues` | Review deferred issues, close resolved, identify urgent |
-| `/gywd:help` | Show all commands and usage guide |
+```
+.planning/
+├── PROJECT.md          # Vision and requirements
+├── ROADMAP.md          # Phase breakdown
+├── STATE.md            # Session memory
+├── ISSUES.md           # Deferred items
+├── config.json         # Workflow settings
+├── codebase/           # Code analysis docs
+└── phases/
+    ├── 01-name/
+    │   ├── 01-01-PLAN.md
+    │   └── 01-01-SUMMARY.md
+    └── 02-name/
+        └── ...
+```
+
+---
+
+## Configuration
+
+Set during `/gywd:new-project`:
+
+**Interactive Mode** - Confirms decisions, pauses at checkpoints
+
+**Autonomous Mode** - Minimal interruptions, maximum speed
+
+Edit `.planning/config.json` to change anytime.
 
 ---
 
 ## Troubleshooting
 
-**Commands not found after install?**
-- Restart Claude Code to reload slash commands
-- Verify files exist in `~/.claude/commands/gywd/` (global) or `./.claude/commands/gywd/` (local)
+**Commands not appearing?**
+- Restart Claude Code
+- Check `~/.claude/commands/gywd/` exists
 
-**Commands not working as expected?**
-- Run `/gywd:help` to verify installation
-- Re-run `npx pmp-gywd` to reinstall
-
-**Updating to the latest version?**
+**Need to reinstall?**
 ```bash
 npx pmp-gywd@latest
 ```
 
 ---
 
-## Credits
-
-This project is a fork of [Get Shit Done](https://github.com/glittercowboy/get-shit-done) by Lex Christopherson (TÂCHES). Full credit to the original creator for the brilliant context engineering system.
-
----
-
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+MIT License - See [LICENSE](LICENSE)
 
 ---
 
 <div align="center">
 
-**Claude Code is powerful. GYWD makes it reliable.**
+**Ship faster. Stay consistent.**
 
 </div>
