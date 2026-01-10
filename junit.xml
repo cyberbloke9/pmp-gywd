@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="16" failures="0" errors="0" time="0.473">
+  <testsuite name="expandTilde" errors="0" failures="0" skipped="0" timestamp="2026-01-10T12:02:33" time="0.381" tests="16">
+    <testcase classname="expandTilde returns null/undefined as-is" name="expandTilde returns null/undefined as-is" time="0.003">
+    </testcase>
+    <testcase classname="expandTilde expands lone ~ to home directory" name="expandTilde expands lone ~ to home directory" time="0">
+    </testcase>
+    <testcase classname="expandTilde expands ~/ paths to home directory" name="expandTilde expands ~/ paths to home directory" time="0">
+    </testcase>
+    <testcase classname="expandTilde does not modify paths without ~" name="expandTilde does not modify paths without ~" time="0.001">
+    </testcase>
+    <testcase classname="expandTilde does not expand ~ in middle of path" name="expandTilde does not expand ~ in middle of path" time="0.001">
+    </testcase>
+    <testcase classname="validatePath rejects paths with null bytes" name="validatePath rejects paths with null bytes" time="0">
+    </testcase>
+    <testcase classname="validatePath accepts normal paths" name="validatePath accepts normal paths" time="0">
+    </testcase>
+    <testcase classname="validatePath accepts relative paths" name="validatePath accepts relative paths" time="0.001">
+    </testcase>
+    <testcase classname="validatePath accepts Windows paths" name="validatePath accepts Windows paths" time="0">
+    </testcase>
+    <testcase classname="error code mapping all common error codes have defined handling" name="error code mapping all common error codes have defined handling" time="0">
+    </testcase>
+    <testcase classname="file system integration can create nested directories" name="file system integration can create nested directories" time="0.001">
+    </testcase>
+    <testcase classname="file system integration can write and read files" name="file system integration can write and read files" time="0.001">
+    </testcase>
+    <testcase classname="file system integration can copy files" name="file system integration can copy files" time="0.003">
+    </testcase>
+    <testcase classname="path replacement in markdown replaces ~/.claude/ with custom prefix" name="path replacement in markdown replaces ~/.claude/ with custom prefix" time="0">
+    </testcase>
+    <testcase classname="path replacement in markdown replaces multiple occurrences" name="path replacement in markdown replaces multiple occurrences" time="0">
+    </testcase>
+    <testcase classname="path replacement in markdown does not replace other paths" name="path replacement in markdown does not replace other paths" time="0">
+    </testcase>
+  </testsuite>
+</testsuites>
