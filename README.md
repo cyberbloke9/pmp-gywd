@@ -2,9 +2,12 @@
 
 # PMP - GYWD (Get Your Work Done)
 
-**A context-aware development framework for Claude Code that transforms how you ship MVPs.**
+**Decision-aware, context-engineered development for Claude Code.**
 
-[![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
+*Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
+
+[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
 
@@ -18,25 +21,28 @@ npx pmp-gywd
 
 ---
 
-## What is GYWD?
+## What is GYWD v2.0?
 
-GYWD is a structured development framework that leverages Claude Code's capabilities through intelligent context management. It solves the fundamental challenge of AI-assisted coding: maintaining quality and consistency throughout complex projects.
+GYWD is a **unified intelligence system** that transforms AI-assisted development from "plausible text generation" to "decision-coherent engineering."
 
 ### The Problem
 
-When working with AI coding assistants on larger projects, you'll notice:
-- Quality drops as conversations get longer
+AI generates syntactically correct code that lacks **decision coherence**:
+- Suggestions conflict with existing architectural decisions
 - Context gets lost between sessions
-- Instructions need constant repetition
-- Output becomes inconsistent
+- No understanding of WHY code exists
+- Quality degrades as projects grow
 
-### The Solution
+### The v2.0 Solution
 
-GYWD implements a **context engineering architecture** that:
-- Preserves project knowledge across sessions
-- Breaks work into optimally-sized chunks
-- Maintains consistent output quality
-- Automates documentation and version control
+GYWD builds a **decision graph** of your codebase and uses four integrated systems:
+
+| System | What It Does |
+|--------|--------------|
+| **Decision Graph Engine** | Extracts and links all decisions from history |
+| **Context Intelligence** | Predicts what context you need before you ask |
+| **Agent Orchestrator** | Coordinates specialized agents including adversarial reviewers |
+| **Continuous Learning** | Improves with every interaction |
 
 ---
 
@@ -48,282 +54,203 @@ GYWD implements a **context engineering architecture** that:
 npx pmp-gywd
 ```
 
-Select global (available everywhere) or local (current project only) when prompted.
+Select global (available everywhere) or local (current project only).
 
-### Verify It Works
+### Verify Installation
 
 ```
 /gywd:help
 ```
 
----
-
-## Starting Fresh: New Project Guide
-
-Building something from scratch? Follow this path:
-
-### Step 1: Define Your Vision
+### Bootstrap Any Codebase (v2.0)
 
 ```
-/gywd:new-project
+/gywd:bootstrap
 ```
 
-GYWD conducts a structured interview to understand:
-- What you're building and why
-- Core features vs nice-to-haves
-- Technical preferences and constraints
-- Edge cases and potential challenges
-
-**Output:** `.planning/PROJECT.md` containing your complete project brief
-
-### Step 2: Generate Your Roadmap
-
-```
-/gywd:create-roadmap
-```
-
-Based on your project brief, GYWD creates:
-- Logical phases from foundation to completion
-- Dependencies between phases
-- Session memory for continuity
-
-**Output:** `.planning/ROADMAP.md` and `.planning/STATE.md`
-
-### Step 3: Plan Your First Phase
-
-```
-/gywd:plan-phase 1
-```
-
-Transforms phase objectives into concrete tasks with:
-- Specific implementation steps
-- Files to create or modify
-- Verification criteria
-- Success definitions
-
-**Output:** `.planning/phases/01-name/01-01-PLAN.md`
-
-### Step 4: Execute
-
-```
-/gywd:execute-plan
-```
-
-Claude implements each task autonomously:
-- Works through tasks sequentially
-- Commits after each completion
-- Documents what was built
-- Updates project state
-
-### Step 5: Continue
-
-```
-/gywd:progress
-```
-
-See where you stand and what's next. Repeat steps 3-5 for each phase until your MVP ships.
+One command initializes the complete v2.0 system:
+- Maps codebase structure
+- Extracts decision graph from history
+- Builds context prediction model
+- Creates developer profile
+- Initializes learning system
 
 ---
 
-## Adding to Existing Code: Brownfield Guide
+## The Decision Intelligence Paradigm
 
-Have a codebase already? GYWD needs to understand it first.
-
-### Step 1: Analyze Your Codebase
+### Understanding WHY
 
 ```
-/gywd:map-codebase
+/gywd:why src/utils/result.ts
 ```
 
-GYWD deploys parallel analysis agents that examine:
-- Technology stack and dependencies
-- Architecture patterns and data flow
-- Directory structure and organization
-- Coding conventions and standards
-- Test setup and coverage
-- External integrations
-- Technical debt and concerns
-
-**Output:** Seven focused documents in `.planning/codebase/`
-
-| Document | What It Captures |
-|----------|------------------|
-| `STACK.md` | Languages, frameworks, package dependencies |
-| `ARCHITECTURE.md` | Design patterns, layers, how data moves |
-| `STRUCTURE.md` | Folder organization, where things belong |
-| `CONVENTIONS.md` | Naming patterns, code style, standards |
-| `TESTING.md` | Test framework, patterns, coverage approach |
-| `INTEGRATIONS.md` | APIs, databases, external services |
-| `CONCERNS.md` | Tech debt, fragile areas, known issues |
-
-### Step 2: Define What You're Adding
-
+**Output:**
 ```
-/gywd:new-project
+DEC-015: Result pattern for error handling [88%]
+
+Rationale: Explicit error handling without exceptions, enabling
+type-safe error propagation.
+
+Alternatives Considered:
+- Try-catch blocks: Rejected - swallows errors, loses type info
+- Error codes: Rejected - easy to ignore, verbose
+
+Trade-offs:
+- Gained: Type safety, explicit handling, composability
+- Sacrificed: Verbosity, learning curve
+
+Source: Commit a3f2c1 "Implement Result monad for API layer"
 ```
 
-With codebase knowledge loaded, GYWD asks targeted questions about:
-- Features you want to add
-- Changes to existing functionality
-- How new code should integrate
-- Constraints from current architecture
-
-### Step 3: Plan Within Your Architecture
+### Adversarial Review
 
 ```
-/gywd:create-roadmap
+/gywd:challenge .planning/phases/03-payment/03-01-PLAN.md
 ```
 
-Roadmap respects your existing patterns:
-- Phases align with your structure
-- Tasks use your conventions
-- Integration points identified
+Spawns competing agents:
+- **Critic**: Finds logical flaws
+- **Devil's Advocate**: Argues for alternatives
+- **Red Team**: Simulates security attacks
+- **Chaos Agent**: Generates edge cases
+- **Skeptic**: Questions assumptions
 
-### Step 4: Execute With Context
+### Predictive Context
 
 ```
-/gywd:plan-phase 1
-/gywd:execute-plan
+/gywd:anticipate --for "payment integration"
 ```
 
-Implementation automatically follows:
-- Your naming conventions
-- Your file organization
-- Your testing patterns
-- Your architectural style
+Pre-loads relevant decisions, patterns, and past implementations before you start working.
 
 ---
 
-## Daily Development Workflow
+## Workflows
 
-### Starting Your Day
+### New Project (Greenfield)
 
-```
-/gywd:progress
-```
-
-Shows:
-- Visual progress indicator
-- Recent completions
-- Current position
-- Suggested next action
-
-### Resuming After a Break
-
-```
-/gywd:resume-work
+```bash
+/gywd:new-project          # Define vision
+/gywd:create-roadmap       # Generate phases
+/gywd:plan-phase 1         # Plan first phase
+/gywd:execute-plan         # Build it
+/gywd:progress             # Check status, continue
 ```
 
-Restores full context from your last session including decisions made and work in progress.
+### Existing Codebase (Brownfield)
 
-### Pausing Mid-Work
+```bash
+/gywd:bootstrap            # Initialize v2.0 (recommended)
+# OR
+/gywd:map-codebase         # Analyze structure only
+/gywd:extract-decisions    # Build decision graph only
 
+/gywd:new-project          # Define additions
+/gywd:create-roadmap       # Plan within architecture
 ```
-/gywd:pause-work
-```
 
-Captures current state so you can resume seamlessly later.
+### Daily Development
+
+```bash
+/gywd:progress             # Start of day - see status
+/gywd:resume-work          # Restore session context
+/gywd:pause-work           # Save state before break
+```
 
 ---
 
-## Handling Changes Mid-Project
+## Command Reference (41 Commands)
 
-### Need to Add a Phase?
+### v2.0 Intelligence
 
-```
-/gywd:add-phase
-```
-
-Appends new work to your roadmap without disrupting existing phases.
-
-### Urgent Work Can't Wait?
-
-```
-/gywd:insert-phase 3
-```
-
-Inserts critical work between phases 3 and 4 (becomes phase 3.1).
-
-### Phase No Longer Needed?
-
-```
-/gywd:remove-phase 5
-```
-
-Removes phase 5 and renumbers subsequent phases automatically.
-
----
-
-## Completing Milestones
-
-### Ship a Version
-
-```
-/gywd:complete-milestone
-```
-
-Archives everything, creates a git tag, prepares for the next version.
-
-### Plan What's Next
-
-```
-/gywd:discuss-milestone
-```
-
-Review what shipped, identify improvements, plan the next iteration.
-
----
-
-## Command Reference
-
-### Setup Commands
 | Command | Purpose |
 |---------|---------|
-| `/gywd:new-project` | Initialize with guided questions |
-| `/gywd:create-roadmap` | Generate phase breakdown |
-| `/gywd:map-codebase` | Analyze existing code |
+| `/gywd:bootstrap` | Initialize complete v2.0 system on any codebase |
+| `/gywd:why <target>` | Trace code to its originating decisions |
+| `/gywd:extract-decisions` | Build decision graph from git history |
+| `/gywd:history <query>` | Query temporal codebase evolution |
+| `/gywd:challenge [target]` | Adversarial review with competing agents |
+| `/gywd:anticipate` | Predictive context loading |
+| `/gywd:profile` | Developer digital twin |
+| `/gywd:impact <target>` | Connect code to production outcomes |
 
-### Planning Commands
+### Setup
+
+| Command | Purpose |
+|---------|---------|
+| `/gywd:init <name>` | Quick initialization (minimal questions) |
+| `/gywd:new-project` | Full initialization (guided interview) |
+| `/gywd:create-roadmap` | Generate phase breakdown |
+| `/gywd:map-codebase` | Analyze existing code structure |
+
+### Planning
+
 | Command | Purpose |
 |---------|---------|
 | `/gywd:plan-phase [N]` | Create detailed task plan |
 | `/gywd:discuss-phase [N]` | Clarify phase vision |
-| `/gywd:research-phase [N]` | Deep-dive for complex domains |
+| `/gywd:research-phase [N]` | Deep research for complex domains |
 | `/gywd:list-phase-assumptions [N]` | Preview planned approach |
+| `/gywd:preview-plan [path]` | Dry-run before execution |
 
-### Execution Commands
+### Execution
+
 | Command | Purpose |
 |---------|---------|
-| `/gywd:execute-plan` | Run current plan |
-| `/gywd:verify-work [N]` | Test completed work |
-| `/gywd:plan-fix [plan]` | Address found issues |
+| `/gywd:execute-plan [path]` | Run plan (supports `--tasks 1-3`) |
+| `/gywd:verify-work` | Test completed work |
+| `/gywd:plan-fix` | Create fix plan for issues |
 
-### Progress Commands
+### Progress & Analysis
+
 | Command | Purpose |
 |---------|---------|
-| `/gywd:progress` | Status and next steps |
+| `/gywd:status` | One-line status |
+| `/gywd:progress` | Detailed progress + routing |
+| `/gywd:context` | Context budget analysis |
+| `/gywd:health` | Project health dashboard |
+| `/gywd:deps [N]` | Dependency visualization |
+| `/gywd:check-drift` | Detect spec vs implementation drift |
+| `/gywd:digest [area]` | Compact codebase summary |
+
+### Memory & Session
+
+| Command | Purpose |
+|---------|---------|
+| `/gywd:memory` | Multi-session memory management |
 | `/gywd:pause-work` | Save state for later |
 | `/gywd:resume-work` | Restore previous session |
 
-### Roadmap Commands
-| Command | Purpose |
-|---------|---------|
-| `/gywd:add-phase` | Append new phase |
-| `/gywd:insert-phase [N]` | Add urgent work mid-roadmap |
-| `/gywd:remove-phase [N]` | Delete future phase |
+### Roadmap Management
 
-### Milestone Commands
 | Command | Purpose |
 |---------|---------|
-| `/gywd:complete-milestone` | Archive and tag release |
-| `/gywd:discuss-milestone` | Plan next milestone |
-| `/gywd:new-milestone [name]` | Start fresh milestone |
+| `/gywd:add-phase <desc>` | Append phase to roadmap |
+| `/gywd:insert-phase <N> <desc>` | Insert urgent work (becomes N.1) |
+| `/gywd:remove-phase <N>` | Delete future phase, renumber |
 
-### Utility Commands
+### Milestone Management
+
 | Command | Purpose |
 |---------|---------|
-| `/gywd:consider-issues` | Review deferred items |
-| `/gywd:help` | Show command reference |
+| `/gywd:complete-milestone <ver>` | Archive and tag release |
+| `/gywd:discuss-milestone` | Plan next iteration |
+| `/gywd:new-milestone <name>` | Start new milestone |
+
+### Integration
+
+| Command | Purpose |
+|---------|---------|
+| `/gywd:sync-github` | Sync with GitHub issues/PRs |
+| `/gywd:rollback [target]` | Safe rollback to checkpoint |
+| `/gywd:consider-issues` | Triage deferred issues |
+
+### Utility
+
+| Command | Purpose |
+|---------|---------|
+| `/gywd:help` | Complete command reference |
 
 ---
 
@@ -331,26 +258,78 @@ Review what shipped, identify improvements, plan the next iteration.
 
 ```
 .planning/
-├── PROJECT.md          # Your vision and requirements
-├── ROADMAP.md          # Phase breakdown and progress
-├── STATE.md            # Memory across sessions
-├── ISSUES.md           # Parked items for later
-├── config.json         # Workflow preferences
-├── codebase/           # Analysis docs (brownfield)
-│   ├── STACK.md
-│   ├── ARCHITECTURE.md
-│   ├── STRUCTURE.md
-│   ├── CONVENTIONS.md
-│   ├── TESTING.md
-│   ├── INTEGRATIONS.md
-│   └── CONCERNS.md
-└── phases/
+├── PROJECT.md              # Vision and requirements
+├── ROADMAP.md              # Phase breakdown
+├── STATE.md                # Session memory
+├── ISSUES.md               # Deferred items
+├── config.json             # Workflow settings
+│
+├── core/                   # v2.0 Intelligence (auto-generated)
+│   ├── decisions.json      # Decision graph
+│   ├── context-model.json  # Context predictions
+│   └── learning-state.json # Learning system state
+│
+├── profile/                # Developer Digital Twin
+│   └── developer.json      # Your patterns and preferences
+│
+├── codebase/               # Codebase analysis
+│   ├── DECISIONS.md        # Human-readable decision graph
+│   ├── STACK.md            # Technology stack
+│   ├── ARCHITECTURE.md     # Design patterns
+│   ├── STRUCTURE.md        # Organization
+│   ├── CONVENTIONS.md      # Coding standards
+│   ├── TESTING.md          # Test approach
+│   ├── INTEGRATIONS.md     # External services
+│   └── CONCERNS.md         # Technical debt
+│
+└── phases/                 # Work breakdown
     ├── 01-phase-name/
     │   ├── 01-01-PLAN.md
     │   └── 01-01-SUMMARY.md
     └── 02-phase-name/
         └── ...
 ```
+
+---
+
+## v2.0 Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        GYWD v2.0 Core                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
+│  │  Decision   │  │   Context   │  │   Agent     │             │
+│  │   Graph     │◄─┤ Intelligence│◄─┤Orchestrator │             │
+│  │   Engine    │  │   Engine    │  │             │             │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
+│         │                │                │                     │
+│         └────────┬───────┴────────┬───────┘                     │
+│                  │                │                             │
+│         ┌────────▼────────────────▼────────┐                   │
+│         │     Continuous Learning System    │                   │
+│         └───────────────────────────────────┘                   │
+│                          │                                      │
+├──────────────────────────┼──────────────────────────────────────┤
+│                          ▼                                      │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │                    Command Layer (41)                     │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Philosophy
+
+> "Code is crystallized decisions. Every function, every pattern exists because someone made a decision with context we've often lost. GYWD makes those decisions explicit and queryable."
+
+**v1.x** was feature accumulation.
+**v2.0** is unified intelligence.
+
+The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase.
 
 ---
 
@@ -405,6 +384,8 @@ MIT License - See [LICENSE](LICENSE)
 
 <div align="center">
 
-**Ship faster. Stay consistent.**
+**Understand decisions. Ship coherent code.**
+
+*Built with decision intelligence by [cyberbloke9](https://github.com/cyberbloke9)*
 
 </div>
