@@ -1,0 +1,235 @@
+{
+  "version": "2.0.0",
+  "metadata": {
+    "project": "PMP-GYWD",
+    "last_updated": "2026-01-10T12:00:00Z",
+    "total_files": 115,
+    "total_predictions": 12
+  },
+  "file_relationships": [
+    {
+      "file": "commands/gywd/execute-plan.md",
+      "imports": [],
+      "imported_by": [],
+      "co_changes": [
+        { "file": "get-your-work-done/workflows/execute-phase.md", "frequency": 0.9, "commits": 3 },
+        { "file": "commands/gywd/plan-phase.md", "frequency": 0.7, "commits": 2 }
+      ],
+      "ownership": [
+        { "author": "cyberbloke9", "commits": 5, "percentage": 100 }
+      ]
+    },
+    {
+      "file": "commands/gywd/bootstrap.md",
+      "imports": [],
+      "imported_by": [],
+      "co_changes": [
+        { "file": "get-your-work-done/core/architecture.md", "frequency": 1.0, "commits": 1 }
+      ],
+      "ownership": [
+        { "author": "cyberbloke9", "commits": 1, "percentage": 100 }
+      ]
+    },
+    {
+      "file": ".planning/ROADMAP.md",
+      "imports": [],
+      "imported_by": [],
+      "co_changes": [
+        { "file": "package.json", "frequency": 0.8, "commits": 4 },
+        { "file": ".claude-plugin/plugin.json", "frequency": 0.8, "commits": 4 }
+      ],
+      "ownership": [
+        { "author": "cyberbloke9", "commits": 8, "percentage": 100 }
+      ]
+    }
+  ],
+  "predictions": [
+    {
+      "id": "PRED-001",
+      "type": "file_association",
+      "trigger": {
+        "condition": "Working on command file",
+        "files": ["commands/gywd/*.md"],
+        "keywords": ["command", "gywd"]
+      },
+      "prediction": {
+        "files_needed": ["get-your-work-done/workflows/*.md", "get-your-work-done/templates/*.md"],
+        "decisions_relevant": ["DEC-004", "DEC-005"],
+        "patterns_applicable": ["YAML frontmatter", "XML-style sections"],
+        "warnings": []
+      },
+      "confidence": 92,
+      "times_used": 0,
+      "times_useful": 0
+    },
+    {
+      "id": "PRED-002",
+      "type": "file_association",
+      "trigger": {
+        "condition": "Working on v2.0 core",
+        "files": ["get-your-work-done/core/*.md", "get-your-work-done/core/*.json"],
+        "keywords": ["decision graph", "context model", "learning"]
+      },
+      "prediction": {
+        "files_needed": ["commands/gywd/bootstrap.md", "VISION.md"],
+        "decisions_relevant": ["DEC-010", "DEC-009"],
+        "patterns_applicable": ["JSON schema", "Architecture patterns"],
+        "warnings": []
+      },
+      "confidence": 90,
+      "times_used": 0,
+      "times_useful": 0
+    },
+    {
+      "id": "PRED-003",
+      "type": "feature_pattern",
+      "trigger": {
+        "condition": "Adding new command",
+        "files": [],
+        "keywords": ["new command", "add command"]
+      },
+      "prediction": {
+        "files_needed": [
+          "commands/gywd/help.md",
+          ".claude-plugin/plugin.json",
+          "get-your-work-done/templates/"
+        ],
+        "decisions_relevant": ["DEC-002", "DEC-004"],
+        "patterns_applicable": ["YAML frontmatter", "Plugin registration"],
+        "warnings": ["Remember to update plugin.json with new command path"]
+      },
+      "confidence": 95,
+      "times_used": 0,
+      "times_useful": 0
+    },
+    {
+      "id": "PRED-004",
+      "type": "error_resolution",
+      "trigger": {
+        "condition": "Command not found error",
+        "files": [],
+        "keywords": ["command not found", "gywd", "plugin"]
+      },
+      "prediction": {
+        "files_needed": [".claude-plugin/plugin.json"],
+        "decisions_relevant": [],
+        "patterns_applicable": [],
+        "warnings": ["Check if command is registered in plugin.json commands array"]
+      },
+      "confidence": 88,
+      "times_used": 0,
+      "times_useful": 0
+    },
+    {
+      "id": "PRED-005",
+      "type": "decision_context",
+      "trigger": {
+        "condition": "Question about why code exists",
+        "files": [],
+        "keywords": ["why", "decision", "reason"]
+      },
+      "prediction": {
+        "files_needed": [".planning/core/decisions.json", "VISION.md"],
+        "decisions_relevant": ["DEC-009"],
+        "patterns_applicable": ["Decision graph query"],
+        "warnings": []
+      },
+      "confidence": 85,
+      "times_used": 0,
+      "times_useful": 0
+    }
+  ],
+  "context_budget": {
+    "total_available": 200000,
+    "reserved_for_output": 30000,
+    "areas": [
+      {
+        "name": "Command definitions",
+        "estimated_tokens": 45000,
+        "priority": "high",
+        "compression_strategy": "key_points"
+      },
+      {
+        "name": "Workflows",
+        "estimated_tokens": 35000,
+        "priority": "high",
+        "compression_strategy": "summary"
+      },
+      {
+        "name": "Templates",
+        "estimated_tokens": 15000,
+        "priority": "medium",
+        "compression_strategy": "key_points"
+      },
+      {
+        "name": "References",
+        "estimated_tokens": 12000,
+        "priority": "medium",
+        "compression_strategy": "summary"
+      },
+      {
+        "name": "Core schemas",
+        "estimated_tokens": 8000,
+        "priority": "critical",
+        "compression_strategy": "none"
+      },
+      {
+        "name": "Planning state",
+        "estimated_tokens": 5000,
+        "priority": "critical",
+        "compression_strategy": "none"
+      }
+    ]
+  },
+  "hot_files": [
+    {
+      "file": ".planning/ROADMAP.md",
+      "changes_last_week": 8,
+      "changes_last_month": 8,
+      "trend": "stable"
+    },
+    {
+      "file": "commands/gywd/help.md",
+      "changes_last_week": 6,
+      "changes_last_month": 6,
+      "trend": "stable"
+    },
+    {
+      "file": ".claude-plugin/plugin.json",
+      "changes_last_week": 5,
+      "changes_last_month": 5,
+      "trend": "stable"
+    },
+    {
+      "file": "package.json",
+      "changes_last_week": 5,
+      "changes_last_month": 5,
+      "trend": "stable"
+    }
+  ],
+  "patterns": [
+    {
+      "name": "Command definition pattern",
+      "description": "YAML frontmatter + objective + context + process + success_criteria",
+      "files": ["commands/gywd/*.md"],
+      "example_locations": [
+        { "file": "commands/gywd/plan-phase.md", "line_start": 1, "line_end": 50 },
+        { "file": "commands/gywd/execute-plan.md", "line_start": 1, "line_end": 60 }
+      ]
+    },
+    {
+      "name": "JSON schema pattern",
+      "description": "JSON Schema draft-07 with definitions and required fields",
+      "files": ["get-your-work-done/core/*.json"],
+      "example_locations": [
+        { "file": "get-your-work-done/core/decisions-schema.json", "line_start": 1, "line_end": 50 }
+      ]
+    },
+    {
+      "name": "Three-layer architecture",
+      "description": "Commands -> Workflows -> Templates/References separation",
+      "files": [],
+      "example_locations": []
+    }
+  ]
+}

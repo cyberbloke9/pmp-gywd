@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "metadata": {
+    "project": "PMP-GYWD",
+    "initialized_at": "2026-01-10T12:00:00Z",
+    "last_learning_cycle": "2026-01-10T12:00:00Z",
+    "total_interactions": 0
+  },
+  "feedback_history": [],
+  "confidence_scores": {
+    "decision_extraction": {
+      "overall": 85,
+      "by_type": {
+        "architectural": 90,
+        "convention": 88,
+        "constraint": 85,
+        "trade-off": 80,
+        "tactical": 75
+      },
+      "recent_accuracy": 85
+    },
+    "context_prediction": {
+      "overall": 80,
+      "hit_rate": 0,
+      "false_positive_rate": 0
+    },
+    "profile_accuracy": {
+      "overall": 70,
+      "style_match": 70,
+      "preference_match": 70
+    }
+  },
+  "learned_patterns": [
+    {
+      "id": "LP-001",
+      "pattern": "Version bumps trigger ROADMAP.md, package.json, plugin.json updates",
+      "observations": 5,
+      "confidence": 95,
+      "last_observed": "2026-01-10T12:00:00Z",
+      "category": "workflow"
+    },
+    {
+      "id": "LP-002",
+      "pattern": "New commands require plugin.json registration and help.md update",
+      "observations": 10,
+      "confidence": 98,
+      "last_observed": "2026-01-10T12:00:00Z",
+      "category": "workflow"
+    },
+    {
+      "id": "LP-003",
+      "pattern": "Tiered feature development with incremental releases",
+      "observations": 4,
+      "confidence": 90,
+      "last_observed": "2026-01-10T12:00:00Z",
+      "category": "preference"
+    }
+  ],
+  "adaptation_queue": [],
+  "baselines": {
+    "established_at": "2026-01-10T12:00:00Z",
+    "decision_confidence_avg": 91.5,
+    "context_prediction_accuracy": 80,
+    "profile_inference_confidence": 70
+  },
+  "improvement_tracking": {
+    "decision_extraction_delta": 0,
+    "context_prediction_delta": 0,
+    "profile_accuracy_delta": 0,
+    "last_calculated": "2026-01-10T12:00:00Z"
+  }
+}

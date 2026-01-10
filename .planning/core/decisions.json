@@ -1,0 +1,564 @@
+{
+  "version": "2.0.0",
+  "metadata": {
+    "project": "PMP-GYWD",
+    "extracted_at": "2026-01-10T12:00:00Z",
+    "extraction_depth": "standard",
+    "commit_range": {
+      "from": "aad18745",
+      "to": "18926c15",
+      "count": 14
+    }
+  },
+  "decisions": [
+    {
+      "id": "DEC-001",
+      "type": "architectural",
+      "summary": "Fork and rebrand get-shit-done as PMP-GYWD",
+      "rationale": "Create an independent, professionally-named version while preserving the core context engineering approach",
+      "alternatives_considered": [
+        {
+          "option": "Build from scratch",
+          "reason_rejected": "Would lose proven patterns and take significantly longer"
+        },
+        {
+          "option": "Contribute to original",
+          "reason_rejected": "Wanted independent control over direction and branding"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Full ownership", "Professional naming", "Custom direction"],
+        "sacrificed": ["Upstream updates", "Community contributions"]
+      },
+      "confidence": 95,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "commit",
+            "ref": "aad18745",
+            "excerpt": "Initial commit: PMP-GYWD (Get Your Work Done) - forked from get-shit-done"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": ["/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["foundation", "branding", "fork"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-002",
+      "type": "convention",
+      "summary": "Use GYWD prefix for all commands instead of GSD",
+      "rationale": "Professional naming that aligns with 'Get Your Work Done' branding",
+      "alternatives_considered": [
+        {
+          "option": "Keep /gsd: prefix",
+          "reason_rejected": "Inconsistent with new branding"
+        },
+        {
+          "option": "Use /pmp: prefix",
+          "reason_rejected": "GYWD is more descriptive and memorable"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Professional appearance", "Clear branding", "Memorable commands"],
+        "sacrificed": ["Familiarity for existing GSD users"]
+      },
+      "confidence": 92,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "commit",
+            "ref": "b17d2163",
+            "excerpt": "feat(phase-1): standardize naming - replace all GSD references with GYWD"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": ["commands/gywd/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["naming", "convention", "branding"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-003",
+      "type": "architectural",
+      "summary": "Zero runtime dependencies - Node.js built-ins only",
+      "rationale": "Reduce installation friction, eliminate supply chain risk, maximize compatibility",
+      "alternatives_considered": [
+        {
+          "option": "Use commander.js for CLI",
+          "reason_rejected": "Adds dependency for minimal benefit"
+        },
+        {
+          "option": "Use chalk for colors",
+          "reason_rejected": "ANSI codes work natively"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Zero supply chain risk", "Fast installation", "No version conflicts"],
+        "sacrificed": ["Some developer convenience", "Advanced CLI features"]
+      },
+      "confidence": 95,
+      "source": {
+        "type": "inferred",
+        "evidence": [
+          {
+            "type": "pattern",
+            "ref": "package.json",
+            "excerpt": "No dependencies listed, only devDependencies: jest"
+          },
+          {
+            "type": "pattern",
+            "ref": "bin/install.js",
+            "excerpt": "Uses only fs, path, os, readline - all Node.js built-ins"
+          }
+        ]
+      },
+      "scope": {
+        "files": ["package.json", "bin/install.js"],
+        "directories": [],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["dependencies", "architecture", "security"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-004",
+      "type": "architectural",
+      "summary": "Markdown files as executable prompts, not documentation",
+      "rationale": "Commands ARE prompts - Claude interprets them directly without compilation",
+      "alternatives_considered": [
+        {
+          "option": "JSON-based command definitions",
+          "reason_rejected": "Less readable, harder to maintain"
+        },
+        {
+          "option": "TypeScript command handlers",
+          "reason_rejected": "Adds build step, violates zero-dep principle"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Human readable", "No build step", "Easy to modify", "Self-documenting"],
+        "sacrificed": ["Type safety", "IDE autocompletion"]
+      },
+      "confidence": 98,
+      "source": {
+        "type": "inferred",
+        "evidence": [
+          {
+            "type": "pattern",
+            "ref": "commands/gywd/",
+            "excerpt": "40 .md files with YAML frontmatter and structured content"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": ["commands/gywd/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["architecture", "prompts", "design"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-005",
+      "type": "architectural",
+      "summary": "Three-layer architecture: Commands -> Workflows -> Templates/References",
+      "rationale": "Separation of concerns: WHAT (commands) vs HOW (workflows) vs FORMAT (templates)",
+      "alternatives_considered": [
+        {
+          "option": "Monolithic command files",
+          "reason_rejected": "Would lead to duplication and maintenance burden"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Reusable workflows", "Consistent output", "Maintainable codebase"],
+        "sacrificed": ["More files to navigate", "Indirection complexity"]
+      },
+      "confidence": 90,
+      "source": {
+        "type": "inferred",
+        "evidence": [
+          {
+            "type": "pattern",
+            "ref": "get-your-work-done/",
+            "excerpt": "Clear separation into workflows/, templates/, references/, core/"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": ["get-your-work-done/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["architecture", "organization", "patterns"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-006",
+      "type": "architectural",
+      "summary": "File-based state management via .planning/ directory",
+      "rationale": "Enable session persistence without external databases, git-trackable state",
+      "alternatives_considered": [
+        {
+          "option": "SQLite database",
+          "reason_rejected": "Adds complexity, not human-readable"
+        },
+        {
+          "option": "Environment variables",
+          "reason_rejected": "Lost between sessions"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Human readable", "Git trackable", "Session persistence", "No external deps"],
+        "sacrificed": ["Query performance", "Structured relationships"]
+      },
+      "confidence": 95,
+      "source": {
+        "type": "inferred",
+        "evidence": [
+          {
+            "type": "pattern",
+            "ref": ".planning/",
+            "excerpt": "PROJECT.md, ROADMAP.md, STATE.md, phases/ structure"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": [".planning/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["state", "persistence", "architecture"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-007",
+      "type": "convention",
+      "summary": "Jest for testing with node environment",
+      "rationale": "Industry standard, minimal configuration, good coverage reporting",
+      "alternatives_considered": [
+        {
+          "option": "Mocha + Chai",
+          "reason_rejected": "More setup required"
+        },
+        {
+          "option": "No tests",
+          "reason_rejected": "Quality assurance needed for installer"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Standard tooling", "Good DX", "Coverage reports"],
+        "sacrificed": ["Dev dependency added"]
+      },
+      "confidence": 88,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "commit",
+            "ref": "b1fc0ab1",
+            "excerpt": "feat(phase-3): add Jest test framework and initial tests"
+          }
+        ]
+      },
+      "scope": {
+        "files": ["package.json", "tests/install.test.js"],
+        "directories": ["tests/"],
+        "global": false
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["testing", "tooling", "quality"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-008",
+      "type": "architectural",
+      "summary": "Tiered feature development (v1.1.1 -> v1.2.0 -> v1.3.0 -> v1.4.0)",
+      "rationale": "Structured progression from quick wins to differentiators to paradigm shift",
+      "alternatives_considered": [
+        {
+          "option": "Single large release",
+          "reason_rejected": "Higher risk, longer feedback loop"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Incremental delivery", "Risk mitigation", "Early feedback"],
+        "sacrificed": ["More release overhead"]
+      },
+      "confidence": 92,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "commit",
+            "ref": "1eb03c72",
+            "excerpt": "feat(tier-1): add context budget, preview-plan, health dashboard"
+          },
+          {
+            "type": "commit",
+            "ref": "3d58d4b8",
+            "excerpt": "feat(tier-2): add memory, drift detection, deps visualization"
+          },
+          {
+            "type": "commit",
+            "ref": "984119dd",
+            "excerpt": "feat(tier-3): add digest, rollback, github sync"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": [],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["release", "process", "development"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-009",
+      "type": "architectural",
+      "summary": "Decision Intelligence as core paradigm (v1.4.0)",
+      "rationale": "Code is crystallized decisions - understanding WHY beats understanding WHAT",
+      "alternatives_considered": [
+        {
+          "option": "Continue feature accumulation",
+          "reason_rejected": "Diminishing returns, no competitive moat"
+        },
+        {
+          "option": "Focus on execution speed",
+          "reason_rejected": "Doesn't address decision coherence problem"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Unique value proposition", "Decision coherence", "Why queries"],
+        "sacrificed": ["Complexity increase", "Learning curve"]
+      },
+      "confidence": 95,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "commit",
+            "ref": "d4a393bc",
+            "excerpt": "feat(v1.4): Decision Intelligence - understand WHY code exists"
+          },
+          {
+            "type": "doc",
+            "ref": "VISION.md",
+            "excerpt": "Code is crystallized decisions. Index decisions, not text."
+          }
+        ]
+      },
+      "scope": {
+        "files": ["VISION.md"],
+        "directories": ["commands/gywd/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["paradigm", "vision", "v1.4"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-010",
+      "type": "architectural",
+      "summary": "Unified Intelligence System (v2.0.0)",
+      "rationale": "All systems work as cognitive whole: Decision Graph + Context Intelligence + Agent Orchestration + Continuous Learning",
+      "alternatives_considered": [
+        {
+          "option": "Keep systems separate",
+          "reason_rejected": "Loses emergent intelligence from integration"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Emergent intelligence", "Coherent behavior", "Learning loop"],
+        "sacrificed": ["Complexity", "Tight coupling between systems"]
+      },
+      "confidence": 90,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "commit",
+            "ref": "18926c15",
+            "excerpt": "feat: v2.0.0 - Unified Intelligence System"
+          },
+          {
+            "type": "doc",
+            "ref": "get-your-work-done/core/architecture.md",
+            "excerpt": "v1.x was commands. v2.0 is intelligence."
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": ["get-your-work-done/core/"],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["architecture", "v2.0", "intelligence"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-011",
+      "type": "convention",
+      "summary": "Adversarial agents for plan/code review",
+      "rationale": "Competing perspectives catch flaws, argue alternatives, find edge cases",
+      "alternatives_considered": [
+        {
+          "option": "Single reviewer agent",
+          "reason_rejected": "Single perspective misses diverse failure modes"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Better error detection", "Alternative discovery", "Security review"],
+        "sacrificed": ["More token usage", "Longer review time"]
+      },
+      "confidence": 88,
+      "source": {
+        "type": "explicit",
+        "evidence": [
+          {
+            "type": "doc",
+            "ref": "commands/gywd/challenge.md",
+            "excerpt": "Critic, Devil's Advocate, Red Team, Chaos, Skeptic agents"
+          }
+        ]
+      },
+      "scope": {
+        "files": ["commands/gywd/challenge.md"],
+        "directories": [],
+        "global": false
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["agents", "review", "adversarial"],
+      "status": "active"
+    },
+    {
+      "id": "DEC-012",
+      "type": "constraint",
+      "summary": "Fresh 200k context per plan execution",
+      "rationale": "Prevent context degradation, enable unbounded project scope",
+      "alternatives_considered": [
+        {
+          "option": "Reuse context across plans",
+          "reason_rejected": "Quality degrades as context fills"
+        }
+      ],
+      "trade_offs": {
+        "gained": ["Consistent quality", "Unlimited project size", "Clean slate"],
+        "sacrificed": ["Context handoff overhead", "Some continuity"]
+      },
+      "confidence": 92,
+      "source": {
+        "type": "inferred",
+        "evidence": [
+          {
+            "type": "doc",
+            "ref": "get-your-work-done/references/principles.md",
+            "excerpt": "Each plan gets fresh 200k token context"
+          }
+        ]
+      },
+      "scope": {
+        "files": [],
+        "directories": [],
+        "global": true
+      },
+      "author": "cyberbloke9",
+      "date": "2026-01-10",
+      "tags": ["context", "execution", "quality"],
+      "status": "active"
+    }
+  ],
+  "links": [
+    {
+      "from": "DEC-001",
+      "to": "DEC-002",
+      "relationship": "led_to",
+      "description": "Forking necessitated new command prefix"
+    },
+    {
+      "from": "DEC-003",
+      "to": "DEC-004",
+      "relationship": "enables",
+      "description": "Zero deps enables markdown-as-prompt approach"
+    },
+    {
+      "from": "DEC-004",
+      "to": "DEC-005",
+      "relationship": "led_to",
+      "description": "Markdown prompts naturally organized into layers"
+    },
+    {
+      "from": "DEC-006",
+      "to": "DEC-012",
+      "relationship": "enables",
+      "description": "File-based state enables fresh context per plan"
+    },
+    {
+      "from": "DEC-008",
+      "to": "DEC-009",
+      "relationship": "led_to",
+      "description": "Tiered development led to paradigm shift in v1.4"
+    },
+    {
+      "from": "DEC-009",
+      "to": "DEC-010",
+      "relationship": "led_to",
+      "description": "Decision Intelligence led to Unified Intelligence System"
+    },
+    {
+      "from": "DEC-009",
+      "to": "DEC-011",
+      "relationship": "enables",
+      "description": "Decision paradigm enables adversarial review"
+    }
+  ],
+  "conflicts": [],
+  "indexes": {
+    "by_file": {
+      "package.json": ["DEC-003", "DEC-007"],
+      "bin/install.js": ["DEC-003"],
+      "commands/gywd/challenge.md": ["DEC-011"],
+      "VISION.md": ["DEC-009"],
+      "get-your-work-done/core/architecture.md": ["DEC-010"]
+    },
+    "by_author": {
+      "cyberbloke9": ["DEC-001", "DEC-002", "DEC-003", "DEC-004", "DEC-005", "DEC-006", "DEC-007", "DEC-008", "DEC-009", "DEC-010", "DEC-011", "DEC-012"]
+    },
+    "by_tag": {
+      "architecture": ["DEC-003", "DEC-004", "DEC-005", "DEC-006", "DEC-008", "DEC-010"],
+      "convention": ["DEC-002", "DEC-007", "DEC-011"],
+      "branding": ["DEC-001", "DEC-002"],
+      "v1.4": ["DEC-009"],
+      "v2.0": ["DEC-010"]
+    }
+  }
+}

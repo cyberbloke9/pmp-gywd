@@ -1,0 +1,160 @@
+{
+  "version": "2.0.0",
+  "metadata": {
+    "developer": "cyberbloke9",
+    "created_at": "2026-01-10T12:00:00Z",
+    "last_updated": "2026-01-10T12:00:00Z",
+    "data_sources": ["git_history", "code_patterns"]
+  },
+  "cognitive": {
+    "problem_approach": {
+      "style": "top_down",
+      "confidence": 75
+    },
+    "abstraction_preference": {
+      "level": "abstract",
+      "confidence": 80
+    },
+    "detail_orientation": {
+      "level": "big_picture",
+      "confidence": 75
+    },
+    "risk_tolerance": {
+      "level": "aggressive",
+      "confidence": 85
+    },
+    "learning_style": {
+      "preference": "experimentation",
+      "confidence": 70
+    }
+  },
+  "expertise": {
+    "languages": [
+      {
+        "name": "JavaScript",
+        "proficiency": "advanced",
+        "lines_written": 300,
+        "confidence": 85
+      },
+      {
+        "name": "Markdown",
+        "proficiency": "expert",
+        "lines_written": 15000,
+        "confidence": 95
+      },
+      {
+        "name": "JSON",
+        "proficiency": "advanced",
+        "lines_written": 2000,
+        "confidence": 90
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "Claude Code Plugin System",
+        "proficiency": "expert",
+        "usage_count": 40,
+        "confidence": 90
+      },
+      {
+        "name": "Node.js",
+        "proficiency": "intermediate",
+        "usage_count": 2,
+        "confidence": 75
+      },
+      {
+        "name": "Jest",
+        "proficiency": "intermediate",
+        "usage_count": 1,
+        "confidence": 70
+      }
+    ],
+    "domains": [
+      {
+        "name": "Context Engineering",
+        "depth": "expert",
+        "evidence": ["GYWD system design", "Context budget management"],
+        "confidence": 90
+      },
+      {
+        "name": "AI-Assisted Development",
+        "depth": "deep",
+        "evidence": ["Decision Intelligence system", "Adversarial agents"],
+        "confidence": 88
+      },
+      {
+        "name": "Developer Tooling",
+        "depth": "working",
+        "evidence": ["CLI installer", "Plugin architecture"],
+        "confidence": 75
+      }
+    ],
+    "architectural_patterns": [
+      {
+        "pattern": "Plugin Architecture",
+        "familiarity": "proficient",
+        "times_applied": 1
+      },
+      {
+        "pattern": "Template-Based Generation",
+        "familiarity": "expert",
+        "times_applied": 23
+      },
+      {
+        "pattern": "Three-Layer Architecture",
+        "familiarity": "proficient",
+        "times_applied": 1
+      }
+    ]
+  },
+  "preferences": {
+    "code_style": {
+      "naming_convention": "camelCase",
+      "comment_density": "moderate",
+      "function_size": "medium",
+      "abstraction_eagerness": "early"
+    },
+    "workflow": {
+      "commit_frequency": "frequent_small",
+      "test_approach": "test_after",
+      "documentation_timing": "as_you_go",
+      "review_preference": "self_review"
+    },
+    "communication": {
+      "detail_level": "detailed",
+      "format_preference": "mixed",
+      "interruption_tolerance": "low"
+    }
+  },
+  "work_patterns": {
+    "active_hours": [
+      { "day": "friday", "peak_hours": [10, 11, 12, 13, 14, 15, 16] }
+    ],
+    "session_length": {
+      "typical_minutes": 180,
+      "variation": "variable"
+    },
+    "focus_areas": [
+      { "area": "commands/gywd/", "percentage": 45, "commit_count": 12 },
+      { "area": "get-your-work-done/", "percentage": 30, "commit_count": 8 },
+      { "area": ".planning/", "percentage": 15, "commit_count": 6 },
+      { "area": "root files", "percentage": 10, "commit_count": 4 }
+    ]
+  },
+  "decision_patterns": {
+    "typical_considerations": [
+      "Simplicity over complexity",
+      "Zero dependencies when possible",
+      "Professional naming and branding",
+      "Paradigm shifts over feature accumulation",
+      "Decision coherence over code generation"
+    ],
+    "priority_order": [
+      "simplicity",
+      "maintainability",
+      "correctness",
+      "performance"
+    ],
+    "change_tolerance": "eager"
+  }
+}
