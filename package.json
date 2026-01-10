@@ -10,6 +10,11 @@
     "commands",
     "get-your-work-done"
   ],
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
   "keywords": [
     "claude",
     "claude-code",
@@ -28,5 +33,15 @@
   },
   "engines": {
     "node": ">=16.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "bin/**/*.js"
+    ]
   }
 }
