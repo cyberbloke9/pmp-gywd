@@ -92,7 +92,7 @@ describe('error code mapping', () => {
 });
 
 describe('file system integration', () => {
-  const testDir = path.join(os.tmpdir(), 'pmp-gywd-test-' + Date.now());
+  const testDir = path.join(os.tmpdir(), `pmp-gywd-test-${ Date.now()}`);
 
   beforeAll(() => {
     fs.mkdirSync(testDir, { recursive: true });

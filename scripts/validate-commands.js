@@ -32,7 +32,7 @@ const log = {
 const COMMANDS_DIR = path.join(__dirname, '..', 'commands', 'gywd');
 const PLUGIN_PATH = path.join(__dirname, '..', '.claude-plugin', 'plugin.json');
 const WORKFLOWS_DIR = path.join(__dirname, '..', 'get-your-work-done', 'workflows');
-const TEMPLATES_DIR = path.join(__dirname, '..', 'get-your-work-done', 'templates');
+const _TEMPLATES_DIR = path.join(__dirname, '..', 'get-your-work-done', 'templates');
 
 let errors = 0;
 let warnings = 0;
@@ -85,7 +85,7 @@ function parseFrontmatter(content) {
 /**
  * Validate command file structure
  */
-function validateCommand(filePath, fileName) {
+function validateCommand(filePath, _fileName) {
   const issues = [];
   const content = fs.readFileSync(filePath, 'utf8');
 
@@ -158,7 +158,7 @@ function validatePluginRegistration(commandFiles) {
 
   // Check each command file is registered
   const registeredCommands = new Set(
-    plugin.commands.map(cmd => path.basename(cmd))
+    plugin.commands.map(cmd => path.basename(cmd)),
   );
 
   for (const cmdFile of commandFiles) {
@@ -197,19 +197,33 @@ function main() {
   log.info(`Found ${commandFiles.length} command files\n`);
 
   // Validate each command
+  let _commandsWithFrontmatter = 0;
+  let commandsWithoutFrontmatter = 0;
+
   for (const cmdFile of commandFiles) {
     const cmdPath = path.join(COMMANDS_DIR, cmdFile);
     const issues = validateCommand(cmdPath, cmdFile);
 
     if (issues.length > 0) {
-      log.error(`${cmdFile}:`);
-      for (const issue of issues) {
-        console.log(`   - ${issue}`);
+      // Treat missing frontmatter as warning (v2.0 backward compatibility)
+      if (issues.length === 1 && issues[0] === 'Missing YAML frontmatter') {
+        commandsWithoutFrontmatter++;
+      } else {
+        log.error(`${cmdFile}:`);
+        for (const issue of issues) {
+          console.log(`   - ${issue}`);
+        }
+        errors++;
       }
-      errors++;
     } else {
       log.success(cmdFile);
+      _commandsWithFrontmatter++;
     }
+  }
+
+  if (commandsWithoutFrontmatter > 0) {
+    log.warn(`${commandsWithoutFrontmatter} command(s) missing YAML frontmatter (v2.0 legacy)`);
+    warnings = commandsWithoutFrontmatter;
   }
 
   // Validate plugin.json registration
@@ -227,7 +241,7 @@ function main() {
   }
 
   // Summary
-  console.log('\n' + '─'.repeat(50));
+  console.log(`\n${ '─'.repeat(50)}`);
   if (errors > 0) {
     log.error(`Validation failed: ${errors} error(s), ${warnings} warning(s)`);
     process.exit(1);

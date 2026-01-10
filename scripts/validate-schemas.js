@@ -63,7 +63,7 @@ function validateJsonSyntax(filePath) {
 /**
  * Validate schema structure (basic validation without external deps)
  */
-function validateSchemaStructure(schema, schemaName) {
+function validateSchemaStructure(schema, _schemaName) {
   const issues = [];
 
   // Check for required schema metadata
@@ -217,7 +217,7 @@ function main() {
   }
 
   // Summary
-  console.log('\n' + '─'.repeat(50));
+  console.log(`\n${ '─'.repeat(50)}`);
   if (errors > 0) {
     log.error(`Validation failed: ${errors} error(s), ${warnings} warning(s)`);
     process.exit(1);
