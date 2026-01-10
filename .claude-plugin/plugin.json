@@ -1,6 +1,6 @@
 {
   "name": "pmp-gywd",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "PMP (GYWD - Get Your Work Done) - A meta-prompting, context engineering and spec-driven development system for Claude Code by cyberbloke9.",
   "author": {
     "name": "cyberbloke9"
@@ -9,11 +9,13 @@
   "repository": "https://github.com/cyberbloke9/pmp-gywd",
   "commands": [
     "./commands/gywd/new-project.md",
+    "./commands/gywd/init.md",
     "./commands/gywd/create-roadmap.md",
     "./commands/gywd/map-codebase.md",
     "./commands/gywd/plan-phase.md",
     "./commands/gywd/execute-plan.md",
     "./commands/gywd/progress.md",
+    "./commands/gywd/status.md",
     "./commands/gywd/complete-milestone.md",
     "./commands/gywd/discuss-milestone.md",
     "./commands/gywd/new-milestone.md",
@@ -25,10 +27,10 @@
     "./commands/gywd/pause-work.md",
     "./commands/gywd/resume-work.md",
     "./commands/gywd/consider-issues.md",
-    "./commands/gywd/help.md",
-    "./commands/gywd/auto.md",
     "./commands/gywd/verify-work.md",
     "./commands/gywd/plan-fix.md",
-    "./commands/gywd/remove-phase.md"
+    "./commands/gywd/remove-phase.md",
+    "./commands/gywd/help.md",
+    "./commands/gywd/auto.md"
   ]
 }
