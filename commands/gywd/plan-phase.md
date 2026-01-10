@@ -27,6 +27,7 @@ Output: One or more PLAN.md files in the phase directory (.planning/phases/XX-na
 @~/.claude/get-your-work-done/references/scope-estimation.md
 @~/.claude/get-your-work-done/references/checkpoints.md
 @~/.claude/get-your-work-done/references/tdd.md
+@~/.claude/get-your-work-done/references/confidence-scoring.md
 </execution_context>
 
 <context>
@@ -59,9 +60,33 @@ Check for `.planning/codebase/` and load relevant documents based on phase type.
 </process>
 
 <success_criteria>
+- [ ] One or more PLAN.md files created in .planning/phases/XX-name/
+- [ ] Each plan has: objective, execution_context, context, tasks, verification, success_criteria, output
+- [ ] Tasks are specific enough for Claude to execute
+- [ ] **Confidence scores included:**
+  - Overall plan confidence percentage
+  - Per-task confidence scores
+  - Low-confidence tasks flagged (< 70%)
+  - Factors affecting confidence listed
+- [ ] User knows next steps (execute plan or review/adjust)
+</success_criteria>
 
-- One or more PLAN.md files created in .planning/phases/XX-name/
-- Each plan has: objective, execution_context, context, tasks, verification, success_criteria, output
-- Tasks are specific enough for Claude to execute
-- User knows next steps (execute plan or review/adjust)
-  </success_criteria>
+<confidence_requirements>
+Every PLAN.md must include a confidence summary:
+
+```markdown
+## Confidence Summary
+
+**Overall: XX%** (High/Moderate/Low)
+
+| Task | Confidence | Notes |
+|------|------------|-------|
+| T1 | 95% | Standard pattern |
+| T2 | 72% | Multiple approaches possible |
+| T3 | 58% | ⚠️ Needs clarification |
+
+**Low-confidence items require review before execution.**
+```
+
+See confidence-scoring.md reference for calculation guidelines.
+</confidence_requirements>

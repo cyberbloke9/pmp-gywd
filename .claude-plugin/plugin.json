@@ -1,6 +1,6 @@
 {
   "name": "pmp-gywd",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "PMP (GYWD - Get Your Work Done) - A meta-prompting, context engineering and spec-driven development system for Claude Code by cyberbloke9.",
   "author": {
     "name": "cyberbloke9"
@@ -19,6 +19,9 @@
     "./commands/gywd/context.md",
     "./commands/gywd/preview-plan.md",
     "./commands/gywd/health.md",
+    "./commands/gywd/memory.md",
+    "./commands/gywd/check-drift.md",
+    "./commands/gywd/deps.md",
     "./commands/gywd/complete-milestone.md",
     "./commands/gywd/discuss-milestone.md",
     "./commands/gywd/new-milestone.md",

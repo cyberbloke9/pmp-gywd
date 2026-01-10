@@ -260,6 +260,37 @@ Check project status and intelligently route to next action.
 
 Usage: `/gywd:progress`
 
+### Memory & Analysis
+
+**`/gywd:memory [show|add|clear|learn]`** *(New!)*
+Multi-session memory for patterns and preferences.
+
+- Persists coding style, library choices, project rules
+- Learns patterns from your work automatically
+- Carries forward between sessions
+
+Usage: `/gywd:memory show` or `/gywd:memory add preference "Use TypeScript strict mode"`
+
+**`/gywd:check-drift`** *(New!)*
+Detect specification drift between PROJECT.md and implementation.
+
+- Shows alignment percentage
+- Identifies missing/partial requirements
+- Flags undocumented features
+- Suggests corrective actions
+
+Usage: `/gywd:check-drift`
+
+**`/gywd:deps [phase-number|all]`** *(New!)*
+Visualize phase and task dependencies.
+
+- Shows dependency graph
+- Identifies parallelizable work
+- Highlights critical path
+- Shows blocked vs ready status
+
+Usage: `/gywd:deps` or `/gywd:deps 3`
+
 ### Session Management
 
 **`/gywd:resume-work`**
