@@ -1,11 +1,12 @@
-# ROADMAP: PMP-GYWD v1.4.0
+# ROADMAP: PMP-GYWD v2.0.0
 
-## The Paradigm Shift
+## The Evolution
 
 **v1.0-1.3**: Feature accumulation - more commands, more capabilities
 **v1.4**: Paradigm shift - understanding decisions, not just generating code
+**v2.0**: Unified intelligence - all systems work as one cognitive whole
 
-**Core Insight**: Code is crystallized decisions. Every function, every pattern exists because someone made a decision with context we've often lost. v1.4 makes those decisions explicit and queryable.
+**Core Insight**: Code is crystallized decisions. v2.0 builds a unified intelligence system that understands decisions, predicts context, learns continuously, and orchestrates specialized agents.
 
 ---
 
@@ -18,7 +19,51 @@
 | v1.1.1 | Quick Wins | Context, preview, health | ✅ |
 | v1.2.0 | Core Features | Memory, drift, deps | ✅ |
 | v1.3.0 | Differentiators | Digest, rollback, GitHub | ✅ |
-| **v1.4.0** | **Decision Intelligence** | **7 new systems** | ✅ |
+| v1.4.0 | Decision Intelligence | 7 new systems | ✅ |
+| **v2.0.0** | **Unified Intelligence** | **Core architecture + bootstrap** | ✅ |
+
+---
+
+## v2.0.0: Unified Intelligence System
+
+**Philosophy**: All intelligence systems work as a unified cognitive whole.
+
+### Core Architecture
+
+| Component | Purpose | Status |
+|-----------|---------|--------|
+| Decision Graph Engine | Store, link, and query all decisions | ✅ |
+| Context Intelligence Engine | Predict and manage context optimally | ✅ |
+| Agent Orchestrator | Coordinate multiple AI agents | ✅ |
+| Continuous Learning System | Improve with every interaction | ✅ |
+
+### New Command
+
+| Command | Purpose |
+|---------|---------|
+| `/gywd:bootstrap` | Initialize complete v2.0 system on any codebase |
+
+### Core Infrastructure Files
+
+```
+get-your-work-done/core/
+├── architecture.md           # Unified system architecture
+├── decisions-schema.json     # Decision graph data structure
+├── context-model-schema.json # Context intelligence model
+├── learning-state-schema.json# Learning system state
+├── profile-schema.json       # Developer Digital Twin schema
+└── agent-patterns.md         # Agent orchestration patterns
+```
+
+### Bootstrap Process
+
+The `/gywd:bootstrap` command runs 6 phases in one command:
+1. **Codebase Analysis** - Structure, stack, patterns (parallel agents)
+2. **Decision Extraction** - Git history, docs, code patterns
+3. **Context Model** - File relationships, predictions, budget
+4. **Developer Profile** - Expertise, preferences, patterns
+5. **Learning System Init** - Feedback tracking, baselines
+6. **Project Setup** - PROJECT.md, ROADMAP.md, STATE.md
 
 ---
 

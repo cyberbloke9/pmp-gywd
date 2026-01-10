@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GYWD Learning System State Schema",
+  "description": "Schema for continuous learning and adaptation",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "project": { "type": "string" },
+        "initialized_at": { "type": "string", "format": "date-time" },
+        "last_learning_cycle": { "type": "string", "format": "date-time" },
+        "total_interactions": { "type": "integer", "default": 0 }
+      }
+    },
+    "feedback_history": {
+      "type": "array",
+      "description": "Record of all feedback received",
+      "items": {
+        "type": "object",
+        "properties": {
+          "timestamp": { "type": "string", "format": "date-time" },
+          "type": {
+            "enum": ["suggestion_accepted", "suggestion_rejected", "suggestion_modified", "explicit_feedback", "implicit_signal"]
+          },
+          "context": {
+            "type": "object",
+            "properties": {
+              "command": { "type": "string" },
+              "file": { "type": "string" },
+              "task_type": { "type": "string" }
+            }
+          },
+          "original": { "type": "string" },
+          "result": { "type": "string" },
+          "signal": {
+            "enum": ["positive", "negative", "neutral"]
+          }
+        }
+      }
+    },
+    "confidence_scores": {
+      "type": "object",
+      "description": "Running confidence scores for various predictions",
+      "properties": {
+        "decision_extraction": {
+          "type": "object",
+          "properties": {
+            "overall": { "type": "number" },
+            "by_type": {
+              "type": "object",
+              "additionalProperties": { "type": "number" }
+            },
+            "recent_accuracy": { "type": "number" }
+          }
+        },
+        "context_prediction": {
+          "type": "object",
+          "properties": {
+            "overall": { "type": "number" },
+            "hit_rate": { "type": "number" },
+            "false_positive_rate": { "type": "number" }
+          }
+        },
+        "profile_accuracy": {
+          "type": "object",
+          "properties": {
+            "overall": { "type": "number" },
+            "style_match": { "type": "number" },
+            "preference_match": { "type": "number" }
+          }
+        }
+      }
+    },
+    "learned_patterns": {
+      "type": "array",
+      "description": "Patterns learned from developer behavior",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "pattern": { "type": "string" },
+          "observations": { "type": "integer" },
+          "confidence": { "type": "number" },
+          "last_observed": { "type": "string", "format": "date-time" },
+          "category": {
+            "enum": ["coding_style", "workflow", "preference", "avoidance", "correction"]
+          }
+        }
+      }
+    },
+    "adaptation_queue": {
+      "type": "array",
+      "description": "Pending adaptations to be applied",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "enum": ["update_decision_confidence", "add_context_prediction", "modify_profile", "add_pattern"]
+          },
+          "data": { "type": "object" },
+          "reason": { "type": "string" },
+          "scheduled_for": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "baselines": {
+      "type": "object",
+      "description": "Baseline metrics established at initialization",
+      "properties": {
+        "established_at": { "type": "string", "format": "date-time" },
+        "decision_confidence_avg": { "type": "number" },
+        "context_prediction_accuracy": { "type": "number" },
+        "profile_inference_confidence": { "type": "number" }
+      }
+    },
+    "improvement_tracking": {
+      "type": "object",
+      "description": "Track improvement over time",
+      "properties": {
+        "decision_extraction_delta": { "type": "number" },
+        "context_prediction_delta": { "type": "number" },
+        "profile_accuracy_delta": { "type": "number" },
+        "last_calculated": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

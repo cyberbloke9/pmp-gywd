@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GYWD Context Intelligence Model Schema",
+  "description": "Schema for context prediction and management",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "project": { "type": "string" },
+        "last_updated": { "type": "string", "format": "date-time" },
+        "total_files": { "type": "integer" },
+        "total_predictions": { "type": "integer" }
+      }
+    },
+    "file_relationships": {
+      "type": "array",
+      "description": "Relationships between files based on imports and co-changes",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": { "type": "string" },
+          "imports": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "imported_by": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "co_changes": {
+            "type": "array",
+            "description": "Files that frequently change together",
+            "items": {
+              "type": "object",
+              "properties": {
+                "file": { "type": "string" },
+                "frequency": { "type": "number" },
+                "commits": { "type": "integer" }
+              }
+            }
+          },
+          "ownership": {
+            "type": "array",
+            "description": "Who works on this file most",
+            "items": {
+              "type": "object",
+              "properties": {
+                "author": { "type": "string" },
+                "commits": { "type": "integer" },
+                "percentage": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "predictions": {
+      "type": "array",
+      "description": "Context predictions - if X, then likely need Y",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "type": {
+            "enum": ["file_association", "error_resolution", "feature_pattern", "decision_context"]
+          },
+          "trigger": {
+            "type": "object",
+            "properties": {
+              "condition": { "type": "string" },
+              "files": { "type": "array", "items": { "type": "string" } },
+              "keywords": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "prediction": {
+            "type": "object",
+            "properties": {
+              "files_needed": { "type": "array", "items": { "type": "string" } },
+              "decisions_relevant": { "type": "array", "items": { "type": "string" } },
+              "patterns_applicable": { "type": "array", "items": { "type": "string" } },
+              "warnings": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 100 },
+          "times_used": { "type": "integer", "default": 0 },
+          "times_useful": { "type": "integer", "default": 0 }
+        }
+      }
+    },
+    "context_budget": {
+      "type": "object",
+      "description": "Token budget management",
+      "properties": {
+        "total_available": { "type": "integer", "default": 200000 },
+        "reserved_for_output": { "type": "integer", "default": 30000 },
+        "areas": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "estimated_tokens": { "type": "integer" },
+              "priority": { "enum": ["critical", "high", "medium", "low"] },
+              "compression_strategy": {
+                "enum": ["none", "summary", "key_points", "omit_if_needed"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "hot_files": {
+      "type": "array",
+      "description": "Files with recent high activity",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file": { "type": "string" },
+          "changes_last_week": { "type": "integer" },
+          "changes_last_month": { "type": "integer" },
+          "trend": { "enum": ["increasing", "stable", "decreasing"] }
+        }
+      }
+    },
+    "patterns": {
+      "type": "array",
+      "description": "Detected coding patterns for context loading",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "files": { "type": "array", "items": { "type": "string" } },
+          "example_locations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "file": { "type": "string" },
+                "line_start": { "type": "integer" },
+                "line_end": { "type": "integer" }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "pmp-gywd",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "description": "PMP (GYWD - Get Your Work Done) - Decision-aware, context-engineered development system for Claude Code. Understands WHY code exists, not just WHAT it does.",
   "author": {
     "name": "cyberbloke9"
@@ -46,6 +46,7 @@
     "./commands/gywd/verify-work.md",
     "./commands/gywd/plan-fix.md",
     "./commands/gywd/remove-phase.md",
-    "./commands/gywd/help.md"
+    "./commands/gywd/help.md",
+    "./commands/gywd/bootstrap.md"
   ]
 }

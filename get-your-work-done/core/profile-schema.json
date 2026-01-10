@@ -1,0 +1,257 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GYWD Developer Profile Schema",
+  "description": "Schema for the Developer Digital Twin",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0.0"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "developer": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "last_updated": { "type": "string", "format": "date-time" },
+        "data_sources": {
+          "type": "array",
+          "items": {
+            "enum": ["git_history", "code_patterns", "explicit_input", "behavior_observation"]
+          }
+        }
+      }
+    },
+    "cognitive": {
+      "type": "object",
+      "description": "Cognitive fingerprint - how the developer thinks",
+      "properties": {
+        "problem_approach": {
+          "type": "object",
+          "properties": {
+            "style": {
+              "enum": ["top_down", "bottom_up", "middle_out", "mixed"],
+              "description": "How they typically approach problems"
+            },
+            "confidence": { "type": "number" }
+          }
+        },
+        "abstraction_preference": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "enum": ["concrete", "abstract", "balanced"],
+              "description": "Preference for concrete vs abstract thinking"
+            },
+            "confidence": { "type": "number" }
+          }
+        },
+        "detail_orientation": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "enum": ["big_picture", "detail_focused", "balanced"],
+              "description": "Focus on details vs big picture"
+            },
+            "confidence": { "type": "number" }
+          }
+        },
+        "risk_tolerance": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "enum": ["conservative", "moderate", "aggressive"],
+              "description": "Willingness to take technical risks"
+            },
+            "confidence": { "type": "number" }
+          }
+        },
+        "learning_style": {
+          "type": "object",
+          "properties": {
+            "preference": {
+              "enum": ["documentation", "examples", "experimentation", "discussion"],
+              "description": "How they prefer to learn new things"
+            },
+            "confidence": { "type": "number" }
+          }
+        }
+      }
+    },
+    "expertise": {
+      "type": "object",
+      "description": "Expertise topology - what they know well",
+      "properties": {
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "proficiency": { "enum": ["novice", "intermediate", "advanced", "expert"] },
+              "lines_written": { "type": "integer" },
+              "confidence": { "type": "number" }
+            }
+          }
+        },
+        "frameworks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "proficiency": { "enum": ["novice", "intermediate", "advanced", "expert"] },
+              "usage_count": { "type": "integer" },
+              "confidence": { "type": "number" }
+            }
+          }
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "depth": { "enum": ["surface", "working", "deep", "expert"] },
+              "evidence": { "type": "array", "items": { "type": "string" } },
+              "confidence": { "type": "number" }
+            }
+          }
+        },
+        "architectural_patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "pattern": { "type": "string" },
+              "familiarity": { "enum": ["aware", "used", "proficient", "expert"] },
+              "times_applied": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "description": "Style and workflow preferences",
+      "properties": {
+        "code_style": {
+          "type": "object",
+          "properties": {
+            "naming_convention": {
+              "enum": ["camelCase", "snake_case", "PascalCase", "mixed"],
+              "description": "Preferred naming convention"
+            },
+            "comment_density": {
+              "enum": ["minimal", "moderate", "heavy"],
+              "description": "How much they comment code"
+            },
+            "function_size": {
+              "enum": ["small", "medium", "large"],
+              "description": "Typical function length preference"
+            },
+            "abstraction_eagerness": {
+              "enum": ["early", "when_needed", "late"],
+              "description": "When they create abstractions"
+            }
+          }
+        },
+        "workflow": {
+          "type": "object",
+          "properties": {
+            "commit_frequency": {
+              "enum": ["frequent_small", "moderate", "large_batches"],
+              "description": "How often they commit"
+            },
+            "test_approach": {
+              "enum": ["tdd", "test_after", "minimal_testing"],
+              "description": "Testing approach"
+            },
+            "documentation_timing": {
+              "enum": ["upfront", "as_you_go", "after_implementation"],
+              "description": "When they write docs"
+            },
+            "review_preference": {
+              "enum": ["self_review", "peer_review", "automated_only"],
+              "description": "Code review preferences"
+            }
+          }
+        },
+        "communication": {
+          "type": "object",
+          "properties": {
+            "detail_level": {
+              "enum": ["brief", "moderate", "detailed"],
+              "description": "How much detail they want in explanations"
+            },
+            "format_preference": {
+              "enum": ["prose", "bullets", "code_examples", "mixed"],
+              "description": "Preferred output format"
+            },
+            "interruption_tolerance": {
+              "enum": ["low", "medium", "high"],
+              "description": "Tolerance for confirmations/questions"
+            }
+          }
+        }
+      }
+    },
+    "work_patterns": {
+      "type": "object",
+      "description": "Temporal and behavioral patterns",
+      "properties": {
+        "active_hours": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "day": { "enum": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"] },
+              "peak_hours": { "type": "array", "items": { "type": "integer", "minimum": 0, "maximum": 23 } }
+            }
+          }
+        },
+        "session_length": {
+          "type": "object",
+          "properties": {
+            "typical_minutes": { "type": "integer" },
+            "variation": { "enum": ["consistent", "variable", "highly_variable"] }
+          }
+        },
+        "focus_areas": {
+          "type": "array",
+          "description": "Code areas they work on most",
+          "items": {
+            "type": "object",
+            "properties": {
+              "area": { "type": "string" },
+              "percentage": { "type": "number" },
+              "commit_count": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "decision_patterns": {
+      "type": "object",
+      "description": "How they make technical decisions",
+      "properties": {
+        "typical_considerations": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "What they typically consider when deciding"
+        },
+        "priority_order": {
+          "type": "array",
+          "items": {
+            "enum": ["performance", "maintainability", "simplicity", "correctness", "security", "cost", "time_to_market"]
+          },
+          "description": "Priority ordering of concerns"
+        },
+        "change_tolerance": {
+          "enum": ["resistant", "cautious", "open", "eager"],
+          "description": "Openness to changing existing code"
+        }
+      }
+    }
+  }
+}

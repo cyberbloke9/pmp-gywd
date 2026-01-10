@@ -58,6 +58,11 @@ Output ONLY the reference content below. Do NOT add:
 /gywd:impact             # Connect code to production reality
 ```
 
+**v2.0 Unified Intelligence:**
+```
+/gywd:bootstrap          # Initialize complete v2.0 system on any codebase
+```
+
 ## Core Workflow
 
 ```
@@ -440,6 +445,26 @@ Reality integration - connect code to outcomes.
 - Incident history linkage
 
 Usage: `/gywd:impact src/api/checkout.ts`
+
+### v2.0 Unified Intelligence
+
+**`/gywd:bootstrap [--quick|--deep]`**
+Initialize complete GYWD v2.0 system on any codebase.
+
+- One command to rule them all - replaces multiple init commands
+- Maps codebase structure with parallel agents
+- Extracts decision graph from git history
+- Builds context intelligence model
+- Creates developer profile from contributions
+- Initializes continuous learning system
+- Sets up PROJECT.md, ROADMAP.md, STATE.md
+
+Modes:
+- `--quick`: Shallow analysis (~2 min)
+- Default: Full analysis (~5-10 min)
+- `--deep`: Exhaustive analysis with adversarial validation (~15-30 min)
+
+Usage: `/gywd:bootstrap` or `/gywd:bootstrap --deep`
 
 ### Utility Commands
 
