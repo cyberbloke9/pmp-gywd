@@ -1,0 +1,32 @@
+{
+  "name": "pmp-gywd",
+  "version": "1.0.0",
+  "description": "PMP (GYWD - Get Your Work Done) - A meta-prompting, context engineering and spec-driven development system for Claude Code by cyberbloke9.",
+  "bin": {
+    "pmp-gywd": "bin/install.js"
+  },
+  "files": [
+    "bin",
+    "commands",
+    "get-your-work-done"
+  ],
+  "keywords": [
+    "claude",
+    "claude-code",
+    "ai",
+    "meta-prompting",
+    "context-engineering",
+    "spec-driven-development",
+    "pmp",
+    "gywd"
+  ],
+  "author": "cyberbloke9",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyberbloke9/pmp-gywd.git"
+  },
+  "engines": {
+    "node": ">=16.7.0"
+  }
+}
