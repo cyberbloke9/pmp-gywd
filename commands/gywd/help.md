@@ -311,6 +311,38 @@ Create context handoff when pausing work mid-phase.
 
 Usage: `/gywd:pause-work`
 
+### Advanced Features
+
+**`/gywd:digest [focus-area]`** *(New!)*
+Create compact codebase digest for quick context refresh.
+
+- 90%+ smaller than full codebase map
+- Focus on specific areas (auth, api, etc.)
+- Shows recent activity and hot files
+- Perfect for resuming work
+
+Usage: `/gywd:digest` or `/gywd:digest auth`
+
+**`/gywd:rollback [target]`** *(New!)*
+Safely rollback to a previous checkpoint.
+
+- Phase rollback: Undo entire phase
+- Plan rollback: Undo specific plan
+- Creates safety branch before changes
+- Preserves planning files for learning
+
+Usage: `/gywd:rollback last` or `/gywd:rollback 3`
+
+**`/gywd:sync-github [type]`** *(New!)*
+Sync GYWD state with GitHub issues, PRs, milestones.
+
+- Push issues to GitHub, import GitHub issues
+- Create PRs for completed phases
+- Sync milestones bidirectionally
+- Track PR merges with phase completion
+
+Usage: `/gywd:sync-github` or `/gywd:sync-github issues`
+
 ### Issue Management
 
 **`/gywd:consider-issues`**

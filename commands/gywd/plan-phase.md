@@ -28,6 +28,7 @@ Output: One or more PLAN.md files in the phase directory (.planning/phases/XX-na
 @~/.claude/get-your-work-done/references/checkpoints.md
 @~/.claude/get-your-work-done/references/tdd.md
 @~/.claude/get-your-work-done/references/confidence-scoring.md
+@~/.claude/get-your-work-done/references/adaptive-decomposition.md
 </execution_context>
 
 <context>

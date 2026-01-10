@@ -1,60 +1,77 @@
-# ROADMAP: PMP-GYWD v1.2.0 → v1.3.0
+# ROADMAP: PMP-GYWD v1.3.0
 
 ## Overview
 
-Major feature expansion across 3 tiers: Quick Wins, Core Features, and Differentiators.
+Major feature expansion completed across 3 tiers: Quick Wins, Core Features, and Differentiators.
 
-## Release Plan
+## Release History
 
 | Version | Tier | Features | Status |
 |---------|------|----------|--------|
-| v1.1.0 | Baseline | Current stable | ✅ Complete |
-| v1.1.1 | Tier 1 | Quick Wins | 🔄 In Progress |
-| v1.2.0 | Tier 2 | Core Features | 📋 Planned |
-| v1.3.0 | Tier 3 | Differentiators | 📋 Planned |
+| v1.1.0 | Baseline | Stable foundation | ✅ Complete |
+| v1.1.1 | Tier 1 | Quick Wins | ✅ Complete |
+| v1.2.0 | Tier 2 | Core Features | ✅ Complete |
+| v1.3.0 | Tier 3 | Differentiators | ✅ Complete |
 
 ---
 
-## Tier 1: Quick Wins (v1.1.1)
-
-**Goal:** High impact, low effort improvements
+## Tier 1: Quick Wins (v1.1.1) ✅
 
 | # | Feature | Command | Status |
 |---|---------|---------|--------|
-| 1 | Context Budget Visibility | `/gywd:context` | 📋 Planned |
-| 2 | Pre-execution Review | `/gywd:preview-plan` | 📋 Planned |
-| 3 | Partial Phase Execution | `--tasks` flag | 📋 Planned |
-| 4 | Phase Health Dashboard | `/gywd:health` | 📋 Planned |
+| 1 | Context Budget Visibility | `/gywd:context` | ✅ Done |
+| 2 | Pre-execution Review | `/gywd:preview-plan` | ✅ Done |
+| 3 | Partial Phase Execution | `--tasks` flag | ✅ Done |
+| 4 | Phase Health Dashboard | `/gywd:health` | ✅ Done |
 
 ---
 
-## Tier 2: Core Features (v1.2.0)
-
-**Goal:** High impact, medium effort core capabilities
+## Tier 2: Core Features (v1.2.0) ✅
 
 | # | Feature | Command | Status |
 |---|---------|---------|--------|
-| 1 | Multi-session Memory | `/gywd:memory` | 📋 Planned |
-| 2 | Spec Drift Detection | `/gywd:check-drift` | 📋 Planned |
-| 3 | Confidence Scoring | Inline in plans | 📋 Planned |
-| 4 | Dependency Visualization | `/gywd:deps` | 📋 Planned |
+| 1 | Multi-session Memory | `/gywd:memory` | ✅ Done |
+| 2 | Spec Drift Detection | `/gywd:check-drift` | ✅ Done |
+| 3 | Confidence Scoring | Inline in plans | ✅ Done |
+| 4 | Dependency Visualization | `/gywd:deps` | ✅ Done |
 
 ---
 
-## Tier 3: Differentiators (v1.3.0)
-
-**Goal:** Competitive edge features
+## Tier 3: Differentiators (v1.3.0) ✅
 
 | # | Feature | Command | Status |
 |---|---------|---------|--------|
-| 1 | Adaptive Task Decomposition | Auto in planning | 📋 Planned |
-| 2 | Codebase Digest | `/gywd:digest` | 📋 Planned |
-| 3 | Rollback Checkpoints | `/gywd:rollback` | 📋 Planned |
-| 4 | Integration Hooks | `/gywd:sync-github` | 📋 Planned |
+| 1 | Adaptive Task Decomposition | Auto in planning | ✅ Done |
+| 2 | Codebase Digest | `/gywd:digest` | ✅ Done |
+| 3 | Rollback Checkpoints | `/gywd:rollback` | ✅ Done |
+| 4 | Integration Hooks | `/gywd:sync-github` | ✅ Done |
 
 ---
 
-## Current Milestone
+## New Commands Summary (v1.3.0)
 
-**v1.1.1** - Tier 1 Quick Wins
-**Progress:** [░░░░░░░░░░] 0%
+### Progress & Monitoring
+- `/gywd:status` - Quick one-line status
+- `/gywd:context` - Context budget analysis
+- `/gywd:health` - Phase health dashboard
+- `/gywd:progress` - Detailed progress with routing
+
+### Execution Control
+- `/gywd:preview-plan` - Preview before execution
+- `/gywd:execute-plan --tasks` - Partial execution support
+- `/gywd:rollback` - Safe rollback to checkpoints
+
+### Analysis & Memory
+- `/gywd:memory` - Multi-session memory
+- `/gywd:check-drift` - Spec drift detection
+- `/gywd:deps` - Dependency visualization
+- `/gywd:digest` - Compact codebase summary
+
+### Integration
+- `/gywd:sync-github` - GitHub issues/PRs/milestones sync
+
+---
+
+## Total Commands: 34
+
+**v1.3.0 is feature complete.**
