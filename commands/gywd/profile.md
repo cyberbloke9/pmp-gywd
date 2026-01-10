@@ -32,6 +32,10 @@ Your expertise has a shape. Your thinking has patterns.
 A system that understands YOUR patterns serves you better than one that serves "average developer."
 </philosophy>
 
+<reference>
+Profile data stored in `.planning/profile/` directory.
+</reference>
+
 <profile_dimensions>
 ## What We Model
 

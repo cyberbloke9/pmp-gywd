@@ -122,7 +122,8 @@ function validateCommand(filePath, _fileName) {
   }
 
   // Check for @references that might not exist
-  const refMatches = content.matchAll(/@~\/.claude\/([^\s\n]+)/g);
+  // Exclude common trailing punctuation from matches
+  const refMatches = content.matchAll(/@~\/.claude\/([^\s\n`.,)]+)/g);
   for (const match of refMatches) {
     const refPath = match[1];
     // Just log as info, don't fail - paths may be user-specific

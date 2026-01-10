@@ -37,6 +37,10 @@ Without this context, all code looks equally important.
 With it, priorities become obvious.
 </philosophy>
 
+<reference>
+See `.planning/config.json` for data source configuration and integration setup.
+</reference>
+
 <data_sources>
 ## Reality Data Sources
 
