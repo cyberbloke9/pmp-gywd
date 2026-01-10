@@ -1,93 +1,60 @@
-# ROADMAP: PMP-GYWD v1.1.0 Improvements
+# ROADMAP: PMP-GYWD v1.2.0 → v1.3.0
 
 ## Overview
 
-Transform PMP-GYWD into a polished, production-ready tool through 5 phases covering naming standardization, error handling, testing, new features, and documentation.
+Major feature expansion across 3 tiers: Quick Wins, Core Features, and Differentiators.
 
-## Progress
+## Release Plan
 
-| Phase | Name | Plans | Status |
-|-------|------|-------|--------|
-| 1 | Naming Standardization | 0/1 | 📋 Planned |
-| 2 | Error Handling | 0/1 | 📋 Planned |
-| 3 | Automated Tests | 0/1 | 📋 Planned |
-| 4 | New Commands & Features | 0/1 | 📋 Planned |
-| 5 | Documentation & Examples | 0/1 | 📋 Planned |
-
-**Overall: [░░░░░░░░░░] 0%**
+| Version | Tier | Features | Status |
+|---------|------|----------|--------|
+| v1.1.0 | Baseline | Current stable | ✅ Complete |
+| v1.1.1 | Tier 1 | Quick Wins | 🔄 In Progress |
+| v1.2.0 | Tier 2 | Core Features | 📋 Planned |
+| v1.3.0 | Tier 3 | Differentiators | 📋 Planned |
 
 ---
 
-## Phase Details
+## Tier 1: Quick Wins (v1.1.1)
 
-### Phase 1: Naming Standardization
-**Goal:** Replace all GSD/gsd references with GYWD/gywd throughout codebase
+**Goal:** High impact, low effort improvements
 
-**Scope:**
-- Replace `/gsd:` with `/gywd:` in all markdown files
-- Replace "GSD" with "GYWD" in documentation
-- Replace "get-shit-done" with "get-your-work-done"
-- Update help.md command reference
-- Verify no broken references remain
-
-**Dependencies:** None
+| # | Feature | Command | Status |
+|---|---------|---------|--------|
+| 1 | Context Budget Visibility | `/gywd:context` | 📋 Planned |
+| 2 | Pre-execution Review | `/gywd:preview-plan` | 📋 Planned |
+| 3 | Partial Phase Execution | `--tasks` flag | 📋 Planned |
+| 4 | Phase Health Dashboard | `/gywd:health` | 📋 Planned |
 
 ---
 
-### Phase 2: Error Handling
-**Goal:** Add robust error handling to install.js
+## Tier 2: Core Features (v1.2.0)
 
-**Scope:**
-- Wrap file system operations in try-catch
-- Add user-friendly error messages
-- Handle common errors: permission denied, disk full, invalid paths
-- Add path validation and sanitization
+**Goal:** High impact, medium effort core capabilities
 
-**Dependencies:** Phase 1
-
----
-
-### Phase 3: Automated Tests
-**Goal:** Establish test suite with Jest
-
-**Scope:**
-- Add Jest as dev dependency
-- Create test structure in `/tests`
-- Write tests for install.js
-- Write tests for path handling
-- Add npm test scripts
-- Target 80% coverage on install.js
-
-**Dependencies:** Phase 2
+| # | Feature | Command | Status |
+|---|---------|---------|--------|
+| 1 | Multi-session Memory | `/gywd:memory` | 📋 Planned |
+| 2 | Spec Drift Detection | `/gywd:check-drift` | 📋 Planned |
+| 3 | Confidence Scoring | Inline in plans | 📋 Planned |
+| 4 | Dependency Visualization | `/gywd:deps` | 📋 Planned |
 
 ---
 
-### Phase 4: New Commands & Features
-**Goal:** Add new commands and improve progress tracking
+## Tier 3: Differentiators (v1.3.0)
 
-**Scope:**
-- Add `/gywd:status` - Quick status check
-- Add `/gywd:init` - Faster initialization
-- Improve progress display
-- Update plugin.json with new commands
+**Goal:** Competitive edge features
 
-**Dependencies:** Phase 1
-
----
-
-### Phase 5: Documentation & Examples
-**Goal:** Comprehensive docs, examples, and tutorials
-
-**Scope:**
-- Enhance README.md
-- Add `/examples` folder with sample projects
-- Add `/docs` folder with tutorials
-- Add FAQ and Troubleshooting
-
-**Dependencies:** Phase 4
+| # | Feature | Command | Status |
+|---|---------|---------|--------|
+| 1 | Adaptive Task Decomposition | Auto in planning | 📋 Planned |
+| 2 | Codebase Digest | `/gywd:digest` | 📋 Planned |
+| 3 | Rollback Checkpoints | `/gywd:rollback` | 📋 Planned |
+| 4 | Integration Hooks | `/gywd:sync-github` | 📋 Planned |
 
 ---
 
-## Milestone
+## Current Milestone
 
-**v1.1.0** - PMP-GYWD Polished Release
+**v1.1.1** - Tier 1 Quick Wins
+**Progress:** [░░░░░░░░░░] 0%

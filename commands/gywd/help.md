@@ -41,6 +41,8 @@ Output ONLY the reference content below. Do NOT add:
 ```
 /gywd:status      # One-line status
 /gywd:progress    # Detailed progress
+/gywd:context     # Context budget analysis
+/gywd:health      # Project health dashboard
 ```
 
 ## Core Workflow
@@ -132,15 +134,26 @@ Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
 
 ### Execution
 
-**`/gywd:execute-plan <path>`**
+**`/gywd:preview-plan <path>`** *(New!)*
+Preview what a plan will do before executing it.
+
+- Shows all tasks that will run
+- Lists files to be created/modified
+- Highlights checkpoints and risks
+- Read-only operation - no changes made
+
+Usage: `/gywd:preview-plan .planning/phases/01-foundation/01-01-PLAN.md`
+
+**`/gywd:execute-plan <path> [--tasks]`**
 Execute a PLAN.md file directly.
 
 - Runs plan tasks sequentially
 - Creates SUMMARY.md after completion
 - Updates STATE.md with accumulated context
-- Fast execution without loading full skill context
+- Supports partial execution with --tasks flag
 
 Usage: `/gywd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md`
+Partial: `/gywd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md --tasks 1-3`
 
 ### Roadmap Management
 
@@ -206,7 +219,7 @@ Usage: `/gywd:complete-milestone 1.0.0`
 
 ### Progress Tracking
 
-**`/gywd:status`** *(New!)*
+**`/gywd:status`**
 Quick one-line project status.
 
 - Shows progress bar, phase, and last activity
@@ -214,6 +227,26 @@ Quick one-line project status.
 
 Usage: `/gywd:status`
 Output: `[████░░░░░░] 40% | Phase 2/5: Auth | Last: today`
+
+**`/gywd:context`** *(New!)*
+Show context budget visibility and usage analysis.
+
+- Estimates current context usage percentage
+- Breaks down by source (plans, codebase, state)
+- Warns when approaching context limits
+- Suggests actions to reduce context load
+
+Usage: `/gywd:context`
+
+**`/gywd:health`** *(New!)*
+Phase health dashboard showing quality metrics.
+
+- Shows overall project health score
+- Displays phase-by-phase breakdown
+- Tracks open issues per phase
+- Provides actionable recommendations
+
+Usage: `/gywd:health`
 
 **`/gywd:progress`**
 Check project status and intelligently route to next action.

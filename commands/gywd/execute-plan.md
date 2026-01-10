@@ -1,7 +1,7 @@
 ---
 name: GYWD:execute-plan
-description: Execute a PLAN.md file
-argument-hint: "[path-to-PLAN.md]"
+description: Execute a PLAN.md file (supports partial execution with --tasks)
+argument-hint: "[path-to-PLAN.md] [--tasks 1-3 or --tasks 2,4,5]"
 allowed-tools:
   - Read
   - Write
@@ -35,7 +35,19 @@ Uses intelligent segmentation:
 </execution_context>
 
 <context>
-Plan path: $ARGUMENTS
+Plan path and options: $ARGUMENTS
+
+**Argument parsing:**
+- Path: First argument (required) - path to PLAN.md
+- --tasks: Optional task filter
+  - Range format: `--tasks 1-3` (tasks 1, 2, 3)
+  - List format: `--tasks 2,4,5` (specific tasks)
+  - Single: `--tasks 3` (just task 3)
+
+**Examples:**
+- `/gywd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md`
+- `/gywd:execute-plan .planning/phases/01-foundation/01-01-PLAN.md --tasks 1-3`
+- `/gywd:execute-plan --tasks 4,5` (uses current plan from STATE.md)
 
 **Load project state first:**
 @.planning/STATE.md
@@ -45,11 +57,31 @@ Plan path: $ARGUMENTS
 </context>
 
 <process>
-1. Check .planning/ directory exists (error if not - user should run /gywd:new-project)
-2. Verify plan at $ARGUMENTS exists
-3. Check if SUMMARY.md already exists (plan already executed?)
-4. Load workflow config for mode (interactive/yolo)
-5. Follow execute-phase.md workflow:
+1. Parse arguments:
+   - Extract plan path (or auto-detect from STATE.md)
+   - Parse --tasks flag if present:
+     - `--tasks 1-3` → [1, 2, 3]
+     - `--tasks 2,4,5` → [2, 4, 5]
+     - `--tasks 3` → [3]
+   - If no --tasks flag: execute all tasks
+
+2. Check .planning/ directory exists (error if not - user should run /gywd:new-project)
+
+3. Verify plan exists
+
+4. If --tasks specified (partial execution):
+   - Show: "Partial execution: Tasks {list}"
+   - Skip tasks not in the list
+   - Mark partial completion in STATE.md
+   - Create partial SUMMARY.md with note about which tasks were executed
+   - DO NOT mark plan as complete unless all tasks done
+
+5. If no --tasks (full execution):
+   - Check if SUMMARY.md already exists (plan already executed?)
+
+6. Load workflow config for mode (interactive/yolo)
+
+7. Follow execute-phase.md workflow:
    - Parse plan and determine execution strategy (A/B/C)
    - Execute tasks (via subagent or main context as appropriate)
    - Handle checkpoints and deviations
