@@ -122,10 +122,10 @@ function validateCommand(filePath, _fileName) {
   }
 
   // Check for @references that might not exist
-  // Exclude common trailing punctuation from matches
-  const refMatches = content.matchAll(/@~\/.claude\/([^\s\n`.,)]+)/g);
+  const refMatches = content.matchAll(/@~\/.claude\/([^\s\n]+)/g);
   for (const match of refMatches) {
-    const refPath = match[1];
+    // Strip trailing punctuation that's not part of the path
+    const refPath = match[1].replace(/[`.,)]+$/, '');
     // Just log as info, don't fail - paths may be user-specific
     if (refPath.includes('get-your-work-done/workflows/')) {
       const workflowName = path.basename(refPath);
