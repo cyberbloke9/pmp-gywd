@@ -21,10 +21,27 @@ Output ONLY the reference content below. Do NOT add:
 
 ## Quick Start
 
-1. `/gywd:new-project` - Initialize project with brief
-2. `/gywd:create-roadmap` - Create roadmap and phases
-3. `/gywd:plan-phase <number>` - Create detailed plan for first phase
-4. `/gywd:execute-plan <path>` - Execute the plan
+**Fast track (minimal questions):**
+```
+/gywd:init my-project
+/gywd:create-roadmap
+/gywd:plan-phase 1
+/gywd:execute-plan
+```
+
+**Full setup (detailed questioning):**
+```
+/gywd:new-project
+/gywd:create-roadmap
+/gywd:plan-phase 1
+/gywd:execute-plan
+```
+
+**Check status anytime:**
+```
+/gywd:status      # One-line status
+/gywd:progress    # Detailed progress
+```
 
 ## Core Workflow
 
@@ -33,6 +50,15 @@ Initialization → Planning → Execution → Milestone Completion
 ```
 
 ### Project Initialization
+
+**`/gywd:init <name>`** *(New!)*
+Quick project initialization with minimal questions.
+
+- Creates minimal PROJECT.md and config.json
+- Auto-detects brownfield vs greenfield
+- Gets you coding in under 30 seconds
+
+Usage: `/gywd:init my-app`
 
 **`/gywd:new-project`**
 Initialize new project with brief and configuration.
@@ -179,6 +205,15 @@ Archive completed milestone and prepare for next version.
 Usage: `/gywd:complete-milestone 1.0.0`
 
 ### Progress Tracking
+
+**`/gywd:status`** *(New!)*
+Quick one-line project status.
+
+- Shows progress bar, phase, and last activity
+- Perfect for a quick glance at where you are
+
+Usage: `/gywd:status`
+Output: `[████░░░░░░] 40% | Phase 2/5: Auth | Last: today`
 
 **`/gywd:progress`**
 Check project status and intelligently route to next action.
