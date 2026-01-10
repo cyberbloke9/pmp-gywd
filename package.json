@@ -1,19 +1,31 @@
 {
   "name": "pmp-gywd",
   "version": "2.0.0",
-  "description": "PMP (GYWD - Get Your Work Done) - A meta-prompting, context engineering and spec-driven development system for Claude Code by cyberbloke9.",
+  "description": "PMP (GYWD - Get Your Work Done) - Decision-aware, context-engineered development system for Claude Code. Understands WHY code exists, not just WHAT it does.",
   "bin": {
     "pmp-gywd": "bin/install.js"
   },
   "files": [
     "bin",
     "commands",
-    "get-your-work-done"
+    "get-your-work-done",
+    "lib"
   ],
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage --reporters=default --reporters=jest-junit",
+    "lint": "eslint bin lib scripts tests --ext .js",
+    "lint:fix": "eslint bin lib scripts tests --ext .js --fix",
+    "validate:schemas": "node scripts/validate-schemas.js",
+    "validate:commands": "node scripts/validate-commands.js",
+    "validate:all": "npm run validate:schemas && npm run validate:commands",
+    "generate:tests": "node scripts/generate-tests.js",
+    "generate:docs": "node scripts/generate-docs.js",
+    "analyze:deps": "node scripts/analyze-dependencies.js",
+    "precommit": "npm run lint && npm run validate:all && npm test",
+    "prepublishOnly": "npm run test:ci && npm run validate:all"
   },
   "keywords": [
     "claude",
@@ -22,6 +34,7 @@
     "meta-prompting",
     "context-engineering",
     "spec-driven-development",
+    "decision-intelligence",
     "pmp",
     "gywd"
   ],
@@ -31,17 +44,16 @@
     "type": "git",
     "url": "git+https://github.com/cyberbloke9/pmp-gywd.git"
   },
+  "bugs": {
+    "url": "https://github.com/cyberbloke9/pmp-gywd/issues"
+  },
+  "homepage": "https://github.com/cyberbloke9/pmp-gywd#readme",
   "engines": {
     "node": ">=16.7.0"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "bin/**/*.js"
-    ]
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "jest-junit": "^16.0.0"
   }
 }
