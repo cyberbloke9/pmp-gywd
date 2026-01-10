@@ -9,6 +9,7 @@ const readline = require('readline');
 const cyan = '\x1b[36m';
 const green = '\x1b[32m';
 const yellow = '\x1b[33m';
+const red = '\x1b[31m';
 const dim = '\x1b[2m';
 const reset = '\x1b[0m';
 
@@ -38,14 +39,12 @@ function parseConfigDirArg() {
   const configDirIndex = args.findIndex(arg => arg === '--config-dir' || arg === '-c');
   if (configDirIndex !== -1) {
     const nextArg = args[configDirIndex + 1];
-    // Error if --config-dir is provided without a value or next arg is another flag
     if (!nextArg || nextArg.startsWith('-')) {
       console.error(`  ${yellow}--config-dir requires a path argument${reset}`);
       process.exit(1);
     }
     return nextArg;
   }
-  // Also handle --config-dir=value format
   const configDirArg = args.find(arg => arg.startsWith('--config-dir=') || arg.startsWith('-c='));
   if (configDirArg) {
     return configDirArg.split('=')[1];
@@ -71,40 +70,158 @@ if (hasHelp) {
     ${dim}# Install to default ~/.claude directory${reset}
     npx pmp-gywd --global
 
-    ${dim}# Install to custom config directory (for multiple Claude accounts)${reset}
+    ${dim}# Install to custom config directory${reset}
     npx pmp-gywd --global --config-dir ~/.claude-bc
-
-    ${dim}# Using environment variable${reset}
-    CLAUDE_CONFIG_DIR=~/.claude-bc npx pmp-gywd --global
 
     ${dim}# Install to current project only${reset}
     npx pmp-gywd --local
 
   ${yellow}Notes:${reset}
     The --config-dir option is useful when you have multiple Claude Code
-    configurations (e.g., for different subscriptions). It takes priority
-    over the CLAUDE_CONFIG_DIR environment variable.
+    configurations. It takes priority over CLAUDE_CONFIG_DIR env variable.
 `);
   process.exit(0);
 }
 
 /**
- * Expand ~ to home directory (shell doesn't expand in env vars passed to node)
+ * Print error message and exit
+ */
+function exitWithError(message, details = null) {
+  console.error(`\n  ${red}Error:${reset} ${message}`);
+  if (details) {
+    console.error(`  ${dim}${details}${reset}`);
+  }
+  console.error(`\n  ${dim}If this persists, please report at:${reset}`);
+  console.error(`  ${cyan}https://github.com/cyberbloke9/pmp-gwyd/issues${reset}\n`);
+  process.exit(1);
+}
+
+/**
+ * Expand ~ to home directory
  */
 function expandTilde(filePath) {
-  if (filePath && filePath.startsWith('~/')) {
+  if (!filePath) return filePath;
+  if (filePath === '~') return os.homedir();
+  if (filePath.startsWith('~/')) {
     return path.join(os.homedir(), filePath.slice(2));
   }
   return filePath;
 }
 
 /**
- * Recursively copy directory, replacing paths in .md files
+ * Validate path is safe (no path traversal)
+ */
+function validatePath(targetPath) {
+  const resolved = path.resolve(targetPath);
+  // Check for null bytes (security)
+  if (targetPath.includes('\0')) {
+    return { valid: false, reason: 'Path contains invalid characters' };
+  }
+  return { valid: true, resolved };
+}
+
+/**
+ * Safely create directory
+ */
+function safeCreateDir(dirPath) {
+  const validation = validatePath(dirPath);
+  if (!validation.valid) {
+    throw new Error(validation.reason);
+  }
+
+  try {
+    fs.mkdirSync(dirPath, { recursive: true });
+  } catch (err) {
+    if (err.code === 'EACCES') {
+      throw new Error(`Permission denied: Cannot create directory at ${dirPath}`);
+    } else if (err.code === 'ENOSPC') {
+      throw new Error('Disk is full. Please free up space and try again.');
+    } else if (err.code === 'EROFS') {
+      throw new Error('Cannot write to read-only filesystem.');
+    } else {
+      throw new Error(`Failed to create directory: ${err.message}`);
+    }
+  }
+}
+
+/**
+ * Safely read file
+ */
+function safeReadFile(filePath) {
+  try {
+    return fs.readFileSync(filePath, 'utf8');
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(`File not found: ${filePath}`);
+    } else if (err.code === 'EACCES') {
+      throw new Error(`Permission denied: Cannot read ${filePath}`);
+    } else {
+      throw new Error(`Failed to read file: ${err.message}`);
+    }
+  }
+}
+
+/**
+ * Safely write file
+ */
+function safeWriteFile(filePath, content) {
+  try {
+    fs.writeFileSync(filePath, content);
+  } catch (err) {
+    if (err.code === 'EACCES') {
+      throw new Error(`Permission denied: Cannot write to ${filePath}`);
+    } else if (err.code === 'ENOSPC') {
+      throw new Error('Disk is full. Please free up space and try again.');
+    } else if (err.code === 'EROFS') {
+      throw new Error('Cannot write to read-only filesystem.');
+    } else {
+      throw new Error(`Failed to write file: ${err.message}`);
+    }
+  }
+}
+
+/**
+ * Safely copy file
+ */
+function safeCopyFile(src, dest) {
+  try {
+    fs.copyFileSync(src, dest);
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(`Source file not found: ${src}`);
+    } else if (err.code === 'EACCES') {
+      throw new Error(`Permission denied: Cannot copy to ${dest}`);
+    } else if (err.code === 'ENOSPC') {
+      throw new Error('Disk is full. Please free up space and try again.');
+    } else {
+      throw new Error(`Failed to copy file: ${err.message}`);
+    }
+  }
+}
+
+/**
+ * Safely read directory
+ */
+function safeReadDir(dirPath) {
+  try {
+    return fs.readdirSync(dirPath, { withFileTypes: true });
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      throw new Error(`Directory not found: ${dirPath}`);
+    } else if (err.code === 'EACCES') {
+      throw new Error(`Permission denied: Cannot read directory ${dirPath}`);
+    } else {
+      throw new Error(`Failed to read directory: ${err.message}`);
+    }
+  }
+}
+
+/**
+ * Recursively copy directory with path replacement in .md files
  */
 function copyWithPathReplacement(srcDir, destDir, pathPrefix) {
-  fs.mkdirSync(destDir, { recursive: true });
-
-  const entries = fs.readdirSync(srcDir, { withFileTypes: true });
+  safeCreateDir(destDir);
+  const entries = safeReadDir(srcDir);
 
   for (const entry of entries) {
     const srcPath = path.join(srcDir, entry.name);
@@ -113,12 +230,11 @@ function copyWithPathReplacement(srcDir, destDir, pathPrefix) {
     if (entry.isDirectory()) {
       copyWithPathReplacement(srcPath, destPath, pathPrefix);
     } else if (entry.name.endsWith('.md')) {
-      // Replace ~/.claude/ with the appropriate prefix in markdown files
-      let content = fs.readFileSync(srcPath, 'utf8');
+      let content = safeReadFile(srcPath);
       content = content.replace(/~\/\.claude\//g, pathPrefix);
-      fs.writeFileSync(destPath, content);
+      safeWriteFile(destPath, content);
     } else {
-      fs.copyFileSync(srcPath, destPath);
+      safeCopyFile(srcPath, destPath);
     }
   }
 }
@@ -128,44 +244,65 @@ function copyWithPathReplacement(srcDir, destDir, pathPrefix) {
  */
 function install(isGlobal) {
   const src = path.join(__dirname, '..');
-  // Priority: explicit --config-dir arg > CLAUDE_CONFIG_DIR env var > default ~/.claude
+
+  // Validate source directory exists
+  if (!fs.existsSync(src)) {
+    exitWithError('Installation source not found.', 'Package may be corrupted. Try reinstalling.');
+  }
+
   const configDir = expandTilde(explicitConfigDir) || expandTilde(process.env.CLAUDE_CONFIG_DIR);
   const defaultGlobalDir = configDir || path.join(os.homedir(), '.claude');
-  const claudeDir = isGlobal
-    ? defaultGlobalDir
-    : path.join(process.cwd(), '.claude');
+  const claudeDir = isGlobal ? defaultGlobalDir : path.join(process.cwd(), '.claude');
+
+  // Validate destination path
+  const validation = validatePath(claudeDir);
+  if (!validation.valid) {
+    exitWithError(`Invalid installation path: ${claudeDir}`, validation.reason);
+  }
 
   const locationLabel = isGlobal
     ? claudeDir.replace(os.homedir(), '~')
     : claudeDir.replace(process.cwd(), '.');
 
-  // Path prefix for file references
-  // Use actual path when CLAUDE_CONFIG_DIR is set, otherwise use ~ shorthand
   const pathPrefix = isGlobal
     ? (configDir ? `${claudeDir}/` : '~/.claude/')
     : './.claude/';
 
   console.log(`  Installing to ${cyan}${locationLabel}${reset}\n`);
 
-  // Create commands directory
-  const commandsDir = path.join(claudeDir, 'commands');
-  fs.mkdirSync(commandsDir, { recursive: true });
+  try {
+    // Create commands directory
+    const commandsDir = path.join(claudeDir, 'commands');
+    safeCreateDir(commandsDir);
 
-  // Copy commands/gywd with path replacement
-  const gywdSrc = path.join(src, 'commands', 'gywd');
-  const gywdDest = path.join(commandsDir, 'gywd');
-  copyWithPathReplacement(gywdSrc, gywdDest, pathPrefix);
-  console.log(`  ${green}✓${reset} Installed commands/gywd`);
+    // Copy commands/gywd
+    const gywdSrc = path.join(src, 'commands', 'gywd');
+    const gywdDest = path.join(commandsDir, 'gywd');
 
-  // Copy get-your-work-done skill with path replacement
-  const skillSrc = path.join(src, 'get-your-work-done');
-  const skillDest = path.join(claudeDir, 'get-your-work-done');
-  copyWithPathReplacement(skillSrc, skillDest, pathPrefix);
-  console.log(`  ${green}✓${reset} Installed get-your-work-done`);
+    if (!fs.existsSync(gywdSrc)) {
+      exitWithError('Commands source not found.', `Expected at: ${gywdSrc}`);
+    }
 
-  console.log(`
+    copyWithPathReplacement(gywdSrc, gywdDest, pathPrefix);
+    console.log(`  ${green}✓${reset} Installed commands/gywd`);
+
+    // Copy get-your-work-done
+    const skillSrc = path.join(src, 'get-your-work-done');
+    const skillDest = path.join(claudeDir, 'get-your-work-done');
+
+    if (!fs.existsSync(skillSrc)) {
+      exitWithError('Skills source not found.', `Expected at: ${skillSrc}`);
+    }
+
+    copyWithPathReplacement(skillSrc, skillDest, pathPrefix);
+    console.log(`  ${green}✓${reset} Installed get-your-work-done`);
+
+    console.log(`
   ${green}Done!${reset} Run ${cyan}/gywd:help${reset} to get started.
 `);
+  } catch (err) {
+    exitWithError('Installation failed.', err.message);
+  }
 }
 
 /**
