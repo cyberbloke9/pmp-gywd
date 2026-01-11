@@ -1,6 +1,6 @@
 {
   "name": "pmp-gywd",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "PMP (GYWD - Get Your Work Done) - Decision-aware, context-engineered development system for Claude Code. Understands WHY code exists, not just WHAT it does.",
   "bin": {
     "pmp-gywd": "bin/install.js"

@@ -6,8 +6,8 @@
 
 *Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
 
-[![Version](https://img.shields.io/badge/version-3.0.0--dev-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
-[![Tests](https://img.shields.io/badge/tests-349%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Tests](https://img.shields.io/badge/tests-390%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -32,7 +32,7 @@ v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engine
 | **Profile Engine** | Developer Digital Twin - learns your patterns | Complete |
 | **Questioning Engine** | Adaptive questions that skip what's already known | Complete |
 | **Context Predictor** | Pre-loads relevant context before you ask | Complete |
-| **Industry Module** | Healthcare, Fintech, Gaming, E-commerce templates | Planned |
+| **Industry Module** | Healthcare, Fintech, Gaming, E-commerce templates | Deferred to v3.1 |
 | **Automation Framework** | Dependency analysis, test generation, doc generation | Complete |
 
 ### The Sophisticated Brain
@@ -528,6 +528,16 @@ const {
   RELATIONSHIP_TYPES,   // imports, same_dir, tested_by, etc.
   CONFIDENCE            // HIGH, MEDIUM, LOW
 } = require('pmp-gywd/lib/context');
+
+// Automation Framework
+const {
+  DependencyAnalyzer,   // Dependency graph analysis
+  TestGenerator,        // Auto-generate test stubs
+  DocGenerator,         // Generate docs from JSDoc
+  DEP_TYPES,            // internal, external, builtin
+  TEST_FRAMEWORKS,      // jest, mocha, node:test
+  DOC_TYPES             // class, function, module
+} = require('pmp-gywd/lib/automation');
 ```
 
 ### Zero Runtime Dependencies
@@ -589,11 +599,13 @@ All modules are written in pure Node.js with no external dependencies. This ensu
 v3.0 includes comprehensive CI/CD:
 
 - **12 test matrix combinations** (3 OS x 4 Node versions)
-- **253 automated tests** with Jest (10 test suites)
+- **390 automated tests** with Jest (16 test suites)
 - **ESLint** with zero external plugins
 - **Schema validation** for all JSON files
-- **Command validation** for all 40 commands
+- **Command validation** for all 41 commands
 - **Security scanning** with npm audit
+- **Integration tests** for brain component interactions
+- **E2E tests** for full workflow validation
 
 ```bash
 npm run precommit    # Run all checks locally
