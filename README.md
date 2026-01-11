@@ -100,34 +100,175 @@ GYWD builds a **decision graph** of your codebase and uses integrated systems:
 
 ---
 
-## Quick Start
+## Getting Started
 
-### Installation
+### Step 1: Install GYWD
 
 ```bash
 npx pmp-gywd
 ```
 
-Select global (available everywhere) or local (current project only).
+Select **global** (available everywhere) or **local** (current project only).
 
-### Verify Installation
+### Step 2: Verify Installation
 
+Open Claude Code and run:
 ```
 /gywd:help
 ```
 
-### Bootstrap Any Codebase
+### Step 3: Choose Your Path
 
+---
+
+## Starting Fresh: New Idea, New Project
+
+**You have an idea and want to build it from scratch.**
+
+### What to Run
+
+```bash
+/gywd:new-project
 ```
+
+### What Happens
+
+GYWD conducts a guided interview to understand your vision:
+
+1. **Discovery Phase** - GYWD asks about:
+   - What problem you're solving
+   - Who the users are
+   - Core features needed
+   - Technical preferences (language, framework, testing)
+   - Quality standards and constraints
+
+2. **Profile Creation** - Based on your answers, GYWD:
+   - Creates `PROJECT.md` with your vision documented
+   - Builds your developer profile (learns your patterns)
+   - Records your preferences for future sessions
+
+3. **Roadmap Generation** - Run `/gywd:create-roadmap` to:
+   - Break your idea into manageable phases
+   - Define clear milestones
+   - Create `ROADMAP.md` with the full plan
+
+4. **Start Building** - Run `/gywd:plan-phase 1` then `/gywd:execute-plan`:
+   - Get detailed task breakdown for Phase 1
+   - Execute with decision tracking
+   - Every choice is recorded for future reference
+
+### How It Helps You
+
+| Challenge | How GYWD Solves It |
+|-----------|-------------------|
+| "Where do I start?" | Guided interview breaks your idea into phases |
+| "I keep forgetting context" | All decisions stored in `.planning/` directory |
+| "Code gets messy over time" | Decision graph maintains architectural coherence |
+| "AI suggestions conflict" | GYWD checks new code against existing decisions |
+| "I waste time re-explaining" | Your profile persists across sessions |
+
+### Example Flow
+
+```bash
+# Day 1: Define your idea
+/gywd:new-project          # Answer questions about your vision
+/gywd:create-roadmap       # Generate phase breakdown
+
+# Day 2: Start building
+/gywd:plan-phase 1         # Plan first phase in detail
+/gywd:execute-plan         # Build it with AI assistance
+
+# Day 3+: Continue work
+/gywd:progress             # See where you left off
+/gywd:resume-work          # Restore full context
+```
+
+---
+
+## Existing Codebase: Join or Enhance a Project
+
+**You have an existing codebase and want GYWD to understand it.**
+
+### What to Run
+
+```bash
 /gywd:bootstrap
 ```
 
-One command initializes the complete system:
-- Maps codebase structure
-- Extracts decision graph from history
-- Builds context prediction model
-- Creates developer profile
-- Initializes learning system
+### What Happens
+
+GYWD analyzes your codebase and builds intelligence:
+
+1. **Codebase Mapping** - GYWD scans and documents:
+   - Technology stack (`STACK.md`)
+   - Architecture patterns (`ARCHITECTURE.md`)
+   - Project structure (`STRUCTURE.md`)
+   - Coding conventions (`CONVENTIONS.md`)
+   - Testing approach (`TESTING.md`)
+   - External integrations (`INTEGRATIONS.md`)
+   - Technical debt (`CONCERNS.md`)
+
+2. **Decision Extraction** - From git history, GYWD:
+   - Extracts WHY code exists (not just what)
+   - Links decisions to specific files
+   - Builds searchable decision graph (`decisions.json`)
+
+3. **Context Model** - GYWD learns:
+   - Which files relate to which features
+   - Common patterns in your codebase
+   - Predictive context loading
+
+4. **Developer Profile** - As you work, GYWD learns:
+   - Your coding style preferences
+   - Your expertise areas
+   - Your communication preferences
+
+### How It Helps You
+
+| Challenge | How GYWD Solves It |
+|-----------|-------------------|
+| "Why was this built this way?" | `/gywd:why <file>` traces to original decisions |
+| "I'm new to this codebase" | Codebase docs explain everything |
+| "Will this change break things?" | Decision graph shows dependencies |
+| "What context do I need?" | `/gywd:anticipate` pre-loads relevant files |
+| "Is my approach consistent?" | `/gywd:challenge` reviews against patterns |
+
+### Example Flow
+
+```bash
+# First time: Understand the codebase
+/gywd:bootstrap            # One command does everything
+
+# Or step by step:
+/gywd:map-codebase         # Analyze structure
+/gywd:extract-decisions    # Build decision graph
+
+# Daily work: Add new features
+/gywd:new-project          # Define what you're adding
+/gywd:create-roadmap       # Plan within existing architecture
+/gywd:plan-phase 1         # Detailed task plan
+/gywd:execute-plan         # Build with context awareness
+
+# Understand existing code
+/gywd:why src/auth/login.ts    # Why does this file exist?
+/gywd:history "authentication" # How has auth evolved?
+```
+
+---
+
+## Quick Reference: Which Command When?
+
+| Situation | Command |
+|-----------|---------|
+| Brand new idea, starting fresh | `/gywd:new-project` |
+| Existing codebase, first time using GYWD | `/gywd:bootstrap` |
+| Starting work for the day | `/gywd:progress` |
+| Returning after a break | `/gywd:resume-work` |
+| Need to understand why code exists | `/gywd:why <file>` |
+| Planning next feature | `/gywd:plan-phase` |
+| Ready to build | `/gywd:execute-plan` |
+| Want AI to review my plan | `/gywd:challenge` |
+| Saving state before stopping | `/gywd:pause-work` |
 
 ---
 
