@@ -6,7 +6,8 @@
 
 *Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Version](https://img.shields.io/badge/version-3.0.0--dev-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Tests](https://img.shields.io/badge/tests-148%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -21,7 +22,58 @@ npx pmp-gywd
 
 ---
 
-## What is GYWD v2.0?
+## What's New in v3.0?
+
+v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engines that learn and adapt to your development patterns.
+
+| Engine | Purpose | Status |
+|--------|---------|--------|
+| **Validation Framework** | Schema & command validation with zero dependencies | Complete |
+| **Profile Engine** | Developer Digital Twin - learns your patterns | Complete |
+| **Questioning Engine** | Adaptive questions that skip what's already known | Complete |
+| **Context Predictor** | Pre-loads relevant context before you ask | In Progress |
+| **Industry Module** | Healthcare, Fintech, Gaming, E-commerce templates | Planned |
+| **Automation Framework** | Dependency analysis, test generation | Planned |
+
+### The Sophisticated Brain
+
+```
+                    ┌─────────────────────────────────────┐
+                    │         GYWD v3.0 Brain             │
+                    ├─────────────────────────────────────┤
+                    │                                     │
+  Questions ───────►│  ┌─────────────┐  ┌─────────────┐  │
+                    │  │  Profile    │  │ Questioning │  │
+                    │  │  Engine     │◄─┤   Engine    │  │
+                    │  │             │  │             │  │
+                    │  └──────┬──────┘  └──────┬──────┘  │
+                    │         │                │         │
+                    │         ▼                ▼         │
+                    │  ┌────────────────────────────┐    │
+                    │  │     Knowledge Base          │    │
+  Learning ────────►│  │  (Patterns, Preferences,   │    │────► Decisions
+                    │  │   Expertise, Context)      │    │
+                    │  └────────────────────────────┘    │
+                    │                                     │
+                    └─────────────────────────────────────┘
+```
+
+**Profile Engine** learns:
+- Cognitive fingerprint (problem approach, debugging style)
+- Communication preferences (verbosity, formality)
+- Tool preferences (languages, frameworks, patterns)
+- Domain expertise areas
+- Quality standards (testing, documentation)
+
+**Questioning Engine** provides:
+- Context-aware questions that adapt to expertise
+- Skip questions when knowledge already exists
+- Priority-based questioning (critical first)
+- Follow-up generation based on answers
+
+---
+
+## What is GYWD?
 
 GYWD is a **unified intelligence system** that transforms AI-assisted development from "plausible text generation" to "decision-coherent engineering."
 
@@ -33,9 +85,9 @@ AI generates syntactically correct code that lacks **decision coherence**:
 - No understanding of WHY code exists
 - Quality degrades as projects grow
 
-### The v2.0 Solution
+### The Solution
 
-GYWD builds a **decision graph** of your codebase and uses four integrated systems:
+GYWD builds a **decision graph** of your codebase and uses integrated systems:
 
 | System | What It Does |
 |--------|--------------|
@@ -43,6 +95,8 @@ GYWD builds a **decision graph** of your codebase and uses four integrated syste
 | **Context Intelligence** | Predicts what context you need before you ask |
 | **Agent Orchestrator** | Coordinates specialized agents including adversarial reviewers |
 | **Continuous Learning** | Improves with every interaction |
+| **Profile Engine** | Learns your patterns and preferences (v3.0) |
+| **Questioning Engine** | Asks smart questions, skips redundant ones (v3.0) |
 
 ---
 
@@ -62,13 +116,13 @@ Select global (available everywhere) or local (current project only).
 /gywd:help
 ```
 
-### Bootstrap Any Codebase (v2.0)
+### Bootstrap Any Codebase
 
 ```
 /gywd:bootstrap
 ```
 
-One command initializes the complete v2.0 system:
+One command initializes the complete system:
 - Maps codebase structure
 - Extracts decision graph from history
 - Builds context prediction model
@@ -141,7 +195,7 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 ### Existing Codebase (Brownfield)
 
 ```bash
-/gywd:bootstrap            # Initialize v2.0 (recommended)
+/gywd:bootstrap            # Initialize v3.0 (recommended)
 # OR
 /gywd:map-codebase         # Analyze structure only
 /gywd:extract-decisions    # Build decision graph only
@@ -162,11 +216,11 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ## Command Reference (41 Commands)
 
-### v2.0 Intelligence
+### Intelligence
 
 | Command | Purpose |
 |---------|---------|
-| `/gywd:bootstrap` | Initialize complete v2.0 system on any codebase |
+| `/gywd:bootstrap` | Initialize complete system on any codebase |
 | `/gywd:why <target>` | Trace code to its originating decisions |
 | `/gywd:extract-decisions` | Build decision graph from git history |
 | `/gywd:history <query>` | Query temporal codebase evolution |
@@ -264,7 +318,7 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 ├── ISSUES.md               # Deferred items
 ├── config.json             # Workflow settings
 │
-├── core/                   # v2.0 Intelligence (auto-generated)
+├── core/                   # Intelligence (auto-generated)
 │   ├── decisions.json      # Decision graph
 │   ├── context-model.json  # Context predictions
 │   └── learning-state.json # Learning system state
@@ -292,11 +346,36 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
-## v2.0 Architecture
+## Library Modules (v3.0)
+
+GYWD v3.0 includes importable JavaScript modules:
+
+```javascript
+// Validation
+const { validateJsonSyntax, validateCommandFile } = require('pmp-gywd/lib/validators');
+
+// Profile Engine
+const { ProfileManager, PatternLearner } = require('pmp-gywd/lib/profile');
+
+// Questioning Engine
+const { QuestionEngine, createQuestion, PRIORITY } = require('pmp-gywd/lib/questioning');
+```
+
+### Zero Runtime Dependencies
+
+All modules are written in pure Node.js with no external dependencies. This ensures:
+- Fast installation
+- No supply chain vulnerabilities
+- Works offline
+- Predictable behavior
+
+---
+
+## v3.0 Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        GYWD v2.0 Core                           │
+│                        GYWD v3.0 Core                           │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
@@ -307,9 +386,18 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 │         │                │                │                     │
 │         └────────┬───────┴────────┬───────┘                     │
 │                  │                │                             │
-│         ┌────────▼────────────────▼────────┐                   │
-│         │     Continuous Learning System    │                   │
-│         └───────────────────────────────────┘                   │
+│  ┌───────────────┼────────────────┼───────────────┐            │
+│  │               ▼                ▼               │            │
+│  │  ┌─────────────────┐  ┌─────────────────┐     │            │
+│  │  │ Profile Engine  │  │Questioning Engine│     │  v3.0     │
+│  │  │ (Digital Twin)  │  │ (Adaptive Q&A)  │     │  Brain    │
+│  │  └────────┬────────┘  └────────┬────────┘     │            │
+│  │           └────────────────────┘              │            │
+│  │                     │                          │            │
+│  │         ┌───────────▼───────────┐             │            │
+│  │         │   Continuous Learning │             │            │
+│  │         └───────────────────────┘             │            │
+│  └────────────────────────────────────────────────┘            │
 │                          │                                      │
 ├──────────────────────────┼──────────────────────────────────────┤
 │                          ▼                                      │
@@ -322,14 +410,35 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
+## CI/CD Pipeline
+
+v3.0 includes comprehensive CI/CD:
+
+- **12 test matrix combinations** (3 OS x 4 Node versions)
+- **148 automated tests** with Jest
+- **ESLint** with zero external plugins
+- **Schema validation** for all JSON files
+- **Command validation** for all 40 commands
+- **Security scanning** with npm audit
+
+```bash
+npm run precommit    # Run all checks locally
+npm test             # Run tests
+npm run lint         # Run linter
+npm run validate:all # Validate schemas and commands
+```
+
+---
+
 ## Philosophy
 
 > "Code is crystallized decisions. Every function, every pattern exists because someone made a decision with context we've often lost. GYWD makes those decisions explicit and queryable."
 
 **v1.x** was feature accumulation.
-**v2.0** is unified intelligence.
+**v2.0** was unified intelligence.
+**v3.0** is the sophisticated brain - learning, adapting, predicting.
 
-The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase.
+The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase and understands YOU as a developer.
 
 ---
 
