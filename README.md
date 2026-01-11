@@ -7,7 +7,7 @@
 *Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
 
 [![Version](https://img.shields.io/badge/version-3.0.0--dev-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
-[![Tests](https://img.shields.io/badge/tests-148%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
+[![Tests](https://img.shields.io/badge/tests-253%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -31,31 +31,36 @@ v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engine
 | **Validation Framework** | Schema & command validation with zero dependencies | Complete |
 | **Profile Engine** | Developer Digital Twin - learns your patterns | Complete |
 | **Questioning Engine** | Adaptive questions that skip what's already known | Complete |
-| **Context Predictor** | Pre-loads relevant context before you ask | In Progress |
+| **Context Predictor** | Pre-loads relevant context before you ask | Complete |
 | **Industry Module** | Healthcare, Fintech, Gaming, E-commerce templates | Planned |
 | **Automation Framework** | Dependency analysis, test generation | Planned |
 
 ### The Sophisticated Brain
 
 ```
-                    ┌─────────────────────────────────────┐
-                    │         GYWD v3.0 Brain             │
-                    ├─────────────────────────────────────┤
-                    │                                     │
-  Questions ───────►│  ┌─────────────┐  ┌─────────────┐  │
-                    │  │  Profile    │  │ Questioning │  │
-                    │  │  Engine     │◄─┤   Engine    │  │
-                    │  │             │  │             │  │
-                    │  └──────┬──────┘  └──────┬──────┘  │
-                    │         │                │         │
-                    │         ▼                ▼         │
-                    │  ┌────────────────────────────┐    │
-                    │  │     Knowledge Base          │    │
-  Learning ────────►│  │  (Patterns, Preferences,   │    │────► Decisions
-                    │  │   Expertise, Context)      │    │
-                    │  └────────────────────────────┘    │
-                    │                                     │
-                    └─────────────────────────────────────┘
+                    ┌───────────────────────────────────────────────┐
+                    │              GYWD v3.0 Brain                   │
+                    ├───────────────────────────────────────────────┤
+                    │                                               │
+  Questions ───────►│  ┌─────────────┐  ┌─────────────┐            │
+                    │  │  Profile    │  │ Questioning │            │
+                    │  │  Engine     │◄─┤   Engine    │            │
+                    │  └──────┬──────┘  └──────┬──────┘            │
+                    │         │                │                    │
+                    │         ▼                ▼                    │
+                    │  ┌────────────────────────────────────┐      │
+                    │  │         Context Predictor          │      │
+  Workflow ────────►│  │  ┌──────────┐ ┌──────────────────┐│      │────► Predictions
+                    │  │  │ Analyzer │ │  Access Pattern  ││      │
+                    │  │  │  (Graph) │ │  (Co-occurrence) ││      │
+                    │  │  └──────────┘ └──────────────────┘│      │
+                    │  └──────────────────┬─────────────────┘      │
+                    │                     │                        │
+                    │         ┌───────────▼───────────┐            │
+  Learning ────────►│         │    LRU Context Cache  │            │────► Decisions
+                    │         └───────────────────────┘            │
+                    │                                               │
+                    └───────────────────────────────────────────────┘
 ```
 
 **Profile Engine** learns:
@@ -70,6 +75,13 @@ v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engine
 - Skip questions when knowledge already exists
 - Priority-based questioning (critical first)
 - Follow-up generation based on answers
+
+**Context Predictor** provides:
+- Relationship graph (imports, same-dir, tests, co-access)
+- Access pattern tracking with co-occurrence learning
+- Task/file/feature-based context predictions
+- LRU cache with TTL for efficient memory usage
+- Session pattern analysis for predictive loading
 
 ---
 
@@ -500,6 +512,17 @@ const { ProfileManager, PatternLearner } = require('pmp-gywd/lib/profile');
 
 // Questioning Engine
 const { QuestionEngine, createQuestion, PRIORITY } = require('pmp-gywd/lib/questioning');
+
+// Context Predictor
+const {
+  ContextAnalyzer,      // File relationship graph
+  ContextPredictor,     // Prediction engine
+  AccessPattern,        // Co-occurrence tracking
+  LRUCache,             // Cache with TTL
+  ContextCache,         // Multi-layer caching
+  RELATIONSHIP_TYPES,   // imports, same_dir, tested_by, etc.
+  CONFIDENCE            // HIGH, MEDIUM, LOW
+} = require('pmp-gywd/lib/context');
 ```
 
 ### Zero Runtime Dependencies
@@ -533,9 +556,14 @@ All modules are written in pure Node.js with no external dependencies. This ensu
 │  │  │ Profile Engine  │  │Questioning Engine│     │  v3.0     │
 │  │  │ (Digital Twin)  │  │ (Adaptive Q&A)  │     │  Brain    │
 │  │  └────────┬────────┘  └────────┬────────┘     │            │
-│  │           └────────────────────┘              │            │
-│  │                     │                          │            │
-│  │         ┌───────────▼───────────┐             │            │
+│  │           └──────────┬─────────┘              │            │
+│  │                      ▼                        │            │
+│  │        ┌─────────────────────────┐            │            │
+│  │        │   Context Predictor     │            │            │
+│  │        │  (Relationships, Cache) │            │            │
+│  │        └────────────┬────────────┘            │            │
+│  │                     ▼                         │            │
+│  │         ┌───────────────────────┐             │            │
 │  │         │   Continuous Learning │             │            │
 │  │         └───────────────────────┘             │            │
 │  └────────────────────────────────────────────────┘            │
@@ -556,7 +584,7 @@ All modules are written in pure Node.js with no external dependencies. This ensu
 v3.0 includes comprehensive CI/CD:
 
 - **12 test matrix combinations** (3 OS x 4 Node versions)
-- **148 automated tests** with Jest
+- **253 automated tests** with Jest (10 test suites)
 - **ESLint** with zero external plugins
 - **Schema validation** for all JSON files
 - **Command validation** for all 40 commands
