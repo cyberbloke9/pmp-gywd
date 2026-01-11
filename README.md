@@ -7,7 +7,7 @@
 *Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
 
 [![Version](https://img.shields.io/badge/version-3.0.0--dev-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
-[![Tests](https://img.shields.io/badge/tests-253%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
+[![Tests](https://img.shields.io/badge/tests-349%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -33,7 +33,7 @@ v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engine
 | **Questioning Engine** | Adaptive questions that skip what's already known | Complete |
 | **Context Predictor** | Pre-loads relevant context before you ask | Complete |
 | **Industry Module** | Healthcare, Fintech, Gaming, E-commerce templates | Planned |
-| **Automation Framework** | Dependency analysis, test generation | Planned |
+| **Automation Framework** | Dependency analysis, test generation, doc generation | Complete |
 
 ### The Sophisticated Brain
 
@@ -82,6 +82,11 @@ v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engine
 - Task/file/feature-based context predictions
 - LRU cache with TTL for efficient memory usage
 - Session pattern analysis for predictive loading
+
+**Automation Framework** provides:
+- **DependencyAnalyzer**: Circular dependency detection, coupling metrics (afferent/efferent), topological ordering, DOT graph generation
+- **TestGenerator**: Auto-generates Jest/Mocha/Node test stubs from source code, extracts exports/functions/classes
+- **DocGenerator**: Markdown documentation from JSDoc comments, API index generation
 
 ---
 
