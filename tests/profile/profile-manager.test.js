@@ -218,4 +218,138 @@ describe('ProfileManager', () => {
       expect(merged.tooling).toBeDefined();
     });
   });
+
+  describe('global memory sync', () => {
+    let globalManager;
+    let globalTestDir;
+
+    beforeEach(() => {
+      globalTestDir = path.join(tempDir, 'global-test');
+      fs.mkdirSync(globalTestDir, { recursive: true });
+      globalManager = new ProfileManager(globalTestDir, { enableGlobalSync: true });
+
+      // Mock the global memory to use test directory
+      if (globalManager.globalMemory) {
+        const mockDir = path.join(tempDir, 'mock-global');
+        fs.mkdirSync(mockDir, { recursive: true });
+        globalManager.globalMemory._ensureDirectories = () => {
+          if (!fs.existsSync(mockDir)) {
+            fs.mkdirSync(mockDir, { recursive: true });
+          }
+        };
+        globalManager.globalMemory._loadFile = (filePath, defaultValue) => {
+          const testPath = path.join(mockDir, path.basename(filePath));
+          try {
+            if (fs.existsSync(testPath)) {
+              return JSON.parse(fs.readFileSync(testPath, 'utf8'));
+            }
+          } catch (err) {
+            // Return default
+          }
+          return defaultValue;
+        };
+        globalManager.globalMemory._saveFile = (filePath, data) => {
+          const testPath = path.join(mockDir, path.basename(filePath));
+          fs.writeFileSync(testPath, JSON.stringify(data, null, 2), 'utf8');
+        };
+      }
+    });
+
+    test('constructor enables global sync with options', () => {
+      expect(globalManager.enableGlobalSync).toBe(true);
+      expect(globalManager.globalMemory).not.toBeNull();
+    });
+
+    test('constructor without global sync option', () => {
+      const localManager = new ProfileManager(tempDir);
+      expect(localManager.enableGlobalSync).toBe(false);
+      expect(localManager.globalMemory).toBeNull();
+    });
+
+    test('enableGlobal enables sync after construction', () => {
+      const localManager = new ProfileManager(tempDir);
+      expect(localManager.enableGlobalSync).toBe(false);
+
+      localManager.enableGlobal(true);
+      expect(localManager.enableGlobalSync).toBe(true);
+      expect(localManager.autoSync).toBe(true);
+      expect(localManager.globalMemory).not.toBeNull();
+    });
+
+    test('disableGlobal disables sync', () => {
+      globalManager.disableGlobal();
+      expect(globalManager.enableGlobalSync).toBe(false);
+      expect(globalManager.autoSync).toBe(false);
+    });
+
+    test('syncToGlobal pushes patterns to global memory', () => {
+      globalManager.init();
+      globalManager.addLanguage('javascript');
+      globalManager.addExpertise('backend');
+      globalManager.recordPattern({
+        type: 'naming',
+        description: 'camelCase',
+      });
+
+      globalManager.syncToGlobal();
+
+      const stats = globalManager.getGlobalStats();
+      expect(stats.totalPatterns).toBeGreaterThan(0);
+      expect(stats.expertiseAreas).toBeGreaterThan(0);
+    });
+
+    test('syncFromGlobal pulls hints from global memory', () => {
+      // First, populate global memory
+      globalManager.init();
+      globalManager.globalMemory.init();
+      globalManager.globalMemory.recordPattern({
+        type: 'async',
+        pattern: 'async_await',
+        confidence: 0.9,
+      });
+      globalManager.globalMemory.addExpertise('frontend', 0.8);
+
+      // Now sync from global
+      const enhanced = globalManager.syncFromGlobal();
+
+      expect(enhanced.globalPatterns).toBeDefined();
+      expect(enhanced.globalExpertise).toBeDefined();
+    });
+
+    test('getGlobalMemory returns instance', () => {
+      const memory = globalManager.getGlobalMemory();
+      expect(memory).not.toBeNull();
+    });
+
+    test('getGlobalMemory returns null when disabled', () => {
+      const localManager = new ProfileManager(tempDir);
+      expect(localManager.getGlobalMemory()).toBeNull();
+    });
+
+    test('getGlobalStats returns stats when enabled', () => {
+      globalManager.init();
+      const stats = globalManager.getGlobalStats();
+      expect(stats).not.toBeNull();
+      expect(stats.totalPatterns).toBeDefined();
+    });
+
+    test('getGlobalStats returns null when disabled', () => {
+      const localManager = new ProfileManager(tempDir);
+      expect(localManager.getGlobalStats()).toBeNull();
+    });
+
+    test('syncToGlobal does nothing when disabled', () => {
+      const localManager = new ProfileManager(tempDir);
+      localManager.init();
+      // Should not throw
+      localManager.syncToGlobal();
+    });
+
+    test('syncFromGlobal returns profile when disabled', () => {
+      const localManager = new ProfileManager(tempDir);
+      localManager.init();
+      const result = localManager.syncFromGlobal();
+      expect(result).toBe(localManager.profile);
+    });
+  });
 });
