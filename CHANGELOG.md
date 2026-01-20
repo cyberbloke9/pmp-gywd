@@ -5,6 +5,60 @@ All notable changes to PMP-GYWD will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2025-01-20
+
+### Added
+
+#### Enhanced Learning System - Memory Module (`lib/memory/`)
+- **GlobalMemory** - Cross-project pattern persistence
+  - Stores patterns, expertise, preferences across all projects
+  - Persistent storage in `~/.gywd/global/`
+  - Pattern recording with confidence scoring
+  - Expertise tracking by domain
+  - Project registration and metadata
+
+- **PatternAggregator** - Cross-project pattern analysis
+  - Consensus detection across multiple projects
+  - Outlier identification and reporting
+  - Configurable confidence thresholds
+  - Bayesian confidence boosting
+  - Pattern recommendations by type
+
+- **FeedbackCollector** - Suggestion outcome tracking
+  - Records suggestion acceptance/rejection
+  - Category and type-based statistics
+  - Acceptance rate calculation
+  - Suppression detection for poor suggestions
+  - Performance trend analysis
+
+- **ConfidenceCalibrator** - Bayesian confidence scoring
+  - Beta-Binomial Bayesian updating
+  - Posterior mean and variance calculation
+  - Credible interval estimation
+  - Brier score for prediction accuracy
+  - Calibration analysis with bins
+
+- **TeamSync** - Team pattern sharing
+  - Export patterns for team sharing
+  - Import with conflict resolution strategies
+  - Multiple resolution strategies: majority, highest_confidence, newest, merge_all
+  - Team export merging
+  - Validation utilities
+
+#### Integration Tests
+- Full memory module integration test suite
+  - GlobalMemory + PatternAggregator interaction
+  - FeedbackCollector + ConfidenceCalibrator pipeline
+  - GlobalMemory + TeamSync export/import
+  - Full learning pipeline tests
+  - Cross-module data flow verification
+
+### Changed
+- Test count increased to 557 tests (from 390 in v3.0)
+- Enhanced modular architecture with memory persistence
+
+---
+
 ## [3.0.0] - 2025-01-11
 
 ### Added
@@ -151,6 +205,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[3.2.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.0.0...v3.2.0
 [3.0.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v1.4.0...v2.0.0
 [1.4.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v1.3.0...v1.4.0

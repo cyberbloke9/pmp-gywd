@@ -6,8 +6,8 @@
 
 *Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
 
-[![Version](https://img.shields.io/badge/version-3.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
-[![Tests](https://img.shields.io/badge/tests-390%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
+[![Version](https://img.shields.io/badge/version-3.2.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Tests](https://img.shields.io/badge/tests-557%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -22,9 +22,19 @@ npx pmp-gywd
 
 ---
 
-## What's New in v3.0?
+## What's New in v3.2?
 
-v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engines that learn and adapt to your development patterns.
+v3.2 introduces the **Enhanced Learning System** - a sophisticated memory module that enables cross-project learning and team pattern sharing.
+
+| Engine | Purpose | Status |
+|--------|---------|--------|
+| **GlobalMemory** | Cross-project pattern persistence in `~/.gywd/global/` | Complete |
+| **PatternAggregator** | Consensus detection, outlier identification, Bayesian boosting | Complete |
+| **FeedbackCollector** | Suggestion outcome tracking, suppression detection | Complete |
+| **ConfidenceCalibrator** | Beta-Binomial Bayesian updating, credible intervals | Complete |
+| **TeamSync** | Export/import patterns for team sharing with conflict resolution | Complete |
+
+### Previous: v3.0 - Sophisticated Brain
 
 | Engine | Purpose | Status |
 |--------|---------|--------|
@@ -32,7 +42,6 @@ v3.0 introduces the **Sophisticated Brain** - a collection of intelligent engine
 | **Profile Engine** | Developer Digital Twin - learns your patterns | Complete |
 | **Questioning Engine** | Adaptive questions that skip what's already known | Complete |
 | **Context Predictor** | Pre-loads relevant context before you ask | Complete |
-| **Industry Module** | Healthcare, Fintech, Gaming, E-commerce templates | Deferred to v3.1 |
 | **Automation Framework** | Dependency analysis, test generation, doc generation | Complete |
 
 ### The Sophisticated Brain
@@ -504,11 +513,22 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
-## Library Modules (v3.0)
+## Library Modules (v3.2)
 
-GYWD v3.0 includes importable JavaScript modules:
+GYWD v3.2 includes importable JavaScript modules:
 
 ```javascript
+// Memory Module (v3.2) - Cross-project learning
+const {
+  GlobalMemory,         // Cross-project pattern persistence
+  PatternAggregator,    // Consensus detection and recommendations
+  FeedbackCollector,    // Suggestion outcome tracking
+  ConfidenceCalibrator, // Bayesian confidence scoring
+  TeamSync,             // Team pattern sharing
+  CONFLICT_STRATEGIES,  // majority, highest_confidence, newest, merge_all
+  CONSENSUS_THRESHOLDS, // strict, moderate, loose
+} = require('pmp-gywd/lib/memory');
+
 // Validation
 const { validateJsonSyntax, validateCommandFile } = require('pmp-gywd/lib/validators');
 
@@ -599,7 +619,7 @@ All modules are written in pure Node.js with no external dependencies. This ensu
 v3.0 includes comprehensive CI/CD:
 
 - **12 test matrix combinations** (3 OS x 4 Node versions)
-- **390 automated tests** with Jest (16 test suites)
+- **557 automated tests** with Jest (22 test suites)
 - **ESLint** with zero external plugins
 - **Schema validation** for all JSON files
 - **Command validation** for all 41 commands
@@ -623,6 +643,7 @@ npm run validate:all # Validate schemas and commands
 **v1.x** was feature accumulation.
 **v2.0** was unified intelligence.
 **v3.0** is the sophisticated brain - learning, adapting, predicting.
+**v3.2** is enhanced learning - cross-project memory, team sharing, Bayesian confidence.
 
 The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase and understands YOU as a developer.
 
