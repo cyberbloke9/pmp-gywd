@@ -6,7 +6,7 @@
 
 *The context engineering framework for Claude Code — 40 commands · 557 tests · Zero runtime deps*
 
-[![Version](https://img.shields.io/badge/version-3.2.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Version](https://img.shields.io/badge/version-3.3.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
 [![Tests](https://img.shields.io/badge/tests-557%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
@@ -22,9 +22,23 @@ npx pmp-gywd
 
 ---
 
-## What's New in v3.2?
+## What's New in v3.3?
 
-**Enhanced Learning System** — Cross-project memory and team pattern sharing.
+**Polish, Docs & Stability** — Comprehensive documentation and npm publishing.
+
+| Added | Description |
+|-------|-------------|
+| **[Getting Started](docs/GETTING-STARTED.md)** | Step-by-step tutorial for new users |
+| **[Commands Reference](docs/COMMANDS.md)** | All 40 commands documented |
+| **[Examples](docs/EXAMPLES.md)** | Greenfield, brownfield, and daily workflows |
+| **[Contributing](docs/CONTRIBUTING.md)** | Developer guide with error handling patterns |
+| **[Releasing](docs/RELEASING.md)** | Maintainer release guide |
+
+---
+
+### v3.2: Enhanced Learning System
+
+**Cross-project memory and team pattern sharing.**
 
 | Module | What It Does |
 |--------|--------------|
@@ -413,11 +427,11 @@ const { validateJsonSyntax } = require('pmp-gywd/lib/validators');
 
 ---
 
-## Architecture (v3.2)
+## Architecture (v3.3)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    GYWD v3.2 Core                       │
+│                    GYWD v3.3 Core                       │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌───────────┐  ┌───────────┐  ┌───────────┐           │
