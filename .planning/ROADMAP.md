@@ -57,10 +57,10 @@ Plans:
 **Goal**: Step-by-step tutorial for new users from install to first project
 **Depends on**: Phase 10
 **Research**: Unlikely (internal documentation)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 11-01: TBD
+- [x] 11-01: Create comprehensive tutorial with two paths (new/existing)
 
 #### Phase 12: api-documentation
 
@@ -142,7 +142,7 @@ Plans:
 |-------|-----------|-------|--------|-----------|
 | 1-9 | v1.0-v3.2 | - | Complete | 2025-01-20 |
 | 10. readme-overhaul | v3.3 | 5/5 | Complete | 2026-01-24 |
-| 11. getting-started-guide | v3.3 | 0/? | Not started | - |
+| 11. getting-started-guide | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 12. api-documentation | v3.3 | 0/? | Not started | - |
 | 13. example-projects | v3.3 | 0/? | Not started | - |
 | 14. error-handling-audit | v3.3 | 0/? | Not started | - |
