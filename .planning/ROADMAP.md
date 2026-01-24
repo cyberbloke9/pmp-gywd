@@ -107,10 +107,10 @@ Plans:
 **Goal**: Increase test coverage for untested paths and edge cases
 **Depends on**: Phase 15
 **Research**: Unlikely (internal testing)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 16-01: TBD
+- [x] 16-01: Document coverage status and add tracking to CONTRIBUTING.md
 
 #### Phase 17: npm-package-prep
 
@@ -147,7 +147,7 @@ Plans:
 | 13. example-projects | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 14. error-handling-audit | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 15. edge-case-fixes | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 16. test-coverage-boost | v3.3 | 0/? | Not started | - |
+| 16. test-coverage-boost | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 17. npm-package-prep | v3.3 | 0/? | Not started | - |
 | 18. release-automation | v3.3 | 0/? | Not started | - |
 

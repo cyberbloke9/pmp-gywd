@@ -263,6 +263,30 @@ describe('ModuleName', () => {
 - Error conditions (invalid input, missing files)
 - Boundary conditions (min/max values)
 
+### Test Coverage
+
+Current coverage (v3.2):
+
+| Metric | Coverage |
+|--------|----------|
+| Statements | 77.6% |
+| Branches | 64.7% |
+| Functions | 85.4% |
+| Lines | 79.5% |
+
+**Check coverage:**
+```bash
+npm run test:coverage
+```
+
+**Priority areas for improvement:**
+- `lib/memory/` — Branch coverage ~63%
+- `lib/automation/doc-generator.js` — Error paths
+
+**Coverage goals:**
+- Maintain >75% line coverage
+- Improve branch coverage toward 70%
+
 ---
 
 ## Pull Request Guidelines
