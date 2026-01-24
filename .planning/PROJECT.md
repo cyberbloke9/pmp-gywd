@@ -1,116 +1,104 @@
-# PROJECT: PMP-GYWD Improvements
+# PROJECT: PMP-GYWD
 
 ## What This Is
 
-A comprehensive improvement initiative for PMP-GYWD (Get Your Work Done) - a context engineering framework for Claude Code. This project addresses technical debt, adds new features, improves documentation, and establishes a proper test suite.
+A context engineering framework for Claude Code that transforms how developers work with AI. PMP-GYWD provides 40 commands for project lifecycle management — from initialization through planning, execution, verification, and continuous learning. It's the meta-layer that makes Claude Code understand your project deeply.
 
 ## Core Value
 
-Transform PMP-GYWD from a forked project into a polished, production-ready tool with:
-- Robust error handling
-- Consistent naming throughout
-- Automated test coverage
-- Enhanced features and commands
-- Comprehensive documentation with examples
+Enable developers to ship faster with AI by providing structured workflows, persistent context, and adaptive learning — so Claude understands your project, your patterns, and your preferences across sessions.
 
 ## Requirements
 
-### Validated Requirements
+### Validated
 
-| ID | Requirement | Priority | Status |
-|----|-------------|----------|--------|
-| R1 | Fix all `/gsd:` references to `/gywd:` | High | Planned |
-| R2 | Add error handling to install.js | High | Planned |
-| R3 | Add automated test suite | High | Planned |
-| R4 | Add new commands for better workflow | Medium | Planned |
-| R5 | Improve progress tracking | Medium | Planned |
-| R6 | Update README with better docs | Medium | Planned |
-| R7 | Add usage examples | Medium | Planned |
-| R8 | Create tutorials | Low | Planned |
+- ✅ **Naming standardization** — GYWD branding throughout (v1.1.0)
+- ✅ **Error handling** — Robust install.js with user-friendly errors (v1.1.0)
+- ✅ **Test framework** — 557 Jest tests across 22 suites (v3.2.0)
+- ✅ **40 GYWD commands** — Full project lifecycle coverage (v2.0.0)
+- ✅ **Developer Digital Twin** — Profile learning and adaptation (v3.0.0)
+- ✅ **Adaptive questioning** — Context-aware question optimization (v3.0.0)
+- ✅ **Context prediction** — Intelligent file relationship analysis (v3.0.0)
+- ✅ **Cross-project memory** — Pattern persistence across projects (v3.2.0)
+- ✅ **Pattern aggregation** — Consensus detection and outlier identification (v3.2.0)
+- ✅ **Feedback collection** — Suggestion outcome tracking (v3.2.0)
+- ✅ **Bayesian calibration** — Statistically rigorous confidence scoring (v3.2.0)
+- ✅ **Team sync** — Pattern sharing with conflict resolution (v3.2.0)
+- ✅ **Automation framework** — Dependency, test, doc generators (v3.0.0)
+- ✅ **Validation framework** — Schema, command, workflow validators (v3.0.0)
+- ✅ **CI/CD pipeline** — GitHub Actions with multi-platform testing (v3.0.0)
 
-### Active Requirements (In Scope)
+### Active
 
-1. **Naming Standardization**
-   - Replace all `/gsd:` with `/gywd:`
-   - Replace "GSD" with "GYWD" in all docs
-   - Replace "get-shit-done" with "get-your-work-done"
-   - Update help.md reference text
+(No active requirements — milestone complete)
 
-2. **Error Handling**
-   - Wrap fs operations in try-catch
-   - Add user-friendly error messages
-   - Handle permission denied, disk full, invalid paths
-   - Add path validation and sanitization
+### Out of Scope
 
-3. **Automated Testing**
-   - Add Jest test framework
-   - Test install.js file operations
-   - Test path expansion (tilde, Windows)
-   - Test command file validity
-   - Aim for 80% coverage on install.js
-
-4. **New Commands**
-   - `/gywd:status` - Quick one-line status
-   - `/gywd:init` - Faster project init (less questions)
-   - `/gywd:auto` - Fully autonomous mode trigger
-
-5. **Better Progress Tracking**
-   - Visual progress bars in terminal
-   - Time estimates based on velocity
-   - Completion percentage per phase
-
-6. **Documentation**
-   - Rewrite README with clearer structure
-   - Add Quick Start guide
-   - Add Troubleshooting section
-   - Add FAQ
-
-7. **Examples & Tutorials**
-   - Example: Building a CLI tool
-   - Example: Adding features to existing app
-   - Tutorial: First project walkthrough
-   - Tutorial: Brownfield integration
-
-### Out of Scope (v1)
-
-- Web interface
-- VS Code extension
-- Multi-user collaboration
-- Cloud sync
-- npm package publishing (separate effort)
+- Web UI/dashboard — CLI-first design
+- VS Code extension — Separate project if pursued
+- Multi-user collaboration (real-time) — Team sync is async via exports
+- Cloud sync — Git-based persistence instead
+- npm package publishing — GitHub install first
 
 ## Context
 
-### Technical Context
-- Pure Node.js (>=16.7.0)
-- Zero external dependencies currently
-- Will add Jest as dev dependency for testing
-- Cross-platform (Windows, Mac, Linux)
+### Technical Environment
+- **Runtime:** Node.js >=16.7.0
+- **Dependencies:** Zero runtime dependencies (dev deps for testing only)
+- **Platform:** Cross-platform (Windows, macOS, Linux)
+- **Testing:** Jest with 80%+ coverage target
 
-### Codebase Analysis
-See `.planning/codebase/` for detailed analysis:
-- STACK.md - Technology overview
-- ARCHITECTURE.md - System design
-- CONCERNS.md - Issues to fix
+### Architecture
+```
+PMP-GYWD/
+├── bin/              # CLI entry point
+├── commands/gywd/    # 40 command definitions
+├── get-your-work-done/
+│   ├── core/         # System architecture schemas
+│   ├── references/   # Principles, guides, best practices
+│   ├── templates/    # PROJECT.md, PLAN.md, etc.
+│   └── workflows/    # Execution workflows
+├── lib/
+│   ├── automation/   # Dependency, test, doc generators
+│   ├── brain/        # Core brain orchestration
+│   ├── context/      # Context analyzer, predictor, cache
+│   ├── memory/       # Global memory, patterns, team sync
+│   ├── profile/      # Developer Digital Twin
+│   ├── questioning/  # Adaptive questioning engine
+│   └── validators/   # Schema, command, workflow validators
+└── tests/            # 557 tests across 22 suites
+```
+
+### Version History
+| Version | Focus | Status |
+|---------|-------|--------|
+| v1.0.0 | Foundation | ✅ |
+| v1.1.0 | Polish (error handling, tests) | ✅ |
+| v1.2.0 | Core features (memory, drift, deps) | ✅ |
+| v1.3.0 | Differentiators (digest, rollback, GitHub) | ✅ |
+| v1.4.0 | Decision Intelligence | ✅ |
+| v2.0.0 | Unified Intelligence System | ✅ |
+| v3.0.0 | Sophisticated Brain + Automation | ✅ |
+| v3.2.0 | Enhanced Learning System | ✅ |
 
 ## Constraints
 
-1. **Backward Compatibility** - Don't break existing workflows
-2. **Zero Runtime Dependencies** - Keep install.js dependency-free
-3. **Dev Dependencies OK** - Jest for testing is acceptable
-4. **Cross-Platform** - Must work on Windows, Mac, Linux
+- **Zero runtime deps** — install.js must work standalone
+- **Cross-platform** — Windows, macOS, Linux support
+- **Backward compatibility** — Don't break existing .planning/ structures
+- **Dev deps OK** — Jest, ESLint for development only
 
 ## Key Decisions
 
-| Decision | Choice | Rationale |
-|----------|--------|-----------|
-| Test Framework | Jest | Industry standard, good Windows support |
-| Naming | GYWD everywhere | Consistency, professionalism |
-| Error Messages | User-friendly | Better DX than stack traces |
-| Examples Location | `/examples` folder | Discoverable, separate from core |
-| Tutorials | In README + /docs | Single source of truth |
+| Decision | Rationale | Outcome |
+|----------|-----------|---------|
+| Jest for testing | Industry standard, good Windows support | ✅ Good |
+| Zero runtime deps | Lightweight install, no node_modules at runtime | ✅ Good |
+| GYWD naming | Professional, distinct from original fork | ✅ Good |
+| Modular lib architecture | Testability, separation of concerns | ✅ Good |
+| Bayesian confidence | Statistically sound pattern learning | ✅ Good |
+| Git-based persistence | No infrastructure, version controlled | ✅ Good |
+| Team sync via exports | Async collaboration, no real-time complexity | ✅ Good |
 
 ---
-
-*Last updated: Session start*
-*Status: Planning*
+*Last updated: 2026-01-24 after state sync*
