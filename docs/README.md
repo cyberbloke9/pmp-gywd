@@ -10,6 +10,7 @@
 | [Commands](COMMANDS.md) | All 40 commands with usage |
 | [Examples](EXAMPLES.md) | End-to-end workflow examples |
 | [Contributing](CONTRIBUTING.md) | Development and contribution guide |
+| [Releasing](RELEASING.md) | Maintainer release guide |
 
 ## For New Users
 
@@ -23,6 +24,7 @@
 
 1. **[Contributing](CONTRIBUTING.md)** — Development setup and guidelines
 2. **[Commands](COMMANDS.md)** — Understand the command structure
+3. **[Releasing](RELEASING.md)** — How to create releases (maintainers)
 
 ## Quick Start
 
@@ -50,4 +52,4 @@ See the [main README](../README.md) for:
 
 ---
 
-*GYWD v3.2 — 40 commands · 557 tests · Zero runtime deps*
+*GYWD v3.3 — 40 commands · 557 tests · Zero runtime deps*

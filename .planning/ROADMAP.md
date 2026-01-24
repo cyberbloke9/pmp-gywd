@@ -7,7 +7,7 @@ PMP-GYWD is a context engineering framework for Claude Code. From v1.0 foundatio
 ## Milestones
 
 - ✅ **v1.0-v3.2** - Foundation through Enhanced Learning (Phases 1-9, shipped 2025-01-20)
-- 🚧 **v3.3 Polish, Docs & Stability** - Phases 10-18 (in progress)
+- ✅ **v3.3 Polish, Docs & Stability** - Phases 10-18 (complete)
 
 ---
 
@@ -34,7 +34,7 @@ PMP-GYWD is a context engineering framework for Claude Code. From v1.0 foundatio
 
 ---
 
-### 🚧 v3.3 Polish, Docs & Stability (In Progress)
+### ✅ v3.3 Polish, Docs & Stability (Complete)
 
 **Milestone Goal:** Prepare PMP-GYWD for public release with comprehensive documentation, improved stability, and npm publishing.
 
@@ -126,12 +126,11 @@ Plans:
 
 **Goal**: Release workflow, changelog automation, semantic versioning
 **Depends on**: Phase 17
-**Research**: Likely (GitHub Actions release workflow)
-**Research topics**: semantic-release, GitHub releases, changelog generation
-**Plans**: TBD
+**Research**: Unlikely (infrastructure already exists)
+**Plans**: 1 plan
 
 Plans:
-- [ ] 18-01: TBD
+- [x] 18-01: Release documentation and final verification
 
 ---
 
@@ -148,7 +147,7 @@ Plans:
 | 15. edge-case-fixes | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 16. test-coverage-boost | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 17. npm-package-prep | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 18. release-automation | v3.3 | 0/? | Not started | - |
+| 18. release-automation | v3.3 | 1/1 | Complete | 2026-01-24 |
 
 ---
 

@@ -26,7 +26,8 @@
     "generate:docs": "node scripts/generate-docs.js",
     "analyze:deps": "node scripts/analyze-dependencies.js",
     "precommit": "npm run lint && npm run validate:all && npm test",
-    "prepublishOnly": "npm run test:ci && npm run validate:all"
+    "prepublishOnly": "npm run test:ci && npm run validate:all",
+    "release": "npm run lint && npm run validate:all && npm test"
   },
   "keywords": [
     "claude",
