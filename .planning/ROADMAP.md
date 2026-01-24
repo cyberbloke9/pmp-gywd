@@ -67,10 +67,10 @@ Plans:
 **Goal**: Document all 40 commands with usage examples and options
 **Depends on**: Phase 11
 **Research**: Unlikely (internal documentation)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 12-01: TBD
+- [x] 12-01: Create comprehensive command reference (docs/COMMANDS.md)
 
 #### Phase 13: example-projects
 
@@ -143,7 +143,7 @@ Plans:
 | 1-9 | v1.0-v3.2 | - | Complete | 2025-01-20 |
 | 10. readme-overhaul | v3.3 | 5/5 | Complete | 2026-01-24 |
 | 11. getting-started-guide | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 12. api-documentation | v3.3 | 0/? | Not started | - |
+| 12. api-documentation | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 13. example-projects | v3.3 | 0/? | Not started | - |
 | 14. error-handling-audit | v3.3 | 0/? | Not started | - |
 | 15. edge-case-fixes | v3.3 | 0/? | Not started | - |

@@ -349,6 +349,8 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 | `/gywd:rollback [target]` | Rollback to checkpoint safely |
 | `/gywd:help` | Show all available commands |
 
+**Full documentation:** See [docs/COMMANDS.md](docs/COMMANDS.md) for detailed usage and examples.
+
 ---
 
 ## Project Structure
