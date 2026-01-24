@@ -117,7 +117,7 @@ Choose **global** (all projects) or **local** (this project only).
 | New project from scratch | `/gywd:new-project` |
 | Existing codebase | `/gywd:bootstrap` |
 
-**New to GYWD?** See the [detailed tutorial](docs/GETTING-STARTED.md) for step-by-step walkthrough.
+**New to GYWD?** See the [tutorial](docs/GETTING-STARTED.md) or [workflow examples](docs/EXAMPLES.md).
 
 ---
 

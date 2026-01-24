@@ -77,10 +77,10 @@ Plans:
 **Goal**: Create 2-3 example projects showcasing GYWD workflows
 **Depends on**: Phase 12
 **Research**: Unlikely (internal patterns)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 13-01: TBD
+- [x] 13-01: Create workflow examples (greenfield, brownfield, daily)
 
 #### Phase 14: error-handling-audit
 
@@ -144,7 +144,7 @@ Plans:
 | 10. readme-overhaul | v3.3 | 5/5 | Complete | 2026-01-24 |
 | 11. getting-started-guide | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 12. api-documentation | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 13. example-projects | v3.3 | 0/? | Not started | - |
+| 13. example-projects | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 14. error-handling-audit | v3.3 | 0/? | Not started | - |
 | 15. edge-case-fixes | v3.3 | 0/? | Not started | - |
 | 16. test-coverage-boost | v3.3 | 0/? | Not started | - |

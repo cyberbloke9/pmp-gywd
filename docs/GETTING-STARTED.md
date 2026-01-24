@@ -237,6 +237,9 @@ GYWD ensures new code is consistent with existing patterns.
 /gywd:profile
 ```
 
+**See complete workflow examples:**
+- [Workflow Examples](EXAMPLES.md) — End-to-end scenarios
+
 ---
 
 ## Troubleshooting
