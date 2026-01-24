@@ -525,6 +525,14 @@ Add to `.claude/settings.json`:
 - Run `/gywd:resume-work` to restore
 - Or `/gywd:progress` to see what's next
 
+**JSON parse errors?**
+- Check for syntax errors in `.planning/*.json` files
+- Validate with `npm run validate:all`
+
+**Permission denied errors?**
+- Ensure write access to `.planning/` directory
+- Check `~/.gywd/` is writable (for global memory)
+
 **Need latest version?**
 ```bash
 npx pmp-gywd@latest
@@ -539,6 +547,8 @@ Issues and PRs welcome at [github.com/cyberbloke9/pmp-gywd](https://github.com/c
 Before submitting:
 - Run `npm test` (557 tests must pass)
 - Run `npm run lint`
+
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for full guidelines.
 
 ---
 
