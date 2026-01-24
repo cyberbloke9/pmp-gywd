@@ -1,0 +1,25 @@
+# Development files
+.planning/
+.github/
+.claude-plugin/
+tests/
+scripts/
+coverage/
+assets/
+
+# Config files
+.eslintrc.js
+jest.config.js
+junit.xml
+
+# Documentation (available on GitHub)
+VISION.md
+CHANGELOG.md
+
+# OS files
+.DS_Store
+*.log
+
+# Git
+.git/
+.gitignore

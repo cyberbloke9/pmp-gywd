@@ -116,12 +116,11 @@ Plans:
 
 **Goal**: Package.json cleanup, publishing config, npm test dry-run
 **Depends on**: Phase 16
-**Research**: Likely (npm publishing best practices)
-**Research topics**: npm publish workflow, package.json fields, .npmignore, prepublish scripts
-**Plans**: TBD
+**Research**: Unlikely (standard npm patterns)
+**Plans**: 1 plan
 
 Plans:
-- [ ] 17-01: TBD
+- [x] 17-01: Version bump, .npmignore, CHANGELOG update
 
 #### Phase 18: release-automation
 
@@ -148,7 +147,7 @@ Plans:
 | 14. error-handling-audit | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 15. edge-case-fixes | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 16. test-coverage-boost | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 17. npm-package-prep | v3.3 | 0/? | Not started | - |
+| 17. npm-package-prep | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 18. release-automation | v3.3 | 0/? | Not started | - |
 
 ---

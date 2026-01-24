@@ -5,6 +5,34 @@ All notable changes to PMP-GYWD will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2025-01-24
+
+### Added
+
+#### Documentation
+- **GETTING-STARTED.md** - Step-by-step tutorial with two paths (new project, existing codebase)
+- **COMMANDS.md** - Comprehensive reference for all 40 GYWD commands
+- **EXAMPLES.md** - Three workflow examples (greenfield, brownfield, daily development)
+- **CONTRIBUTING.md** - Developer guide with error handling patterns and test coverage info
+- **docs/README.md** - Documentation index with navigation
+
+#### npm Publishing
+- `.npmignore` for explicit package content control
+- `docs/` directory included in npm package
+
+### Changed
+- **README.md** completely rewritten
+  - Reduced from 708 to 553 lines (-22%)
+  - New tagline: "Ship faster with AI that remembers your decisions"
+  - Reorganized commands into Daily Workflow first
+  - Updated architecture diagram to v3.2
+  - Streamlined Quick Start to 3 steps
+- Test coverage now documented in CONTRIBUTING.md
+  - Statements: 77.6%, Branches: 64.7%, Functions: 85.4%, Lines: 79.5%
+  - Priority areas identified for improvement
+
+---
+
 ## [3.2.0] - 2025-01-20
 
 ### Added
@@ -205,6 +233,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[3.3.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.0.0...v3.2.0
 [3.0.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v2.0.0...v3.0.0
 [2.0.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v1.4.0...v2.0.0
