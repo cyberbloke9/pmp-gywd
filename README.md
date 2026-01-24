@@ -2,9 +2,9 @@
 
 # PMP - GYWD (Get Your Work Done)
 
-**Decision-aware, context-engineered development for Claude Code.**
+**Ship faster with AI that remembers your decisions.**
 
-*Code is crystallized decisions. GYWD understands WHY code exists, not just WHAT it does.*
+*The context engineering framework for Claude Code — 40 commands · 557 tests · Zero runtime deps*
 
 [![Version](https://img.shields.io/badge/version-3.2.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
 [![Tests](https://img.shields.io/badge/tests-557%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
@@ -24,105 +24,73 @@ npx pmp-gywd
 
 ## What's New in v3.2?
 
-v3.2 introduces the **Enhanced Learning System** - a sophisticated memory module that enables cross-project learning and team pattern sharing.
+**Enhanced Learning System** — Cross-project memory and team pattern sharing.
 
-| Engine | Purpose | Status |
-|--------|---------|--------|
-| **GlobalMemory** | Cross-project pattern persistence in `~/.gywd/global/` | Complete |
-| **PatternAggregator** | Consensus detection, outlier identification, Bayesian boosting | Complete |
-| **FeedbackCollector** | Suggestion outcome tracking, suppression detection | Complete |
-| **ConfidenceCalibrator** | Beta-Binomial Bayesian updating, credible intervals | Complete |
-| **TeamSync** | Export/import patterns for team sharing with conflict resolution | Complete |
-
-### Previous: v3.0 - Sophisticated Brain
-
-| Engine | Purpose | Status |
-|--------|---------|--------|
-| **Validation Framework** | Schema & command validation with zero dependencies | Complete |
-| **Profile Engine** | Developer Digital Twin - learns your patterns | Complete |
-| **Questioning Engine** | Adaptive questions that skip what's already known | Complete |
-| **Context Predictor** | Pre-loads relevant context before you ask | Complete |
-| **Automation Framework** | Dependency analysis, test generation, doc generation | Complete |
-
-### The Sophisticated Brain
+| Module | What It Does |
+|--------|--------------|
+| **GlobalMemory** | Persist patterns across projects in `~/.gywd/global/` |
+| **PatternAggregator** | Detect consensus, identify outliers, Bayesian boosting |
+| **FeedbackCollector** | Track suggestion outcomes, detect suppression |
+| **ConfidenceCalibrator** | Beta-Binomial Bayesian confidence scoring |
+| **TeamSync** | Export/import patterns with conflict resolution |
 
 ```
-                    ┌───────────────────────────────────────────────┐
-                    │              GYWD v3.0 Brain                   │
-                    ├───────────────────────────────────────────────┤
-                    │                                               │
-  Questions ───────►│  ┌─────────────┐  ┌─────────────┐            │
-                    │  │  Profile    │  │ Questioning │            │
-                    │  │  Engine     │◄─┤   Engine    │            │
-                    │  └──────┬──────┘  └──────┬──────┘            │
-                    │         │                │                    │
-                    │         ▼                ▼                    │
-                    │  ┌────────────────────────────────────┐      │
-                    │  │         Context Predictor          │      │
-  Workflow ────────►│  │  ┌──────────┐ ┌──────────────────┐│      │────► Predictions
-                    │  │  │ Analyzer │ │  Access Pattern  ││      │
-                    │  │  │  (Graph) │ │  (Co-occurrence) ││      │
-                    │  │  └──────────┘ └──────────────────┘│      │
-                    │  └──────────────────┬─────────────────┘      │
-                    │                     │                        │
-                    │         ┌───────────▼───────────┐            │
-  Learning ────────►│         │    LRU Context Cache  │            │────► Decisions
-                    │         └───────────────────────┘            │
-                    │                                               │
-                    └───────────────────────────────────────────────┘
+          v3.2 Enhanced Learning System
+┌─────────────────────────────────────────────┐
+│  GlobalMemory ◄──────► PatternAggregator    │
+│  (persistence)         (consensus)          │
+│       │                      │              │
+│       ▼                      ▼              │
+│  TeamSync            ConfidenceCalibrator   │
+│  (sharing)              (Bayesian)          │
+│                              │              │
+│              ┌───────────────┘              │
+│              ▼                              │
+│       FeedbackCollector                     │
+│         (learning)                          │
+└─────────────────────────────────────────────┘
 ```
 
-**Profile Engine** learns:
-- Cognitive fingerprint (problem approach, debugging style)
-- Communication preferences (verbosity, formality)
-- Tool preferences (languages, frameworks, patterns)
-- Domain expertise areas
-- Quality standards (testing, documentation)
+### v3.0: Sophisticated Brain
 
-**Questioning Engine** provides:
-- Context-aware questions that adapt to expertise
-- Skip questions when knowledge already exists
-- Priority-based questioning (critical first)
-- Follow-up generation based on answers
+| Engine | What It Does |
+|--------|--------------|
+| **Profile Engine** | Developer Digital Twin — learns your patterns |
+| **Questioning Engine** | Adaptive questions that skip what's known |
+| **Context Predictor** | Pre-loads relevant context before you ask |
+| **Automation Framework** | Dependency analysis, test/doc generation |
 
-**Context Predictor** provides:
-- Relationship graph (imports, same-dir, tests, co-access)
-- Access pattern tracking with co-occurrence learning
-- Task/file/feature-based context predictions
-- LRU cache with TTL for efficient memory usage
-- Session pattern analysis for predictive loading
+```
+          v3.0 Sophisticated Brain
+┌─────────────────────────────────────────────┐
+│   Profile ◄──────► Questioning              │
+│   Engine            Engine                  │
+│       │                │                    │
+│       └───────┬────────┘                    │
+│               ▼                             │
+│       Context Predictor                     │
+│      (Analyzer + Cache)                     │
+│               │                             │
+│               ▼                             │
+│       Continuous Learning                   │
+└─────────────────────────────────────────────┘
+```
 
-**Automation Framework** provides:
-- **DependencyAnalyzer**: Circular dependency detection, coupling metrics (afferent/efferent), topological ordering, DOT graph generation
-- **TestGenerator**: Auto-generates Jest/Mocha/Node test stubs from source code, extracts exports/functions/classes
-- **DocGenerator**: Markdown documentation from JSDoc comments, API index generation
+*See [CHANGELOG.md](CHANGELOG.md) for full version history.*
 
 ---
 
 ## What is GYWD?
 
-GYWD is a **unified intelligence system** that transforms AI-assisted development from "plausible text generation" to "decision-coherent engineering."
+**The problem:** AI generates code that conflicts with your existing decisions, forgets context between sessions, and degrades as projects grow.
 
-### The Problem
+**The solution:** GYWD builds a decision graph of your codebase and maintains persistent context across sessions.
 
-AI generates syntactically correct code that lacks **decision coherence**:
-- Suggestions conflict with existing architectural decisions
-- Context gets lost between sessions
-- No understanding of WHY code exists
-- Quality degrades as projects grow
-
-### The Solution
-
-GYWD builds a **decision graph** of your codebase and uses integrated systems:
-
-| System | What It Does |
-|--------|--------------|
-| **Decision Graph Engine** | Extracts and links all decisions from history |
-| **Context Intelligence** | Predicts what context you need before you ask |
-| **Agent Orchestrator** | Coordinates specialized agents including adversarial reviewers |
-| **Continuous Learning** | Improves with every interaction |
-| **Profile Engine** | Learns your patterns and preferences (v3.0) |
-| **Questioning Engine** | Asks smart questions, skips redundant ones (v3.0) |
+| Challenge | How GYWD Solves It |
+|-----------|-------------------|
+| Lost context between sessions | Decision graph + persistent memory |
+| AI conflicts with architecture | Checks new code against existing decisions |
+| "Why was this built this way?" | `/gywd:why` traces code to decisions |
 
 ---
 
