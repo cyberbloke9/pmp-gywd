@@ -257,4 +257,6 @@ GYWD ensures new code is consistent with existing patterns.
 
 ---
 
+*See also: [Commands](COMMANDS.md) | [Examples](EXAMPLES.md) | [README](../README.md)*
+
 *Need help? [Open an issue](https://github.com/cyberbloke9/pmp-gywd/issues)*

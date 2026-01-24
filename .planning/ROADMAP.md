@@ -97,10 +97,10 @@ Plans:
 **Goal**: Fix edge cases discovered during documentation and testing
 **Depends on**: Phase 14
 **Research**: Unlikely (internal fixes)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 15-01: TBD
+- [x] 15-01: Create docs index and consistent cross-references
 
 #### Phase 16: test-coverage-boost
 
@@ -146,7 +146,7 @@ Plans:
 | 12. api-documentation | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 13. example-projects | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 14. error-handling-audit | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 15. edge-case-fixes | v3.3 | 0/? | Not started | - |
+| 15. edge-case-fixes | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 16. test-coverage-boost | v3.3 | 0/? | Not started | - |
 | 17. npm-package-prep | v3.3 | 0/? | Not started | - |
 | 18. release-automation | v3.3 | 0/? | Not started | - |
