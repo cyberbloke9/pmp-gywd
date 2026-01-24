@@ -96,173 +96,84 @@ npx pmp-gywd
 
 ## Getting Started
 
-### Step 1: Install GYWD
+### 1. Install
 
 ```bash
 npx pmp-gywd
 ```
 
-Select **global** (available everywhere) or **local** (current project only).
+Choose **global** (all projects) or **local** (this project only).
 
-### Step 2: Verify Installation
+### 2. Verify
 
-Open Claude Code and run:
-```
+```bash
 /gywd:help
 ```
 
-### Step 3: Choose Your Path
+### 3. Start Working
+
+| Your Situation | Command |
+|----------------|---------|
+| New project from scratch | `/gywd:new-project` |
+| Existing codebase | `/gywd:bootstrap` |
 
 ---
 
-## Starting Fresh: New Idea, New Project
-
-**You have an idea and want to build it from scratch.**
-
-### What to Run
-
-```bash
-/gywd:new-project
-```
-
-### What Happens
-
-GYWD conducts a guided interview to understand your vision:
-
-1. **Discovery Phase** - GYWD asks about:
-   - What problem you're solving
-   - Who the users are
-   - Core features needed
-   - Technical preferences (language, framework, testing)
-   - Quality standards and constraints
-
-2. **Profile Creation** - Based on your answers, GYWD:
-   - Creates `PROJECT.md` with your vision documented
-   - Builds your developer profile (learns your patterns)
-   - Records your preferences for future sessions
-
-3. **Roadmap Generation** - Run `/gywd:create-roadmap` to:
-   - Break your idea into manageable phases
-   - Define clear milestones
-   - Create `ROADMAP.md` with the full plan
-
-4. **Start Building** - Run `/gywd:plan-phase 1` then `/gywd:execute-plan`:
-   - Get detailed task breakdown for Phase 1
-   - Execute with decision tracking
-   - Every choice is recorded for future reference
-
-### How It Helps You
-
-| Challenge | How GYWD Solves It |
-|-----------|-------------------|
-| "Where do I start?" | Guided interview breaks your idea into phases |
-| "I keep forgetting context" | All decisions stored in `.planning/` directory |
-| "Code gets messy over time" | Decision graph maintains architectural coherence |
-| "AI suggestions conflict" | GYWD checks new code against existing decisions |
-| "I waste time re-explaining" | Your profile persists across sessions |
-
-### Example Flow
-
-```bash
-# Day 1: Define your idea
-/gywd:new-project          # Answer questions about your vision
-/gywd:create-roadmap       # Generate phase breakdown
-
-# Day 2: Start building
-/gywd:plan-phase 1         # Plan first phase in detail
-/gywd:execute-plan         # Build it with AI assistance
-
-# Day 3+: Continue work
-/gywd:progress             # See where you left off
-/gywd:resume-work          # Restore full context
-```
-
----
-
-## Existing Codebase: Join or Enhance a Project
-
-**You have an existing codebase and want GYWD to understand it.**
-
-### What to Run
-
-```bash
-/gywd:bootstrap
-```
-
-### What Happens
-
-GYWD analyzes your codebase and builds intelligence:
-
-1. **Codebase Mapping** - GYWD scans and documents:
-   - Technology stack (`STACK.md`)
-   - Architecture patterns (`ARCHITECTURE.md`)
-   - Project structure (`STRUCTURE.md`)
-   - Coding conventions (`CONVENTIONS.md`)
-   - Testing approach (`TESTING.md`)
-   - External integrations (`INTEGRATIONS.md`)
-   - Technical debt (`CONCERNS.md`)
-
-2. **Decision Extraction** - From git history, GYWD:
-   - Extracts WHY code exists (not just what)
-   - Links decisions to specific files
-   - Builds searchable decision graph (`decisions.json`)
-
-3. **Context Model** - GYWD learns:
-   - Which files relate to which features
-   - Common patterns in your codebase
-   - Predictive context loading
-
-4. **Developer Profile** - As you work, GYWD learns:
-   - Your coding style preferences
-   - Your expertise areas
-   - Your communication preferences
-
-### How It Helps You
-
-| Challenge | How GYWD Solves It |
-|-----------|-------------------|
-| "Why was this built this way?" | `/gywd:why <file>` traces to original decisions |
-| "I'm new to this codebase" | Codebase docs explain everything |
-| "Will this change break things?" | Decision graph shows dependencies |
-| "What context do I need?" | `/gywd:anticipate` pre-loads relevant files |
-| "Is my approach consistent?" | `/gywd:challenge` reviews against patterns |
-
-### Example Flow
-
-```bash
-# First time: Understand the codebase
-/gywd:bootstrap            # One command does everything
-
-# Or step by step:
-/gywd:map-codebase         # Analyze structure
-/gywd:extract-decisions    # Build decision graph
-
-# Daily work: Add new features
-/gywd:new-project          # Define what you're adding
-/gywd:create-roadmap       # Plan within existing architecture
-/gywd:plan-phase 1         # Detailed task plan
-/gywd:execute-plan         # Build with context awareness
-
-# Understand existing code
-/gywd:why src/auth/login.ts    # Why does this file exist?
-/gywd:history "authentication" # How has auth evolved?
-```
-
----
-
-## Quick Reference: Which Command When?
+## Quick Reference
 
 | Situation | Command |
 |-----------|---------|
-| Brand new idea, starting fresh | `/gywd:new-project` |
-| Existing codebase, first time using GYWD | `/gywd:bootstrap` |
-| Starting work for the day | `/gywd:progress` |
-| Returning after a break | `/gywd:resume-work` |
-| Need to understand why code exists | `/gywd:why <file>` |
-| Planning next feature | `/gywd:plan-phase` |
-| Ready to build | `/gywd:execute-plan` |
-| Want AI to review my plan | `/gywd:challenge` |
-| Saving state before stopping | `/gywd:pause-work` |
+| Brand new idea | `/gywd:new-project` |
+| Existing codebase | `/gywd:bootstrap` |
+| Start of day | `/gywd:progress` |
+| Returning after break | `/gywd:resume-work` |
+| Why does this code exist? | `/gywd:why <file>` |
+| Plan next feature | `/gywd:plan-phase` |
+| Execute the plan | `/gywd:execute-plan` |
+| Review my approach | `/gywd:challenge` |
+| Save state before stopping | `/gywd:pause-work` |
+
+*See `/gywd:help` for all 40 commands*
+
+---
+
+## Starting Fresh (New Project)
+
+**Run:** `/gywd:new-project`
+
+GYWD interviews you about your vision, then:
+- Creates `PROJECT.md` with requirements
+- Builds your developer profile
+- Records preferences for future sessions
+
+**Typical flow:**
+```bash
+/gywd:new-project      # Define vision
+/gywd:create-roadmap   # Generate phases
+/gywd:plan-phase 1     # Plan first phase
+/gywd:execute-plan     # Build it
+/gywd:progress         # Continue next day
+```
+
+---
+
+## Existing Codebase
+
+**Run:** `/gywd:bootstrap`
+
+GYWD analyzes your code and builds:
+- `STACK.md`, `ARCHITECTURE.md`, `CONVENTIONS.md` — codebase documentation
+- `decisions.json` — decision graph extracted from git history
+- Context model for predictive loading
+
+**Typical flow:**
+```bash
+/gywd:bootstrap        # Analyze codebase
+/gywd:new-project      # Define new feature
+/gywd:plan-phase 1     # Plan implementation
+/gywd:execute-plan     # Build with context
+/gywd:why <file>       # Understand existing code
+```
 
 ---
 
@@ -349,97 +260,92 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
-## Command Reference (41 Commands)
+## Command Reference (40 Commands)
 
-### Intelligence
+### Daily Workflow
 
-| Command | Purpose |
-|---------|---------|
-| `/gywd:bootstrap` | Initialize complete system on any codebase |
-| `/gywd:why <target>` | Trace code to its originating decisions |
-| `/gywd:extract-decisions` | Build decision graph from git history |
-| `/gywd:history <query>` | Query temporal codebase evolution |
-| `/gywd:challenge [target]` | Adversarial review with competing agents |
-| `/gywd:anticipate` | Predictive context loading |
-| `/gywd:profile` | Developer digital twin |
-| `/gywd:impact <target>` | Connect code to production outcomes |
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:status` | Show one-line project status |
+| `/gywd:progress` | See what's next and resume work |
+| `/gywd:resume-work` | Restore context from previous session |
+| `/gywd:pause-work` | Save state before stopping |
 
-### Setup
+### Project Setup
 
-| Command | Purpose |
-|---------|---------|
-| `/gywd:init <name>` | Quick initialization (minimal questions) |
-| `/gywd:new-project` | Full initialization (guided interview) |
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:new-project` | Start new project with guided interview |
+| `/gywd:init <name>` | Quick start with minimal questions |
+| `/gywd:bootstrap` | Analyze existing codebase completely |
+| `/gywd:map-codebase` | Scan and document code structure |
 | `/gywd:create-roadmap` | Generate phase breakdown |
-| `/gywd:map-codebase` | Analyze existing code structure |
 
 ### Planning
 
-| Command | Purpose |
-|---------|---------|
-| `/gywd:plan-phase [N]` | Create detailed task plan |
-| `/gywd:discuss-phase [N]` | Clarify phase vision |
-| `/gywd:research-phase [N]` | Deep research for complex domains |
-| `/gywd:list-phase-assumptions [N]` | Preview planned approach |
-| `/gywd:preview-plan [path]` | Dry-run before execution |
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:plan-phase [N]` | Create detailed task plan for phase |
+| `/gywd:discuss-phase [N]` | Clarify requirements before planning |
+| `/gywd:research-phase [N]` | Investigate unknowns before planning |
+| `/gywd:list-phase-assumptions [N]` | See what Claude assumes about phase |
+| `/gywd:preview-plan [path]` | Dry-run plan without executing |
 
 ### Execution
 
-| Command | Purpose |
-|---------|---------|
+| Command | What It Does |
+|---------|--------------|
 | `/gywd:execute-plan [path]` | Run plan (supports `--tasks 1-3`) |
-| `/gywd:verify-work` | Test completed work |
-| `/gywd:plan-fix` | Create fix plan for issues |
+| `/gywd:verify-work` | Test completed work with user |
+| `/gywd:plan-fix` | Create fix plan for found issues |
 
-### Progress & Analysis
+### Understanding Code
 
-| Command | Purpose |
-|---------|---------|
-| `/gywd:status` | One-line status |
-| `/gywd:progress` | Detailed progress + routing |
-| `/gywd:context` | Context budget analysis |
-| `/gywd:health` | Project health dashboard |
-| `/gywd:deps [N]` | Dependency visualization |
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:why <target>` | Trace code to its original decisions |
+| `/gywd:history <query>` | See how code evolved over time |
+| `/gywd:extract-decisions` | Build decision graph from git |
+| `/gywd:anticipate` | Pre-load context for upcoming work |
+| `/gywd:challenge [target]` | Get adversarial review of plan/code |
+
+### Analysis
+
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:context` | Show context budget usage |
+| `/gywd:health` | Display project health dashboard |
+| `/gywd:deps [N]` | Visualize phase dependencies |
 | `/gywd:check-drift` | Detect spec vs implementation drift |
-| `/gywd:digest [area]` | Compact codebase summary |
+| `/gywd:digest [area]` | Generate compact codebase summary |
+| `/gywd:consider-issues` | Triage deferred issues |
 
-### Memory & Session
+### Roadmap & Milestones
 
-| Command | Purpose |
-|---------|---------|
-| `/gywd:memory` | Multi-session memory management |
-| `/gywd:pause-work` | Save state for later |
-| `/gywd:resume-work` | Restore previous session |
-
-### Roadmap Management
-
-| Command | Purpose |
-|---------|---------|
-| `/gywd:add-phase <desc>` | Append phase to roadmap |
-| `/gywd:insert-phase <N> <desc>` | Insert urgent work (becomes N.1) |
-| `/gywd:remove-phase <N>` | Delete future phase, renumber |
-
-### Milestone Management
-
-| Command | Purpose |
-|---------|---------|
-| `/gywd:complete-milestone <ver>` | Archive and tag release |
-| `/gywd:discuss-milestone` | Plan next iteration |
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:add-phase <desc>` | Append new phase to roadmap |
+| `/gywd:insert-phase <N> <desc>` | Insert urgent work as N.1 |
+| `/gywd:remove-phase <N>` | Delete phase and renumber |
 | `/gywd:new-milestone <name>` | Start new milestone |
+| `/gywd:discuss-milestone` | Plan next milestone interactively |
+| `/gywd:complete-milestone` | Archive milestone and tag release |
+
+### Memory & Profile
+
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:memory` | Manage cross-session memory |
+| `/gywd:profile` | View/edit your learned preferences |
+| `/gywd:impact <target>` | Connect code to real-world outcomes |
 
 ### Integration
 
-| Command | Purpose |
-|---------|---------|
-| `/gywd:sync-github` | Sync with GitHub issues/PRs |
-| `/gywd:rollback [target]` | Safe rollback to checkpoint |
-| `/gywd:consider-issues` | Triage deferred issues |
-
-### Utility
-
-| Command | Purpose |
-|---------|---------|
-| `/gywd:help` | Complete command reference |
+| Command | What It Does |
+|---------|--------------|
+| `/gywd:sync-github` | Sync with GitHub issues and PRs |
+| `/gywd:rollback [target]` | Rollback to checkpoint safely |
+| `/gywd:help` | Show all available commands |
 
 ---
 
@@ -481,119 +387,69 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
-## Library Modules (v3.2)
-
-GYWD v3.2 includes importable JavaScript modules:
+## Library Modules
 
 ```javascript
-// Memory Module (v3.2) - Cross-project learning
-const {
-  GlobalMemory,         // Cross-project pattern persistence
-  PatternAggregator,    // Consensus detection and recommendations
-  FeedbackCollector,    // Suggestion outcome tracking
-  ConfidenceCalibrator, // Bayesian confidence scoring
-  TeamSync,             // Team pattern sharing
-  CONFLICT_STRATEGIES,  // majority, highest_confidence, newest, merge_all
-  CONSENSUS_THRESHOLDS, // strict, moderate, loose
-} = require('pmp-gywd/lib/memory');
+// Memory (v3.2) - Cross-project learning
+const { GlobalMemory, PatternAggregator, TeamSync } = require('pmp-gywd/lib/memory');
 
-// Validation
-const { validateJsonSyntax, validateCommandFile } = require('pmp-gywd/lib/validators');
+// Profile & Questioning
+const { ProfileManager } = require('pmp-gywd/lib/profile');
+const { QuestionEngine } = require('pmp-gywd/lib/questioning');
 
-// Profile Engine
-const { ProfileManager, PatternLearner } = require('pmp-gywd/lib/profile');
+// Context & Automation
+const { ContextPredictor } = require('pmp-gywd/lib/context');
+const { DependencyAnalyzer } = require('pmp-gywd/lib/automation');
 
-// Questioning Engine
-const { QuestionEngine, createQuestion, PRIORITY } = require('pmp-gywd/lib/questioning');
-
-// Context Predictor
-const {
-  ContextAnalyzer,      // File relationship graph
-  ContextPredictor,     // Prediction engine
-  AccessPattern,        // Co-occurrence tracking
-  LRUCache,             // Cache with TTL
-  ContextCache,         // Multi-layer caching
-  RELATIONSHIP_TYPES,   // imports, same_dir, tested_by, etc.
-  CONFIDENCE            // HIGH, MEDIUM, LOW
-} = require('pmp-gywd/lib/context');
-
-// Automation Framework
-const {
-  DependencyAnalyzer,   // Dependency graph analysis
-  TestGenerator,        // Auto-generate test stubs
-  DocGenerator,         // Generate docs from JSDoc
-  DEP_TYPES,            // internal, external, builtin
-  TEST_FRAMEWORKS,      // jest, mocha, node:test
-  DOC_TYPES             // class, function, module
-} = require('pmp-gywd/lib/automation');
+// Validators
+const { validateJsonSyntax } = require('pmp-gywd/lib/validators');
 ```
 
-### Zero Runtime Dependencies
-
-All modules are written in pure Node.js with no external dependencies. This ensures:
-- Fast installation
-- No supply chain vulnerabilities
-- Works offline
-- Predictable behavior
+**7 modules** · **Zero runtime dependencies** · Works offline
 
 ---
 
-## v3.0 Architecture
+## Architecture (v3.2)
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                        GYWD v3.0 Core                           │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐             │
-│  │  Decision   │  │   Context   │  │   Agent     │             │
-│  │   Graph     │◄─┤ Intelligence│◄─┤Orchestrator │             │
-│  │   Engine    │  │   Engine    │  │             │             │
-│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘             │
-│         │                │                │                     │
-│         └────────┬───────┴────────┬───────┘                     │
-│                  │                │                             │
-│  ┌───────────────┼────────────────┼───────────────┐            │
-│  │               ▼                ▼               │            │
-│  │  ┌─────────────────┐  ┌─────────────────┐     │            │
-│  │  │ Profile Engine  │  │Questioning Engine│     │  v3.0     │
-│  │  │ (Digital Twin)  │  │ (Adaptive Q&A)  │     │  Brain    │
-│  │  └────────┬────────┘  └────────┬────────┘     │            │
-│  │           └──────────┬─────────┘              │            │
-│  │                      ▼                        │            │
-│  │        ┌─────────────────────────┐            │            │
-│  │        │   Context Predictor     │            │            │
-│  │        │  (Relationships, Cache) │            │            │
-│  │        └────────────┬────────────┘            │            │
-│  │                     ▼                         │            │
-│  │         ┌───────────────────────┐             │            │
-│  │         │   Continuous Learning │             │            │
-│  │         └───────────────────────┘             │            │
-│  └────────────────────────────────────────────────┘            │
-│                          │                                      │
-├──────────────────────────┼──────────────────────────────────────┤
-│                          ▼                                      │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                    Command Layer (41)                     │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────┐
+│                    GYWD v3.2 Core                       │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  ┌───────────┐  ┌───────────┐  ┌───────────┐           │
+│  │ Decision  │  │  Context  │  │   Agent   │           │
+│  │   Graph   │◄─┤Intelligence│◄─┤Orchestrator│          │
+│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘           │
+│        └───────┬──────┴──────┬───────┘                 │
+│                ▼             ▼                         │
+│  ┌────────────────────────────────────────────┐       │
+│  │              v3.0 Brain                     │       │
+│  │  Profile ◄──► Questioning ──► Predictor    │       │
+│  │            Continuous Learning              │       │
+│  └─────────────────────┬──────────────────────┘       │
+│                        ▼                               │
+│  ┌────────────────────────────────────────────┐       │
+│  │           v3.2 Memory Module               │       │
+│  │  GlobalMemory · PatternAggregator · TeamSync│      │
+│  └─────────────────────┬──────────────────────┘       │
+│                        ▼                               │
+│  ┌────────────────────────────────────────────┐       │
+│  │            Command Layer (40)               │       │
+│  └────────────────────────────────────────────┘       │
+│                                                         │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ---
 
 ## CI/CD Pipeline
 
-v3.0 includes comprehensive CI/CD:
-
 - **12 test matrix combinations** (3 OS x 4 Node versions)
 - **557 automated tests** with Jest (22 test suites)
 - **ESLint** with zero external plugins
 - **Schema validation** for all JSON files
-- **Command validation** for all 41 commands
+- **Command validation** for all 40 commands
 - **Security scanning** with npm audit
-- **Integration tests** for brain component interactions
-- **E2E tests** for full workflow validation
 
 ```bash
 npm run precommit    # Run all checks locally
@@ -653,10 +509,32 @@ Add to `.claude/settings.json`:
 - Restart Claude Code to reload commands
 - Verify files exist in `~/.claude/commands/gywd/`
 
+**Commands run but nothing happens?**
+- Check `.planning/` directory exists
+- Run `/gywd:init` if missing
+
+**Plan execution stuck?**
+- Run `/gywd:progress` to see current state
+- Check `.planning/STATE.md` for position
+
+**Lost context mid-session?**
+- Run `/gywd:resume-work` to restore
+- Or `/gywd:progress` to see what's next
+
 **Need latest version?**
 ```bash
 npx pmp-gywd@latest
 ```
+
+---
+
+## Contributing
+
+Issues and PRs welcome at [github.com/cyberbloke9/pmp-gywd](https://github.com/cyberbloke9/pmp-gywd).
+
+Before submitting:
+- Run `npm test` (557 tests must pass)
+- Run `npm run lint`
 
 ---
 

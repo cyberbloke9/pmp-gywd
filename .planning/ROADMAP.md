@@ -46,11 +46,11 @@ PMP-GYWD is a context engineering framework for Claude Code. From v1.0 foundatio
 **Plans**: 5 plans
 
 Plans:
-- [ ] 10-01: Header & badges - refresh hero section, tagline, value prop
-- [ ] 10-02: Quick start - streamline getting started, user journeys
-- [ ] 10-03: Command reference - reorganize 40 commands into user-centric categories
-- [ ] 10-04: Architecture diagrams - add v3.2 memory diagram, update existing
-- [ ] 10-05: Polish - streamline library modules, expand troubleshooting
+- [x] 10-01: Header & badges - refresh hero section, tagline, value prop
+- [x] 10-02: Quick start - streamline getting started, user journeys
+- [x] 10-03: Command reference - reorganize 40 commands into user-centric categories
+- [x] 10-04: Architecture diagrams - add v3.2 memory diagram, update existing
+- [x] 10-05: Polish - streamline library modules, expand troubleshooting
 
 #### Phase 11: getting-started-guide
 
@@ -141,7 +141,7 @@ Plans:
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 1-9 | v1.0-v3.2 | - | Complete | 2025-01-20 |
-| 10. readme-overhaul | v3.3 | 0/? | Not started | - |
+| 10. readme-overhaul | v3.3 | 5/5 | Complete | 2026-01-24 |
 | 11. getting-started-guide | v3.3 | 0/? | Not started | - |
 | 12. api-documentation | v3.3 | 0/? | Not started | - |
 | 13. example-projects | v3.3 | 0/? | Not started | - |
