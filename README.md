@@ -6,7 +6,7 @@
 
 *The context engineering framework for Claude Code — 40 commands · 557 tests · Zero runtime deps*
 
-[![Version](https://img.shields.io/badge/version-3.3.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Version](https://img.shields.io/badge/version-3.3.1-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
 [![Tests](https://img.shields.io/badge/tests-557%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
