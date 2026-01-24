@@ -1,126 +1,152 @@
-# ROADMAP: PMP-GYWD
+# Roadmap: PMP-GYWD
 
-## The Evolution
+## Overview
 
-**v1.0-1.4**: Foundation → Polish → Features → Decision Intelligence
-**v2.0**: Unified Intelligence System — meta-prompting, context engineering
-**v3.0**: Sophisticated Brain — profile, questioning, context prediction, automation
-**v3.2**: Enhanced Learning — memory, patterns, team sync, Bayesian calibration
+PMP-GYWD is a context engineering framework for Claude Code. From v1.0 foundation through v3.2's Enhanced Learning System, we've built 40 commands, 557 tests, and a sophisticated brain. v3.3 focuses on polish, documentation, and stability to prepare for npm publishing.
 
-**Core Insight**: Claude Code is powerful but stateless. PMP-GYWD adds the memory, context, and learning layer that makes AI assistance truly effective across sessions.
+## Milestones
 
----
-
-## Release History
-
-| Version | Focus | Commands | Tests | Status |
-|---------|-------|----------|-------|--------|
-| v1.0.0 | Foundation | Base | ~10 | ✅ |
-| v1.1.0 | Polish | +status, init | ~50 | ✅ |
-| v1.2.0 | Core Features | +memory, drift, deps | ~80 | ✅ |
-| v1.3.0 | Differentiators | +digest, rollback, github | ~100 | ✅ |
-| v1.4.0 | Decision Intelligence | +7 systems | ~150 | ✅ |
-| v2.0.0 | Unified Intelligence | +bootstrap | ~200 | ✅ |
-| v3.0.0 | Sophisticated Brain | 40 | 390 | ✅ |
-| **v3.2.0** | **Enhanced Learning** | **40** | **557** | **✅ Current** |
+- ✅ **v1.0-v3.2** - Foundation through Enhanced Learning (Phases 1-9, shipped 2025-01-20)
+- 🚧 **v3.3 Polish, Docs & Stability** - Phases 10-18 (in progress)
 
 ---
 
-## v3.2.0: Enhanced Learning System ✅
+<details>
+<summary>✅ v1.0-v3.2 (Phases 1-9) - SHIPPED 2025-01-20</summary>
 
-**Philosophy**: Learn from every interaction, share knowledge across projects and teams.
+### Phase 1-9: Foundation through Enhanced Learning
 
-### Components Shipped
+**Delivered:**
+- v1.0: Foundation and core commands
+- v1.1: Error handling and Jest testing
+- v1.2-1.3: Memory, drift, deps, digest, rollback, GitHub sync
+- v1.4: Decision Intelligence (7 new systems)
+- v2.0: Unified Intelligence System
+- v3.0: Sophisticated Brain + Automation (390 tests)
+- v3.2: Enhanced Learning System (557 tests)
 
-| Component | Purpose | Status |
-|-----------|---------|--------|
-| GlobalMemory | Cross-project pattern persistence | ✅ |
-| PatternAggregator | Consensus detection, outlier identification | ✅ |
-| FeedbackCollector | Suggestion outcome tracking | ✅ |
-| ConfidenceCalibrator | Bayesian confidence scoring | ✅ |
-| TeamSync | Pattern sharing with conflict resolution | ✅ |
+**Stats:**
+- 40 GYWD commands
+- 557 passing tests across 22 suites
+- 7 lib modules: automation, brain, context, memory, profile, questioning, validators
 
-### Infrastructure
-
-- 557 tests across 22 suites
-- Full integration test coverage
-- Memory persistence in `~/.gywd/global/`
-
----
-
-## Future Directions
-
-### v3.3.0: Polish & Documentation (Proposed)
-
-- Comprehensive documentation site
-- Video tutorials and walkthroughs
-- Example projects gallery
-- npm package publishing
-
-### v4.0.0: Semantic Intelligence (Vision)
-
-Full implementation of the 7 behemoth systems:
-
-1. **Complete Decision Graph** — Causal linking between all decisions
-2. **Developer Digital Twin v2** — Persistent modeling with prediction
-3. **Temporal Codebase** — First-class citizen with history queries
-4. **Adversarial Swarm** — Competing agents for robust review
-5. **Semantic Compiler** — Formal verification via AI
-6. **Predictive Development** — Anticipation engine
-7. **Reality-Grounded Development** — Outcome linking
-
-See VISION.md for full architectural details.
+</details>
 
 ---
 
-## Total Commands: 40
+### 🚧 v3.3 Polish, Docs & Stability (In Progress)
 
-### By Category
+**Milestone Goal:** Prepare PMP-GYWD for public release with comprehensive documentation, improved stability, and npm publishing.
 
-**Project Setup (4)**
-- init, new-project, create-roadmap, map-codebase
+#### Phase 10: readme-overhaul
 
-**Planning (7)**
-- plan-phase, discuss-phase, research-phase, list-phase-assumptions
-- add-phase, insert-phase, remove-phase
+**Goal**: Complete README rewrite with architecture diagrams, quick start, and examples
+**Depends on**: v3.2 complete
+**Research**: Unlikely (internal documentation)
+**Plans**: TBD
 
-**Execution (4)**
-- execute-plan, preview-plan, verify-work, plan-fix
+Plans:
+- [ ] 10-01: TBD (run /gywd:plan-phase 10 to break down)
 
-**Progress (5)**
-- status, progress, context, health, deps
+#### Phase 11: getting-started-guide
 
-**Memory & Analysis (4)**
-- memory, check-drift, digest, consider-issues
+**Goal**: Step-by-step tutorial for new users from install to first project
+**Depends on**: Phase 10
+**Research**: Unlikely (internal documentation)
+**Plans**: TBD
 
-**Decision Intelligence (7)**
-- extract-decisions, history, challenge, anticipate
-- profile, impact, why
+Plans:
+- [ ] 11-01: TBD
 
-**Integration (3)**
-- sync-github, rollback, complete-milestone
+#### Phase 12: api-documentation
 
-**Session (4)**
-- pause-work, resume-work, discuss-milestone, new-milestone
+**Goal**: Document all 40 commands with usage examples and options
+**Depends on**: Phase 11
+**Research**: Unlikely (internal documentation)
+**Plans**: TBD
 
-**Utility (2)**
-- help, bootstrap
+Plans:
+- [ ] 12-01: TBD
+
+#### Phase 13: example-projects
+
+**Goal**: Create 2-3 example projects showcasing GYWD workflows
+**Depends on**: Phase 12
+**Research**: Unlikely (internal patterns)
+**Plans**: TBD
+
+Plans:
+- [ ] 13-01: TBD
+
+#### Phase 14: error-handling-audit
+
+**Goal**: Audit and improve error messages across all modules
+**Depends on**: Phase 13
+**Research**: Unlikely (internal code review)
+**Plans**: TBD
+
+Plans:
+- [ ] 14-01: TBD
+
+#### Phase 15: edge-case-fixes
+
+**Goal**: Fix edge cases discovered during documentation and testing
+**Depends on**: Phase 14
+**Research**: Unlikely (internal fixes)
+**Plans**: TBD
+
+Plans:
+- [ ] 15-01: TBD
+
+#### Phase 16: test-coverage-boost
+
+**Goal**: Increase test coverage for untested paths and edge cases
+**Depends on**: Phase 15
+**Research**: Unlikely (internal testing)
+**Plans**: TBD
+
+Plans:
+- [ ] 16-01: TBD
+
+#### Phase 17: npm-package-prep
+
+**Goal**: Package.json cleanup, publishing config, npm test dry-run
+**Depends on**: Phase 16
+**Research**: Likely (npm publishing best practices)
+**Research topics**: npm publish workflow, package.json fields, .npmignore, prepublish scripts
+**Plans**: TBD
+
+Plans:
+- [ ] 17-01: TBD
+
+#### Phase 18: release-automation
+
+**Goal**: Release workflow, changelog automation, semantic versioning
+**Depends on**: Phase 17
+**Research**: Likely (GitHub Actions release workflow)
+**Research topics**: semantic-release, GitHub releases, changelog generation
+**Plans**: TBD
+
+Plans:
+- [ ] 18-01: TBD
 
 ---
 
-## Architecture Overview
+## Progress
 
-```
-lib/
-├── automation/     # Dependency, test, doc generators
-├── brain/          # Core brain orchestration
-├── context/        # Context analyzer, predictor, cache
-├── memory/         # Global memory, patterns, team sync
-├── profile/        # Developer Digital Twin
-├── questioning/    # Adaptive questioning engine
-└── validators/     # Schema, command, workflow validators
-```
+| Phase | Milestone | Plans | Status | Completed |
+|-------|-----------|-------|--------|-----------|
+| 1-9 | v1.0-v3.2 | - | Complete | 2025-01-20 |
+| 10. readme-overhaul | v3.3 | 0/? | Not started | - |
+| 11. getting-started-guide | v3.3 | 0/? | Not started | - |
+| 12. api-documentation | v3.3 | 0/? | Not started | - |
+| 13. example-projects | v3.3 | 0/? | Not started | - |
+| 14. error-handling-audit | v3.3 | 0/? | Not started | - |
+| 15. edge-case-fixes | v3.3 | 0/? | Not started | - |
+| 16. test-coverage-boost | v3.3 | 0/? | Not started | - |
+| 17. npm-package-prep | v3.3 | 0/? | Not started | - |
+| 18. release-automation | v3.3 | 0/? | Not started | - |
 
 ---
 
-*Last updated: 2026-01-24 after state sync*
+*Last updated: 2026-01-24 after v3.3 milestone creation*
