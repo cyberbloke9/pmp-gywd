@@ -151,10 +151,12 @@ Plans:
 **Depends on**: v3.3 complete
 **Research**: Likely (context optimization strategies)
 **Research topics**: Token counting, context compression, incremental updates
-**Plans**: TBD
+**Plans**: 3
 
 Plans:
-- [ ] 19-01: TBD
+- [x] 19-01: Performance baseline & quick wins (metrics, batched writes, command cache) ✓
+- [ ] 19-02: File I/O optimization & indexing (metadata cache, keyword index, graph persistence)
+- [ ] 19-03: Context token optimization & metrics dashboard (truncation, lazy load, dashboard)
 
 #### Phase 20: new-commands
 
@@ -338,7 +340,7 @@ Plans:
 | 16. test-coverage-boost | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 17. npm-package-prep | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 18. release-automation | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 19. performance-optimization | v3.4 | 0/? | Not started | - |
+| 19. performance-optimization | v3.4 | 0/3 | Planned | - |
 | 20. new-commands | v3.4 | 0/? | Not started | - |
 | 21. ide-integration | v3.4 | 0/? | Not started | - |
 | 22. mcp-server | v3.4 | 0/? | Not started | - |
@@ -357,4 +359,4 @@ Plans:
 
 ---
 
-*Last updated: 2026-01-25 after v3.4 and v4.0 milestone creation*
+*Last updated: 2026-01-25 after Phase 19 planning*
