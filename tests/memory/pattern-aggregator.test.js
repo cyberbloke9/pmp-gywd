@@ -16,6 +16,7 @@ describe('PatternAggregator', () => {
 
     // Create mock global memory
     globalMemory = new GlobalMemory();
+    globalMemory._batchWindowMs = 0; // Synchronous writes for tests
     globalMemory._ensureDirectories = () => {
       if (!fs.existsSync(testDir)) {
         fs.mkdirSync(testDir, { recursive: true });

@@ -232,6 +232,7 @@ describe('ProfileManager', () => {
       if (globalManager.globalMemory) {
         const mockDir = path.join(tempDir, 'mock-global');
         fs.mkdirSync(mockDir, { recursive: true });
+        globalManager.globalMemory._batchWindowMs = 0; // Synchronous writes for tests
         globalManager.globalMemory._ensureDirectories = () => {
           if (!fs.existsSync(mockDir)) {
             fs.mkdirSync(mockDir, { recursive: true });
