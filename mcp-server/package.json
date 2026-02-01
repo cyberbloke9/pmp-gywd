@@ -1,0 +1,20 @@
+{
+  "name": "gywd-mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for GYWD (Get Your Work Done)",
+  "main": "server.js",
+  "type": "module",
+  "bin": {
+    "gywd-mcp": "./server.js"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "mcp",
+    "claude",
+    "gywd"
+  ],
+  "author": "cyberbloke9",
+  "license": "MIT"
+}
