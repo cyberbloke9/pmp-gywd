@@ -47,6 +47,9 @@
     "./commands/gywd/plan-fix.md",
     "./commands/gywd/remove-phase.md",
     "./commands/gywd/help.md",
-    "./commands/gywd/bootstrap.md"
+    "./commands/gywd/bootstrap.md",
+    "./commands/gywd/undo.md",
+    "./commands/gywd/compare.md",
+    "./commands/gywd/snapshot.md"
   ]
 }

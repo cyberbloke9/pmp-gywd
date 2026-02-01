@@ -136,7 +136,7 @@ describe('Performance Baseline', () => {
 
     test('loads all 40 commands', () => {
       const count = cache.loadAll(commandsDir);
-      expect(count).toBe(40);
+      expect(count).toBe(43);
     });
 
     test('loading commands takes < 100ms', () => {
@@ -165,7 +165,7 @@ describe('Performance Baseline', () => {
       cache.loadAll(commandsDir);
 
       const stats = cache.getStats();
-      expect(stats.size).toBe(40);
+      expect(stats.size).toBe(43);
       expect(typeof stats.loadTime).toBe('number');
       expect(typeof stats.loadedAt).toBe('number');
     });
@@ -187,7 +187,7 @@ describe('Performance Baseline', () => {
 
     test('clear() resets cache', () => {
       cache.loadAll(commandsDir);
-      expect(cache.getStats().size).toBe(40);
+      expect(cache.getStats().size).toBe(43);
 
       cache.clear();
       expect(cache.getStats().size).toBe(0);
@@ -237,7 +237,7 @@ describe('Performance Baseline Metrics', () => {
     console.log(`   Cached access (10000 iterations): ${accessStats.total}ms total, ${accessStats.avg.toFixed(3)}ms avg`);
 
     // These assertions ensure baseline stays within acceptable range
-    expect(stats.size).toBe(40);
+    expect(stats.size).toBe(43);
     expect(stats.loadTime).toBeLessThan(200); // Conservative limit
     expect(accessStats.avg).toBeLessThan(1);
   });
