@@ -5,6 +5,51 @@ All notable changes to PMP-GYWD will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.4.0] - 2026-02-01
+
+### Added
+
+#### Performance Optimization (Phase 19)
+- **MetadataCache** (`lib/cache/metadata-cache.js`) - mtime-based file metadata caching with LRU eviction
+- **KeywordIndex** (`lib/index/keyword-index.js`) - O(1) keyword lookups via inverted index
+- **Context graph persistence** - saveGraph/loadGraph methods in ContextAnalyzer
+- **MetricsDashboard** (`lib/metrics/dashboard.js`) - render(), renderCompact(), renderJSON() methods
+- **Profile optimization** - getCompactProfile(), getProfileSize(), exportWithLimit() methods
+- 44 new performance tests
+
+#### New Commands (Phase 20)
+- `/gywd:undo` - Granular undo with --last, --commit, --file, --preview options
+- `/gywd:compare` - Compare versions/branches/phases with summary/detailed/diff modes
+- `/gywd:snapshot` - Create/list/restore/delete named checkpoints
+
+#### IDE Integration (Phase 21)
+- **VS Code Extension** (`vscode-extension/`)
+  - Status bar integration showing current phase and focus
+  - 6 commands: progress, status, planPhase, executePhase, verifyWork, createPhase
+  - File watcher for .planning directory changes
+  - Activation on .planning folder presence
+
+#### MCP Server (Phase 22)
+- **MCP Server** (`mcp-server/`)
+  - 4 tools: get_status, get_roadmap, get_context, search_files
+  - Resource exposure: state, roadmap, issues
+  - Stdio transport for Claude Desktop integration
+
+#### Developer Experience (Phases 23-27)
+- **ErrorFormatter** (`lib/errors/error-formatter.js`) - Patterns, suggestions, recovery hints
+- **ProgressIndicator** (`lib/cli/progress-indicator.js`) - Spinners and progress bars
+- **TaskRunner** (`lib/cli/progress-indicator.js`) - Sequential task execution with visual feedback
+- **HookManager** (`lib/hooks/hook-manager.js`) - Pre/post command, task, and commit hooks
+- **ClaudeMdGenerator** (`lib/sync/claude-md-generator.js`) - Auto-generate CLAUDE.md from planning files
+- **PRGate** (`lib/gates/pr-gate.js`) - Quality gates: tests, uncommitted changes, branch status, blocking issues
+
+### Changed
+- Command count increased from 40 to 43
+- Test count increased to 618 tests (from 557 in v3.3)
+- Enhanced modular architecture with caching, indexing, and hooks
+
+---
+
 ## [3.3.0] - 2025-01-24
 
 ### Added
@@ -233,6 +278,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[3.4.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.0.0...v3.2.0
 [3.0.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v2.0.0...v3.0.0
