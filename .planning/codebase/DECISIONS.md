@@ -1,8 +1,8 @@
 # Decision Graph: PMP-GYWD
 
-**Extracted:** 2026-01-10
+**Extracted:** 2026-02-01
 **Depth:** Standard
-**Decisions:** 12
+**Decisions:** 22
 **Confidence Avg:** 91.5%
 
 ---
@@ -119,6 +119,134 @@
 
 ---
 
+### DEC-013: Modular lib architecture (v3.0.0) [92%]
+
+**Summary:** Organize intelligence systems into discrete, testable modules under lib/
+
+**Alternatives Considered:**
+- Inline everything in commands - Rejected: Untestable, duplicative
+- Single monolithic library - Rejected: Poor separation of concerns
+
+**Trade-offs:**
+- Gained: Testability, Reusability, Clear boundaries
+- Sacrificed: More files, Import complexity
+
+**Source:** Explicit (lib/ directory structure)
+
+---
+
+### DEC-014: Bayesian confidence scoring (v3.2.0) [88%]
+
+**Summary:** Use Beta-Binomial Bayesian updating for statistically rigorous confidence
+
+**Alternatives Considered:**
+- Simple percentage - Rejected: No uncertainty quantification
+- Frequentist confidence intervals - Rejected: Requires more samples
+
+**Trade-offs:**
+- Gained: Statistically sound, Handles sparse data, Uncertainty bounds
+- Sacrificed: Implementation complexity, Less intuitive to users
+
+**Source:** Explicit (lib/memory/confidence-calibrator.js)
+
+---
+
+### DEC-015: Team sync via exports (v3.2.0) [90%]
+
+**Summary:** Async collaboration through JSON exports rather than real-time sync
+
+**Alternatives Considered:**
+- Real-time WebSocket sync - Rejected: Infrastructure complexity, always-on requirement
+- Git-based sync - Rejected: Merge conflicts in binary patterns
+
+**Trade-offs:**
+- Gained: No infrastructure, Works offline, Simple mental model
+- Sacrificed: No real-time updates, Manual export/import
+
+**Source:** Explicit (lib/memory/team-sync.js)
+
+---
+
+### DEC-016: Agent pattern for autonomous operations (v4.0.0) [94%]
+
+**Summary:** Implement specialized agents with lifecycle management for composable autonomous operations
+
+**Alternatives Considered:**
+- Simple function calls - Rejected: No state management, poor composition
+- External agent frameworks - Rejected: Violates zero-dep principle
+
+**Trade-offs:**
+- Gained: Composable operations, State management, Clear lifecycle
+- Sacrificed: Implementation complexity, Learning curve
+
+**Source:** Explicit (lib/agents/)
+
+---
+
+### DEC-017: Permission risk scoring (v4.0.0) [91%]
+
+**Summary:** Multi-factor risk scoring to auto-approve safe operations and route dangerous ones
+
+**Alternatives Considered:**
+- Binary allow/deny - Rejected: Too coarse, poor UX
+- Always ask user - Rejected: Friction for safe operations
+
+**Trade-offs:**
+- Gained: Smooth UX for safe ops, Protection for dangerous ops
+- Sacrificed: Potential false positives, Threshold tuning needed
+
+**Source:** Explicit (lib/permissions/)
+
+---
+
+### DEC-018: Self-grilling with "5 Whys" (v4.0.0) [89%]
+
+**Summary:** Use established root cause analysis techniques for decision validation
+
+**Alternatives Considered:**
+- Simple yes/no validation - Rejected: Doesn't probe assumptions
+- Full devil's advocate debate - Rejected: Too heavyweight for every decision
+
+**Trade-offs:**
+- Gained: Deep assumption probing, Structured analysis
+- Sacrificed: Time overhead, May feel interrogative
+
+**Source:** Explicit (lib/grilling/decision-griller.js)
+
+---
+
+### DEC-019: Plugin sandboxing (v4.0.0) [87%]
+
+**Summary:** Limited API surface for plugins with validation and error boundaries
+
+**Alternatives Considered:**
+- No plugins - Rejected: Limits extensibility
+- Full access plugins - Rejected: Security risk
+
+**Trade-offs:**
+- Gained: Extensibility, Security boundaries
+- Sacrificed: Plugin capabilities limited, Some overhead
+
+**Source:** Explicit (lib/plugins/plugin-loader.js)
+
+---
+
+### DEC-020: ASCII dashboard over web UI (v4.0.0) [93%]
+
+**Summary:** Terminal-native ASCII dashboard maintains CLI-first philosophy
+
+**Alternatives Considered:**
+- Web UI dashboard - Rejected: Browser dependency, separate process
+- No dashboard - Rejected: Poor visibility into system state
+
+**Trade-offs:**
+- Gained: Zero external deps, Works in any terminal, Fast
+- Sacrificed: Limited interactivity, No charts/graphs beyond ASCII
+
+**Source:** Explicit (lib/dashboard/dashboard-renderer.js)
+
+---
+
 ## Convention Decisions
 
 ### DEC-002: Use GYWD prefix for all commands instead of GSD [92%]
@@ -143,7 +271,7 @@
 
 **Agents:** Critic, Devil's Advocate, Red Team, Chaos, Skeptic
 
-**Source:** Explicit (commands/gywd/challenge.md)
+**Source:** Explicit (commands/gywd/challenge.md, lib/agents/)
 
 ---
 
@@ -161,15 +289,51 @@
 
 ---
 
+### DEC-021: Multi-agent coordination modes (v4.0.0) [90%]
+
+**Summary:** Support consensus, majority, leader, and round-robin coordination strategies
+
+**Alternatives Considered:**
+- Single coordination mode - Rejected: Different scenarios need different strategies
+- User-defined coordination - Rejected: Too complex for most users
+
+**Trade-offs:**
+- Gained: Flexibility, Appropriate mode per scenario
+- Sacrificed: More modes to understand, Selection complexity
+
+**Source:** Explicit (lib/multi-agent/coordinator.js)
+
+---
+
+### DEC-022: Conflict resolution strategies for sync (v4.0.0) [88%]
+
+**Summary:** Local wins, remote wins, merge, and manual strategies for sync conflicts
+
+**Alternatives Considered:**
+- Always overwrite - Rejected: Data loss risk
+- Always manual - Rejected: Friction for simple cases
+
+**Trade-offs:**
+- Gained: Appropriate handling per scenario, User control
+- Sacrificed: Strategy selection complexity
+
+**Source:** Explicit (lib/multi-agent/cloud-sync.js)
+
+---
+
 ## Decision Chains
 
 ```
 DEC-001 (Fork) → DEC-002 (GYWD naming)
-DEC-003 (Zero deps) → DEC-004 (Markdown as prompts)
+DEC-003 (Zero deps) → DEC-004 (Markdown as prompts) → DEC-020 (ASCII dashboard)
 DEC-004 (Markdown prompts) → DEC-005 (Three-layer arch)
 DEC-006 (File state) → DEC-012 (Fresh context)
 DEC-008 (Tiered dev) → DEC-009 (Decision Intelligence) → DEC-010 (Unified v2.0)
-DEC-009 (Decision Intelligence) → DEC-011 (Adversarial agents)
+DEC-009 (Decision Intelligence) → DEC-011 (Adversarial agents) → DEC-016 (Agent pattern)
+DEC-010 (Unified v2.0) → DEC-013 (Modular lib) → DEC-014 (Bayesian) + DEC-015 (Team sync)
+DEC-016 (Agent pattern) → DEC-017 (Permission scoring) + DEC-018 (Self-grilling)
+DEC-016 (Agent pattern) → DEC-021 (Multi-agent modes) → DEC-022 (Conflict strategies)
+DEC-013 (Modular lib) → DEC-019 (Plugin sandboxing)
 ```
 
 ---
@@ -180,4 +344,4 @@ None detected.
 
 ---
 
-*Generated by GYWD v2.0 Bootstrap*
+*Generated by GYWD v4.0.0*

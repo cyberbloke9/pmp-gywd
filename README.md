@@ -4,10 +4,10 @@
 
 **Ship faster with AI that remembers your decisions.**
 
-*The context engineering framework for Claude Code — 40 commands · 557 tests · Zero runtime deps*
+*The autonomous context engineering framework for Claude Code — 43 commands · 618 tests · 20+ lib modules · Zero runtime deps*
 
-[![Version](https://img.shields.io/badge/version-3.3.1-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
-[![Tests](https://img.shields.io/badge/tests-557%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
+[![Version](https://img.shields.io/badge/version-4.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Tests](https://img.shields.io/badge/tests-618%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -22,23 +22,57 @@ npx pmp-gywd
 
 ---
 
-## What's New in v3.3?
+## What's New in v4.0?
 
-**Polish, Docs & Stability** — Comprehensive documentation and npm publishing.
+**Autonomous Intelligence** — Executable agents, permission scanning, and self-validation.
 
-| Added | Description |
-|-------|-------------|
-| **[Getting Started](docs/GETTING-STARTED.md)** | Step-by-step tutorial for new users |
-| **[Commands Reference](docs/COMMANDS.md)** | All 40 commands documented |
-| **[Examples](docs/EXAMPLES.md)** | Greenfield, brownfield, and daily workflows |
-| **[Contributing](docs/CONTRIBUTING.md)** | Developer guide with error handling patterns |
-| **[Releasing](docs/RELEASING.md)** | Maintainer release guide |
+| Feature | Description |
+|---------|-------------|
+| **Agent Runtime** | 6 specialized agents (Critic, Devil's Advocate, Red Team, Chaos, Skeptic) |
+| **Permission Scanner** | Auto-approve safe operations, block dangerous ones |
+| **Analytics Agents** | dbt-style model, test, and review generators |
+| **Self-Grilling** | Plan challenger, change validator, decision griller |
+| **Multi-Agent** | Coordination, messaging, conflict resolution |
+| **Plugin System** | Load custom plugins, marketplace integration |
+| **Visual Dashboard** | ASCII charts, metrics, activity feeds |
+
+```
+          v4.0 Autonomous Intelligence
+┌─────────────────────────────────────────────────┐
+│  Agent Runtime                                   │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐           │
+│  │ Critic  │ │Red Team │ │  Chaos  │           │
+│  └────┬────┘ └────┬────┘ └────┬────┘           │
+│       └──────────┬┴──────────┘                 │
+│                  ▼                              │
+│           AgentOrchestrator                     │
+│    (sequential/parallel/priority/pipeline)      │
+│                  │                              │
+│       ┌──────────┼──────────┐                  │
+│       ▼          ▼          ▼                  │
+│  Permission   Self-      Analytics             │
+│   Scanner    Grilling     Agents               │
+│       │          │          │                  │
+│       └──────────┼──────────┘                  │
+│                  ▼                              │
+│           Plugin System                         │
+│         + Visual Dashboard                      │
+└─────────────────────────────────────────────────┘
+```
 
 ---
 
-### v3.2: Enhanced Learning System
+### v3.4: Enhanced Experience
 
-**Cross-project memory and team pattern sharing.**
+| Feature | Description |
+|---------|-------------|
+| **Performance** | MetadataCache, KeywordIndex, graph persistence |
+| **New Commands** | `/gywd:undo`, `/gywd:compare`, `/gywd:snapshot` |
+| **VS Code** | Extension with status bar integration |
+| **MCP Server** | Claude Desktop integration |
+| **Developer UX** | ErrorFormatter, ProgressIndicator, HookManager |
+
+### v3.2: Enhanced Learning System
 
 | Module | What It Does |
 |--------|--------------|
@@ -48,48 +82,6 @@ npx pmp-gywd
 | **ConfidenceCalibrator** | Beta-Binomial Bayesian confidence scoring |
 | **TeamSync** | Export/import patterns with conflict resolution |
 
-```
-          v3.2 Enhanced Learning System
-┌─────────────────────────────────────────────┐
-│  GlobalMemory ◄──────► PatternAggregator    │
-│  (persistence)         (consensus)          │
-│       │                      │              │
-│       ▼                      ▼              │
-│  TeamSync            ConfidenceCalibrator   │
-│  (sharing)              (Bayesian)          │
-│                              │              │
-│              ┌───────────────┘              │
-│              ▼                              │
-│       FeedbackCollector                     │
-│         (learning)                          │
-└─────────────────────────────────────────────┘
-```
-
-### v3.0: Sophisticated Brain
-
-| Engine | What It Does |
-|--------|--------------|
-| **Profile Engine** | Developer Digital Twin — learns your patterns |
-| **Questioning Engine** | Adaptive questions that skip what's known |
-| **Context Predictor** | Pre-loads relevant context before you ask |
-| **Automation Framework** | Dependency analysis, test/doc generation |
-
-```
-          v3.0 Sophisticated Brain
-┌─────────────────────────────────────────────┐
-│   Profile ◄──────► Questioning              │
-│   Engine            Engine                  │
-│       │                │                    │
-│       └───────┬────────┘                    │
-│               ▼                             │
-│       Context Predictor                     │
-│      (Analyzer + Cache)                     │
-│               │                             │
-│               ▼                             │
-│       Continuous Learning                   │
-└─────────────────────────────────────────────┘
-```
-
 *See [CHANGELOG.md](CHANGELOG.md) for full version history.*
 
 ---
@@ -98,13 +90,15 @@ npx pmp-gywd
 
 **The problem:** AI generates code that conflicts with your existing decisions, forgets context between sessions, and degrades as projects grow.
 
-**The solution:** GYWD builds a decision graph of your codebase and maintains persistent context across sessions.
+**The solution:** GYWD builds a decision graph of your codebase, maintains persistent context, and now includes autonomous agents that validate, review, and challenge your work.
 
 | Challenge | How GYWD Solves It |
 |-----------|-------------------|
 | Lost context between sessions | Decision graph + persistent memory |
 | AI conflicts with architecture | Checks new code against existing decisions |
 | "Why was this built this way?" | `/gywd:why` traces code to decisions |
+| Unchallenged assumptions | Self-grilling agents question plans |
+| Security blind spots | Red Team agent probes vulnerabilities |
 
 ---
 
@@ -149,47 +143,7 @@ Choose **global** (all projects) or **local** (this project only).
 | Review my approach | `/gywd:challenge` |
 | Save state before stopping | `/gywd:pause-work` |
 
-*See `/gywd:help` for all 40 commands*
-
----
-
-## Starting Fresh (New Project)
-
-**Run:** `/gywd:new-project`
-
-GYWD interviews you about your vision, then:
-- Creates `PROJECT.md` with requirements
-- Builds your developer profile
-- Records preferences for future sessions
-
-**Typical flow:**
-```bash
-/gywd:new-project      # Define vision
-/gywd:create-roadmap   # Generate phases
-/gywd:plan-phase 1     # Plan first phase
-/gywd:execute-plan     # Build it
-/gywd:progress         # Continue next day
-```
-
----
-
-## Existing Codebase
-
-**Run:** `/gywd:bootstrap`
-
-GYWD analyzes your code and builds:
-- `STACK.md`, `ARCHITECTURE.md`, `CONVENTIONS.md` — codebase documentation
-- `decisions.json` — decision graph extracted from git history
-- Context model for predictive loading
-
-**Typical flow:**
-```bash
-/gywd:bootstrap        # Analyze codebase
-/gywd:new-project      # Define new feature
-/gywd:plan-phase 1     # Plan implementation
-/gywd:execute-plan     # Build with context
-/gywd:why <file>       # Understand existing code
-```
+*See `/gywd:help` for all 43 commands*
 
 ---
 
@@ -242,173 +196,31 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
-## Workflows
-
-### New Project (Greenfield)
-
-```bash
-/gywd:new-project          # Define vision
-/gywd:create-roadmap       # Generate phases
-/gywd:plan-phase 1         # Plan first phase
-/gywd:execute-plan         # Build it
-/gywd:progress             # Check status, continue
-```
-
-### Existing Codebase (Brownfield)
-
-```bash
-/gywd:bootstrap            # Initialize v3.0 (recommended)
-# OR
-/gywd:map-codebase         # Analyze structure only
-/gywd:extract-decisions    # Build decision graph only
-
-/gywd:new-project          # Define additions
-/gywd:create-roadmap       # Plan within architecture
-```
-
-### Daily Development
-
-```bash
-/gywd:progress             # Start of day - see status
-/gywd:resume-work          # Restore session context
-/gywd:pause-work           # Save state before break
-```
-
----
-
-## Command Reference (40 Commands)
-
-### Daily Workflow
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:status` | Show one-line project status |
-| `/gywd:progress` | See what's next and resume work |
-| `/gywd:resume-work` | Restore context from previous session |
-| `/gywd:pause-work` | Save state before stopping |
-
-### Project Setup
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:new-project` | Start new project with guided interview |
-| `/gywd:init <name>` | Quick start with minimal questions |
-| `/gywd:bootstrap` | Analyze existing codebase completely |
-| `/gywd:map-codebase` | Scan and document code structure |
-| `/gywd:create-roadmap` | Generate phase breakdown |
-
-### Planning
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:plan-phase [N]` | Create detailed task plan for phase |
-| `/gywd:discuss-phase [N]` | Clarify requirements before planning |
-| `/gywd:research-phase [N]` | Investigate unknowns before planning |
-| `/gywd:list-phase-assumptions [N]` | See what Claude assumes about phase |
-| `/gywd:preview-plan [path]` | Dry-run plan without executing |
-
-### Execution
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:execute-plan [path]` | Run plan (supports `--tasks 1-3`) |
-| `/gywd:verify-work` | Test completed work with user |
-| `/gywd:plan-fix` | Create fix plan for found issues |
-
-### Understanding Code
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:why <target>` | Trace code to its original decisions |
-| `/gywd:history <query>` | See how code evolved over time |
-| `/gywd:extract-decisions` | Build decision graph from git |
-| `/gywd:anticipate` | Pre-load context for upcoming work |
-| `/gywd:challenge [target]` | Get adversarial review of plan/code |
-
-### Analysis
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:context` | Show context budget usage |
-| `/gywd:health` | Display project health dashboard |
-| `/gywd:deps [N]` | Visualize phase dependencies |
-| `/gywd:check-drift` | Detect spec vs implementation drift |
-| `/gywd:digest [area]` | Generate compact codebase summary |
-| `/gywd:consider-issues` | Triage deferred issues |
-
-### Roadmap & Milestones
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:add-phase <desc>` | Append new phase to roadmap |
-| `/gywd:insert-phase <N> <desc>` | Insert urgent work as N.1 |
-| `/gywd:remove-phase <N>` | Delete phase and renumber |
-| `/gywd:new-milestone <name>` | Start new milestone |
-| `/gywd:discuss-milestone` | Plan next milestone interactively |
-| `/gywd:complete-milestone` | Archive milestone and tag release |
-
-### Memory & Profile
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:memory` | Manage cross-session memory |
-| `/gywd:profile` | View/edit your learned preferences |
-| `/gywd:impact <target>` | Connect code to real-world outcomes |
-
-### Integration
-
-| Command | What It Does |
-|---------|--------------|
-| `/gywd:sync-github` | Sync with GitHub issues and PRs |
-| `/gywd:rollback [target]` | Rollback to checkpoint safely |
-| `/gywd:help` | Show all available commands |
-
-**Full documentation:** See [docs/COMMANDS.md](docs/COMMANDS.md) for detailed usage and examples.
-
----
-
-## Project Structure
-
-```
-.planning/
-├── PROJECT.md              # Vision and requirements
-├── ROADMAP.md              # Phase breakdown
-├── STATE.md                # Session memory
-├── ISSUES.md               # Deferred items
-├── config.json             # Workflow settings
-│
-├── core/                   # Intelligence (auto-generated)
-│   ├── decisions.json      # Decision graph
-│   ├── context-model.json  # Context predictions
-│   └── learning-state.json # Learning system state
-│
-├── profile/                # Developer Digital Twin
-│   └── developer.json      # Your patterns and preferences
-│
-├── codebase/               # Codebase analysis
-│   ├── DECISIONS.md        # Human-readable decision graph
-│   ├── STACK.md            # Technology stack
-│   ├── ARCHITECTURE.md     # Design patterns
-│   ├── STRUCTURE.md        # Organization
-│   ├── CONVENTIONS.md      # Coding standards
-│   ├── TESTING.md          # Test approach
-│   ├── INTEGRATIONS.md     # External services
-│   └── CONCERNS.md         # Technical debt
-│
-└── phases/                 # Work breakdown
-    ├── 01-phase-name/
-    │   ├── 01-01-PLAN.md
-    │   └── 01-01-SUMMARY.md
-    └── 02-phase-name/
-        └── ...
-```
-
----
-
-## Library Modules
+## Library Modules (v4.0)
 
 ```javascript
-// Memory (v3.2) - Cross-project learning
+// Agents (v4.0)
+const { CriticAgent, RedTeamAgent, AgentOrchestrator } = require('pmp-gywd/lib/agents');
+
+// Permissions (v4.0)
+const { PermissionRouter, RiskScorer } = require('pmp-gywd/lib/permissions');
+
+// Analytics (v4.0)
+const { ModelGeneratorAgent, ReviewAgent } = require('pmp-gywd/lib/analytics');
+
+// Self-Grilling (v4.0)
+const { PlanChallengerAgent, DecisionGrillerAgent } = require('pmp-gywd/lib/grilling');
+
+// Multi-Agent (v4.0)
+const { MultiAgentCoordinator, MessageQueue } = require('pmp-gywd/lib/multi-agent');
+
+// Plugins (v4.0)
+const { PluginLoader, PluginMarketplace } = require('pmp-gywd/lib/plugins');
+
+// Dashboard (v4.0)
+const { DashboardRenderer } = require('pmp-gywd/lib/dashboard');
+
+// Memory (v3.2)
 const { GlobalMemory, PatternAggregator, TeamSync } = require('pmp-gywd/lib/memory');
 
 // Profile & Questioning
@@ -418,42 +230,49 @@ const { QuestionEngine } = require('pmp-gywd/lib/questioning');
 // Context & Automation
 const { ContextPredictor } = require('pmp-gywd/lib/context');
 const { DependencyAnalyzer } = require('pmp-gywd/lib/automation');
-
-// Validators
-const { validateJsonSyntax } = require('pmp-gywd/lib/validators');
 ```
 
-**7 modules** · **Zero runtime dependencies** · Works offline
+**20+ modules** · **Zero runtime dependencies** · Works offline
 
 ---
 
-## Architecture (v3.3)
+## Architecture (v4.0)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    GYWD v3.3 Core                       │
+│                    GYWD v4.0 Core                       │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
-│  ┌───────────┐  ┌───────────┐  ┌───────────┐           │
-│  │ Decision  │  │  Context  │  │   Agent   │           │
-│  │   Graph   │◄─┤Intelligence│◄─┤Orchestrator│          │
-│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘           │
-│        └───────┬──────┴──────┬───────┘                 │
-│                ▼             ▼                         │
-│  ┌────────────────────────────────────────────┐       │
-│  │              v3.0 Brain                     │       │
-│  │  Profile ◄──► Questioning ──► Predictor    │       │
-│  │            Continuous Learning              │       │
-│  └─────────────────────┬──────────────────────┘       │
-│                        ▼                               │
-│  ┌────────────────────────────────────────────┐       │
-│  │           v3.2 Memory Module               │       │
-│  │  GlobalMemory · PatternAggregator · TeamSync│      │
-│  └─────────────────────┬──────────────────────┘       │
-│                        ▼                               │
-│  ┌────────────────────────────────────────────┐       │
-│  │            Command Layer (40)               │       │
-│  └────────────────────────────────────────────┘       │
+│  ┌───────────────────────────────────────────────┐     │
+│  │            Agent Runtime (v4.0)                │     │
+│  │  Critic · Red Team · Chaos · Skeptic · Devil  │     │
+│  │            AgentOrchestrator                   │     │
+│  └─────────────────────┬─────────────────────────┘     │
+│                        │                               │
+│  ┌─────────┬───────────┼───────────┬─────────┐        │
+│  │Permission│  Self-    │  Analytics │  Multi- │        │
+│  │ Scanner │ Grilling  │   Agents  │  Agent  │        │
+│  └────┬────┴─────┬─────┴─────┬─────┴────┬────┘        │
+│       └──────────┴───────────┴──────────┘              │
+│                        │                               │
+│  ┌─────────────────────┴─────────────────────────┐    │
+│  │              v3.0 Brain                        │    │
+│  │  Profile ◄──► Questioning ──► Predictor       │    │
+│  │            Continuous Learning                 │    │
+│  └─────────────────────┬─────────────────────────┘    │
+│                        │                               │
+│  ┌─────────────────────┴─────────────────────────┐    │
+│  │           v3.2 Memory Module                  │    │
+│  │  GlobalMemory · PatternAggregator · TeamSync  │    │
+│  └─────────────────────┬─────────────────────────┘    │
+│                        │                               │
+│  ┌─────────────────────┴─────────────────────────┐    │
+│  │     Plugin System + Visual Dashboard           │    │
+│  └─────────────────────┬─────────────────────────┘    │
+│                        │                               │
+│  ┌─────────────────────┴─────────────────────────┐    │
+│  │            Command Layer (43)                  │    │
+│  └────────────────────────────────────────────────┘    │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
 ```
@@ -463,10 +282,10 @@ const { validateJsonSyntax } = require('pmp-gywd/lib/validators');
 ## CI/CD Pipeline
 
 - **12 test matrix combinations** (3 OS x 4 Node versions)
-- **557 automated tests** with Jest (22 test suites)
+- **618 automated tests** with Jest (25 test suites)
 - **ESLint** with zero external plugins
 - **Schema validation** for all JSON files
-- **Command validation** for all 40 commands
+- **Command validation** for all 43 commands
 - **Security scanning** with npm audit
 
 ```bash
@@ -485,39 +304,10 @@ npm run validate:all # Validate schemas and commands
 **v1.x** was feature accumulation.
 **v2.0** was unified intelligence.
 **v3.0** is the sophisticated brain - learning, adapting, predicting.
-**v3.2** is enhanced learning - cross-project memory, team sharing, Bayesian confidence.
+**v3.4** is enhanced experience - performance, IDE integration, MCP server.
+**v4.0** is autonomous intelligence - agents that challenge, validate, and protect.
 
-The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase and understands YOU as a developer.
-
----
-
-## Recommended Setup
-
-For uninterrupted automation:
-
-```bash
-claude --dangerously-skip-permissions
-```
-
-<details>
-<summary><strong>Alternative: Selective Permissions</strong></summary>
-
-Add to `.claude/settings.json`:
-
-```json
-{
-  "permissions": {
-    "allow": [
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git status:*)",
-      "Bash(git log:*)",
-      "Bash(git diff:*)"
-    ]
-  }
-}
-```
-</details>
+The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase, understands YOU as a developer, and **actively challenges assumptions** before they become problems.
 
 ---
 
@@ -539,14 +329,6 @@ Add to `.claude/settings.json`:
 - Run `/gywd:resume-work` to restore
 - Or `/gywd:progress` to see what's next
 
-**JSON parse errors?**
-- Check for syntax errors in `.planning/*.json` files
-- Validate with `npm run validate:all`
-
-**Permission denied errors?**
-- Ensure write access to `.planning/` directory
-- Check `~/.gywd/` is writable (for global memory)
-
 **Need latest version?**
 ```bash
 npx pmp-gywd@latest
@@ -559,7 +341,7 @@ npx pmp-gywd@latest
 Issues and PRs welcome at [github.com/cyberbloke9/pmp-gywd](https://github.com/cyberbloke9/pmp-gywd).
 
 Before submitting:
-- Run `npm test` (557 tests must pass)
+- Run `npm test` (618 tests must pass)
 - Run `npm run lint`
 
 See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for full guidelines.
@@ -574,8 +356,8 @@ MIT License - See [LICENSE](LICENSE)
 
 <div align="center">
 
-**Understand decisions. Ship coherent code.**
+**Understand decisions. Challenge assumptions. Ship coherent code.**
 
-*Built with decision intelligence by [cyberbloke9](https://github.com/cyberbloke9)*
+*Built with autonomous intelligence by [cyberbloke9](https://github.com/cyberbloke9)*
 
 </div>

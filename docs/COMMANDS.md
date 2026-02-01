@@ -1,6 +1,6 @@
 # GYWD Command Reference
 
-> Complete documentation for all 40 GYWD commands.
+> Complete documentation for all 43 GYWD commands.
 
 ## Table of Contents
 
@@ -674,6 +674,62 @@ Commands for external integrations.
 
 ---
 
+### /gywd:undo
+
+**Granular undo operations.**
+
+```bash
+/gywd:undo [options]
+```
+
+Options:
+```bash
+/gywd:undo --last       # Undo last change
+/gywd:undo --commit     # Undo specific commit
+/gywd:undo --file       # Undo changes to file
+/gywd:undo --preview    # Preview what would be undone
+```
+
+---
+
+### /gywd:compare
+
+**Compare versions, branches, or phases.**
+
+```bash
+/gywd:compare [options]
+```
+
+Options:
+```bash
+/gywd:compare --versions v3.4 v4.0    # Compare versions
+/gywd:compare --branches main feature # Compare branches
+/gywd:compare --phases 29 40          # Compare phases
+/gywd:compare --mode summary          # Summary mode
+/gywd:compare --mode detailed         # Detailed mode
+/gywd:compare --mode diff             # Diff mode
+```
+
+---
+
+### /gywd:snapshot
+
+**Create named checkpoints.**
+
+```bash
+/gywd:snapshot [command]
+```
+
+Commands:
+```bash
+/gywd:snapshot create "before-refactor"  # Create snapshot
+/gywd:snapshot list                       # List snapshots
+/gywd:snapshot restore "before-refactor" # Restore snapshot
+/gywd:snapshot delete "before-refactor"  # Delete snapshot
+```
+
+---
+
 ### /gywd:rollback
 
 **Rollback to checkpoint safely.**
@@ -699,7 +755,7 @@ Restores to a previous checkpoint.
 /gywd:help
 ```
 
-Lists all 40 commands with brief descriptions.
+Lists all 43 commands with brief descriptions.
 
 ---
 
@@ -715,7 +771,8 @@ Lists all 40 commands with brief descriptions.
 | Analysis | context, health, deps, check-drift, digest, consider-issues |
 | Roadmap | add-phase, insert-phase, remove-phase, new-milestone, discuss-milestone, complete-milestone |
 | Memory | memory, profile, impact |
-| Integration | sync-github, rollback, help |
+| Version Control | undo, compare, snapshot, rollback |
+| Integration | sync-github, help |
 
 ---
 

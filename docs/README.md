@@ -7,7 +7,7 @@
 | Document | Description |
 |----------|-------------|
 | [Getting Started](GETTING-STARTED.md) | Installation and first steps |
-| [Commands](COMMANDS.md) | All 40 commands with usage |
+| [Commands](COMMANDS.md) | All 43 commands with usage |
 | [Examples](EXAMPLES.md) | End-to-end workflow examples |
 | [Contributing](CONTRIBUTING.md) | Development and contribution guide |
 | [Releasing](RELEASING.md) | Maintainer release guide |
@@ -52,4 +52,4 @@ See the [main README](../README.md) for:
 
 ---
 
-*GYWD v3.3 — 40 commands · 557 tests · Zero runtime deps*
+*GYWD v4.0 — 43 commands · 618 tests · 20+ lib modules · Zero runtime deps*

@@ -28,7 +28,7 @@ Open Claude Code and run:
 /gywd:help
 ```
 
-You should see 40 commands listed. If commands don't appear, restart Claude Code.
+You should see 43 commands listed. If commands don't appear, restart Claude Code.
 
 ---
 

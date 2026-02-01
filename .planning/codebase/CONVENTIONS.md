@@ -7,8 +7,9 @@
 | Commands | kebab-case.md | `new-project.md`, `execute-plan.md` |
 | Templates | kebab-case.md | `project.md`, `roadmap.md` |
 | Core docs | UPPER_CASE.md | `PROJECT.md`, `STATE.md` |
-| JavaScript | kebab-case.js | `install.js` |
+| JavaScript | kebab-case.js | `base-agent.js`, `risk-scorer.js` |
 | Config | lowercase.json | `config.json`, `plugin.json` |
+| Tests | kebab-case.test.js | `base-agent.test.js` |
 
 ## Code Style (JavaScript)
 
@@ -16,12 +17,36 @@
 // camelCase for functions and variables
 function copyWithPathReplacement(srcDir, destDir, pathPrefix) { }
 
+// PascalCase for classes
+class AgentOrchestrator { }
+
+// UPPER_SNAKE_CASE for constants
+const RISK_LEVEL = { SAFE: 'safe', DANGEROUS: 'dangerous' };
+
 // ANSI colors as constants
 const cyan = '\x1b[36m';
 const green = '\x1b[32m';
 
 // 2-space indentation
-// No semicolons required (Node.js convention)
+// Semicolons optional (Node.js convention)
+```
+
+## Module Exports Pattern
+
+```javascript
+// Named exports for enums and utilities
+const RISK_LEVEL = { ... };
+const OPERATION_CATEGORY = { ... };
+
+// Class exports
+class OperationClassifier { ... }
+
+// Combined export
+module.exports = {
+  RISK_LEVEL,
+  OPERATION_CATEGORY,
+  OperationClassifier
+};
 ```
 
 ## Markdown Structure
@@ -84,6 +109,8 @@ What this command does and why
 
 Types: feat, fix, test, refactor, perf, chore, docs
 Example: feat(01-02): implement user authentication
+
+Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
 ## Document Templates
@@ -95,3 +122,55 @@ Example: feat(01-02): implement user authentication
 | STATE.md | Position, Metrics, Context, Continuity |
 | PLAN.md | Objective, Context, Tasks, Verification, Success Criteria |
 | SUMMARY.md | One-liner, Metrics, Accomplishments, Deviations |
+
+## Test Naming
+
+```javascript
+describe('ModuleName', () => {
+  describe('methodName', () => {
+    it('should handle normal case', () => { });
+    it('should throw on invalid input', () => { });
+    it('should return empty array when no matches', () => { });
+  });
+});
+```
+
+## Agent Conventions
+
+### Agent States
+```javascript
+const AGENT_STATE = {
+  IDLE: 'idle',
+  SPAWNING: 'spawning',
+  RUNNING: 'running',
+  COMPLETED: 'completed',
+  FAILED: 'failed',
+  CANCELLED: 'cancelled'
+};
+```
+
+### Agent Lifecycle
+```javascript
+async run() {
+  await this.spawn();    // Initialize
+  await this.execute();  // Do work
+  return this.collect(); // Return results
+}
+```
+
+## Permission Conventions
+
+### Risk Levels
+```javascript
+const RISK_LEVEL = {
+  SAFE: 'safe',         // Auto-approve
+  LOW: 'low',           // Auto-approve with logging
+  MEDIUM: 'medium',     // User notification
+  HIGH: 'high',         // User approval required
+  CRITICAL: 'critical', // Block by default
+  UNKNOWN: 'unknown'    // Conservative treatment
+};
+```
+
+---
+*Last updated: 2026-02-01 - v4.0.0*
