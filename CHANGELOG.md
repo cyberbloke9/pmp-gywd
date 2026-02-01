@@ -5,6 +5,57 @@ All notable changes to PMP-GYWD will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2026-02-01
+
+### Added
+
+#### Agent Runtime (Phase 29)
+- **BaseAgent** (`lib/agents/base-agent.js`) - Lifecycle management (spawn/execute/collect)
+- **CriticAgent** - Code quality review with pattern analysis
+- **DevilsAdvocateAgent** - Challenges assumptions and finds counterarguments
+- **RedTeamAgent** - Security vulnerability scanning
+- **ChaosAgent** - Edge case and failure mode testing
+- **SkepticAgent** - Questions requirements and decisions
+- **AgentOrchestrator** - Sequential/parallel/priority/pipeline execution strategies
+
+#### Permission Scanner (Phase 30)
+- **OperationClassifier** (`lib/permissions/`) - Pattern-based classification (safe/dangerous/unknown)
+- **RiskScorer** - Multi-factor risk scoring (category, target, context, history, time)
+- **PermissionRouter** - Auto-approve safe operations, route dangerous to user
+
+#### Analytics Agents (Phase 31)
+- **ModelGeneratorAgent** (`lib/analytics/`) - Schema-to-code generation (JS/TS/SQL)
+- **TestGeneratorAgent** - Model-to-test generation (Jest/Mocha)
+- **ReviewAgent** - Code review with pattern-based analysis and quality scoring
+
+#### Self-Grilling (Phase 32)
+- **PlanChallengerAgent** (`lib/grilling/`) - Questions assumptions before execution
+- **ChangeValidatorAgent** - Validates proposed changes with risk assessment
+- **DecisionGrillerAgent** - "5 Whys" analysis and cognitive bias detection
+
+#### Multi-Agent Coordination (Phases 33-34)
+- **MultiAgentCoordinator** (`lib/multi-agent/`) - Shared state with conflict resolution
+- **MessageQueue** - Inter-agent messaging with pub/sub and priority queues
+
+#### Cloud & Team Sync (Phases 35-36)
+- **CloudSyncManager** - Remote state storage with versioned sync
+- **TeamSyncManager** - Real-time team pattern sharing and decision voting
+
+#### Plugin System (Phases 37-38)
+- **PluginLoader** (`lib/plugins/`) - Load, enable, disable plugins with sandboxing
+- **PluginMarketplace** - Search, browse, install plugins from registry
+
+#### Visual Dashboard (Phase 39)
+- **DashboardRenderer** (`lib/dashboard/`) - ASCII dashboard with charts and metrics
+- Status cards, progress bars, sparkline trends, activity feeds
+
+### Changed
+- Major version bump to 4.0.0 (Autonomous Intelligence)
+- 12 new lib modules totaling 8,000+ lines of code
+- Enhanced architecture for multi-agent autonomous operations
+
+---
+
 ## [3.4.0] - 2026-02-01
 
 ### Added
@@ -278,6 +329,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+[4.0.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.4.0...v4.0.0
 [3.4.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.3.0...v3.4.0
 [3.3.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.2.0...v3.3.0
 [3.2.0]: https://github.com/cyberbloke9/pmp-gywd/compare/v3.0.0...v3.2.0
