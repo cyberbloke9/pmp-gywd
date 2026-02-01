@@ -1,0 +1,80 @@
+{
+  "name": "pmp-gywd",
+  "displayName": "PMP-GYWD",
+  "description": "GYWD (Get Your Work Done) - Decision-aware development for Claude Code",
+  "version": "0.1.0",
+  "publisher": "cyberbloke9",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Programming Languages"
+  ],
+  "keywords": [
+    "claude",
+    "ai",
+    "development",
+    "planning",
+    "context"
+  ],
+  "activationEvents": [
+    "workspaceContains:.planning"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gywd.status",
+        "title": "GYWD: Show Status"
+      },
+      {
+        "command": "gywd.progress",
+        "title": "GYWD: Show Progress"
+      },
+      {
+        "command": "gywd.executePlan",
+        "title": "GYWD: Execute Current Plan"
+      },
+      {
+        "command": "gywd.help",
+        "title": "GYWD: Help"
+      },
+      {
+        "command": "gywd.openRoadmap",
+        "title": "GYWD: Open Roadmap"
+      },
+      {
+        "command": "gywd.openState",
+        "title": "GYWD: Open State"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "gywd.status"
+        },
+        {
+          "command": "gywd.progress"
+        },
+        {
+          "command": "gywd.executePlan"
+        },
+        {
+          "command": "gywd.help"
+        },
+        {
+          "command": "gywd.openRoadmap"
+        },
+        {
+          "command": "gywd.openState"
+        }
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cyberbloke9/pmp-gywd"
+  },
+  "license": "MIT"
+}
