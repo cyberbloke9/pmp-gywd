@@ -8,8 +8,8 @@ PMP-GYWD is a context engineering framework for Claude Code. From v1.0 foundatio
 
 - ✅ **v1.0-v3.2** - Foundation through Enhanced Learning (Phases 1-9, shipped 2025-01-20)
 - ✅ **v3.3 Polish, Docs & Stability** - Phases 10-18 (complete)
-- 🚧 **v3.4 Enhanced Experience** - Phases 19-26 (in progress)
-- 📋 **v4.0 Platform Evolution** - Phases 27-34 (planned)
+- 🚧 **v3.4 Enhanced Experience** - Phases 19-28 (in progress)
+- 📋 **v4.0 Platform Evolution** - Phases 29-40 (planned)
 
 ---
 
@@ -212,117 +212,197 @@ Plans:
 
 #### Phase 25: hooks-system
 
-**Goal**: Pre/post command hooks for custom automation
+**Goal**: Pre/post command hooks, lifecycle events, middleware pattern for custom automation
 **Depends on**: Phase 24
 **Research**: Likely (hook architectures)
-**Research topics**: Git hooks pattern, event-driven architecture
+**Research topics**: Git hooks pattern, event-driven architecture, middleware chains
 **Plans**: TBD
 
 Plans:
-- [ ] 25-01: TBD
+- [ ] 25-01: Core hook system (pre/post command, pre/post task, error recovery)
+- [ ] 25-02: Lifecycle events (initialize, cleanup, checkpoint)
+- [ ] 25-03: Middleware pattern and event emitters
 
-#### Phase 26: v3.4-release
+#### Phase 26: claude-md-sync
+
+**Goal**: Auto-generate and sync CLAUDE.md from PROJECT.md, decisions, and roadmap
+**Depends on**: Phase 25
+**Research**: Unlikely (internal patterns)
+**Research topics**: Template generation, file watching, incremental updates
+**Plans**: TBD
+
+Plans:
+- [ ] 26-01: CLAUDE.md generator from planning files
+- [ ] 26-02: Decision graph integration
+- [ ] 26-03: Auto-update on planning file changes
+
+#### Phase 27: pr-gate
+
+**Goal**: Block PR creation until all agent tests AND user tests pass
+**Depends on**: Phase 26
+**Research**: Unlikely (git/GitHub patterns)
+**Research topics**: Pre-push hooks, test runners, status checks
+**Plans**: TBD
+
+Plans:
+- [ ] 27-01: Test runner integration (agent tests must pass)
+- [ ] 27-02: User acceptance gate (verify-work must complete)
+- [ ] 27-03: PR creation only after all gates pass
+
+#### Phase 28: v3.4-release
 
 **Goal**: Testing, docs update, npm publish v3.4
-**Depends on**: Phase 25
-**Research**: Unlikely (established release process)
-**Plans**: TBD
-
-Plans:
-- [ ] 26-01: TBD
-
----
-
-### 📋 v4.0 Platform Evolution (Planned)
-
-**Milestone Goal:** Transform GYWD into a platform with multi-agent support, cloud sync, plugins, and visual dashboard.
-
-#### Phase 27: multi-agent-core
-
-**Goal**: Agent coordination model, shared state, conflict resolution
-**Depends on**: v3.4 complete
-**Research**: Likely (multi-agent patterns)
-**Research topics**: Distributed state management, conflict resolution, agent orchestration
-**Plans**: TBD
-
-Plans:
-- [ ] 27-01: TBD
-
-#### Phase 28: agent-communication
-
-**Goal**: Inter-agent messaging, task delegation
 **Depends on**: Phase 27
-**Research**: Likely (messaging patterns)
-**Research topics**: Message queues, pub/sub, agent protocols
+**Research**: Unlikely (established release process)
 **Plans**: TBD
 
 Plans:
 - [ ] 28-01: TBD
 
-#### Phase 29: cloud-sync-core
+---
 
-**Goal**: Remote state storage, authentication
-**Depends on**: Phase 28
-**Research**: Likely (cloud storage APIs)
-**Research topics**: Supabase/Firebase, OAuth, encryption at rest
+### 📋 v4.0 Platform Evolution (Planned)
+
+**Milestone Goal:** Transform GYWD into an autonomous platform with executable agents, permission intelligence, analytics automation, and self-validation.
+
+#### Phase 29: agent-runtime
+
+**Goal**: Executable agent classes, spawn/route/collect pattern, context sharing
+**Depends on**: v3.4 complete
+**Research**: Likely (agent architectures)
+**Research topics**: Agent lifecycle, context isolation, result aggregation
 **Plans**: TBD
 
 Plans:
-- [ ] 29-01: TBD
+- [ ] 29-01: Base Agent class with lifecycle (spawn, execute, collect)
+- [ ] 29-02: Agent types (Critic, Devil's Advocate, Red Team, Chaos, Skeptic)
+- [ ] 29-03: Context sharing and result aggregation
 
-#### Phase 30: team-collaboration
+#### Phase 30: permission-scanner
 
-**Goal**: Real-time sync, merge conflicts, team permissions
+**Goal**: Attack detection, safe operation auto-approval, hook-based permission routing
 **Depends on**: Phase 29
-**Research**: Likely (collaboration patterns)
-**Research topics**: CRDTs, operational transform, team roles
+**Research**: Likely (security patterns)
+**Research topics**: Operation classification, risk scoring, allowlist patterns
 **Plans**: TBD
 
 Plans:
-- [ ] 30-01: TBD
+- [ ] 30-01: Operation classifier (safe/dangerous/unknown)
+- [ ] 30-02: Risk scoring engine with pattern matching
+- [ ] 30-03: Auto-approve safe operations, route dangerous to user
 
-#### Phase 31: plugin-architecture
+#### Phase 31: analytics-agents
 
-**Goal**: Plugin loader, API for custom commands
+**Goal**: dbt-style code generators, SQL/transform pipelines, model review agents
 **Depends on**: Phase 30
-**Research**: Likely (plugin systems)
-**Research topics**: Plugin sandboxing, API versioning, dependency injection
+**Research**: Likely (analytics engineering patterns)
+**Research topics**: dbt patterns, data transformation, code generation
 **Plans**: TBD
 
 Plans:
-- [ ] 31-01: TBD
+- [ ] 31-01: Model generator agent (schema → code)
+- [ ] 31-02: Test generator agent (model → tests)
+- [ ] 31-03: Review agent (code → feedback)
 
-#### Phase 32: plugin-marketplace
+#### Phase 32: self-grilling
 
-**Goal**: Discovery, installation, versioning
+**Goal**: Adversarial self-validation, question changes/planning, grill user on decisions
 **Depends on**: Phase 31
-**Research**: Likely (marketplace patterns)
-**Research topics**: npm-like registry, plugin verification, auto-updates
+**Research**: Likely (adversarial patterns)
+**Research topics**: Devil's advocate patterns, assumption challenging, decision validation
 **Plans**: TBD
 
 Plans:
-- [ ] 32-01: TBD
+- [ ] 32-01: Plan challenger (question assumptions before execution)
+- [ ] 32-02: Change validator (grill on modifications)
+- [ ] 32-03: User decision griller (validate user choices)
 
-#### Phase 33: visual-dashboard
+#### Phase 33: multi-agent-core
 
-**Goal**: Web UI for project status, roadmap visualization
+**Goal**: Agent coordination model, shared state, conflict resolution
 **Depends on**: Phase 32
-**Research**: Likely (web frameworks)
-**Research topics**: React/Svelte, real-time updates, data visualization
+**Research**: Likely (multi-agent patterns)
+**Research topics**: Distributed state management, conflict resolution, agent orchestration
 **Plans**: TBD
 
 Plans:
 - [ ] 33-01: TBD
 
-#### Phase 34: v4.0-release
+#### Phase 34: agent-communication
 
-**Goal**: Migration guide, breaking changes docs, release
+**Goal**: Inter-agent messaging, task delegation, message queue
 **Depends on**: Phase 33
-**Research**: Unlikely (established release process)
+**Research**: Likely (messaging patterns)
+**Research topics**: Message queues, pub/sub, agent protocols
 **Plans**: TBD
 
 Plans:
 - [ ] 34-01: TBD
+
+#### Phase 35: cloud-sync-core
+
+**Goal**: Remote state storage, authentication
+**Depends on**: Phase 34
+**Research**: Likely (cloud storage APIs)
+**Research topics**: Supabase/Firebase, OAuth, encryption at rest
+**Plans**: TBD
+
+Plans:
+- [ ] 35-01: TBD
+
+#### Phase 36: team-collaboration
+
+**Goal**: Real-time sync, merge conflicts, team permissions
+**Depends on**: Phase 35
+**Research**: Likely (collaboration patterns)
+**Research topics**: CRDTs, operational transform, team roles
+**Plans**: TBD
+
+Plans:
+- [ ] 36-01: TBD
+
+#### Phase 37: plugin-architecture
+
+**Goal**: Plugin loader, API for custom commands
+**Depends on**: Phase 36
+**Research**: Likely (plugin systems)
+**Research topics**: Plugin sandboxing, API versioning, dependency injection
+**Plans**: TBD
+
+Plans:
+- [ ] 37-01: TBD
+
+#### Phase 38: plugin-marketplace
+
+**Goal**: Discovery, installation, versioning
+**Depends on**: Phase 37
+**Research**: Likely (marketplace patterns)
+**Research topics**: npm-like registry, plugin verification, auto-updates
+**Plans**: TBD
+
+Plans:
+- [ ] 38-01: TBD
+
+#### Phase 39: visual-dashboard
+
+**Goal**: Web UI for project status, roadmap visualization
+**Depends on**: Phase 38
+**Research**: Likely (web frameworks)
+**Research topics**: React/Svelte, real-time updates, data visualization
+**Plans**: TBD
+
+Plans:
+- [ ] 39-01: TBD
+
+#### Phase 40: v4.0-release
+
+**Goal**: Migration guide, breaking changes docs, release
+**Depends on**: Phase 39
+**Research**: Unlikely (established release process)
+**Plans**: TBD
+
+Plans:
+- [ ] 40-01: TBD
 
 ---
 
@@ -340,23 +420,29 @@ Plans:
 | 16. test-coverage-boost | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 17. npm-package-prep | v3.3 | 1/1 | Complete | 2026-01-24 |
 | 18. release-automation | v3.3 | 1/1 | Complete | 2026-01-24 |
-| 19. performance-optimization | v3.4 | 0/3 | Planned | - |
+| 19. performance-optimization | v3.4 | 1/3 | In Progress | - |
 | 20. new-commands | v3.4 | 0/? | Not started | - |
 | 21. ide-integration | v3.4 | 0/? | Not started | - |
 | 22. mcp-server | v3.4 | 0/? | Not started | - |
 | 23. error-ux | v3.4 | 0/? | Not started | - |
 | 24. interactive-prompts | v3.4 | 0/? | Not started | - |
-| 25. hooks-system | v3.4 | 0/? | Not started | - |
-| 26. v3.4-release | v3.4 | 0/? | Not started | - |
-| 27. multi-agent-core | v4.0 | 0/? | Not started | - |
-| 28. agent-communication | v4.0 | 0/? | Not started | - |
-| 29. cloud-sync-core | v4.0 | 0/? | Not started | - |
-| 30. team-collaboration | v4.0 | 0/? | Not started | - |
-| 31. plugin-architecture | v4.0 | 0/? | Not started | - |
-| 32. plugin-marketplace | v4.0 | 0/? | Not started | - |
-| 33. visual-dashboard | v4.0 | 0/? | Not started | - |
-| 34. v4.0-release | v4.0 | 0/? | Not started | - |
+| 25. hooks-system | v3.4 | 0/3 | Not started | - |
+| 26. claude-md-sync | v3.4 | 0/3 | Not started | - |
+| 27. pr-gate | v3.4 | 0/3 | Not started | - |
+| 28. v3.4-release | v3.4 | 0/? | Not started | - |
+| 29. agent-runtime | v4.0 | 0/3 | Not started | - |
+| 30. permission-scanner | v4.0 | 0/3 | Not started | - |
+| 31. analytics-agents | v4.0 | 0/3 | Not started | - |
+| 32. self-grilling | v4.0 | 0/3 | Not started | - |
+| 33. multi-agent-core | v4.0 | 0/? | Not started | - |
+| 34. agent-communication | v4.0 | 0/? | Not started | - |
+| 35. cloud-sync-core | v4.0 | 0/? | Not started | - |
+| 36. team-collaboration | v4.0 | 0/? | Not started | - |
+| 37. plugin-architecture | v4.0 | 0/? | Not started | - |
+| 38. plugin-marketplace | v4.0 | 0/? | Not started | - |
+| 39. visual-dashboard | v4.0 | 0/? | Not started | - |
+| 40. v4.0-release | v4.0 | 0/? | Not started | - |
 
 ---
 
-*Last updated: 2026-01-25 after Phase 19 planning*
+*Last updated: 2026-02-01 after adding autonomous intelligence phases*
