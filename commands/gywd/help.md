@@ -466,6 +466,46 @@ Modes:
 
 Usage: `/gywd:bootstrap` or `/gywd:bootstrap --deep`
 
+### Claude-Mem Integration
+
+Cross-session memory powered by claude-mem persistent memory system.
+
+**`/gywd:mem-status`**
+Show claude-mem integration status and statistics.
+
+- Connection status (worker running/not running)
+- Sync statistics (observations, patterns, errors)
+- Queue status and pattern counts by type
+
+Usage: `/gywd:mem-status`
+
+**`/gywd:mem-search <query>`**
+Search claude-mem observations across sessions.
+
+- Find relevant past context using semantic search
+- Filter by type (observation, prompt, session, summary)
+- Filter by project
+
+Usage: `/gywd:mem-search "authentication patterns" --type observation --limit 10`
+
+**`/gywd:mem-sync`**
+Manually sync claude-mem observations to GYWD patterns.
+
+- Import historical observations
+- Force sync after worker restart
+- Sync from specific date
+
+Usage: `/gywd:mem-sync --full` or `/gywd:mem-sync --since 2024-01-15`
+
+**`/gywd:mem-timeline`**
+View chronological timeline of observations.
+
+- Trace work history
+- Navigate around specific events
+- Filter by project or search query
+
+Usage: `/gywd:mem-timeline --anchor 123 --depth 10`
+
 ### Utility Commands
 
 **`/gywd:help`**
