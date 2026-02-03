@@ -1,0 +1,39 @@
+{
+  "name": "claude-mem-integration",
+  "version": "1.0.0",
+  "description": "Real-time integration with claude-mem persistent memory system",
+  "author": "PMP-GYWD",
+  "license": "MIT",
+  "type": "integration",
+  "main": "index.js",
+  "keywords": [
+    "claude-mem",
+    "memory",
+    "integration",
+    "streaming",
+    "patterns"
+  ],
+  "config": {
+    "workerHost": "127.0.0.1",
+    "workerPort": 37777,
+    "autoConnect": true,
+    "syncBatchSize": 100,
+    "syncIntervalMs": 30000,
+    "initialConfidence": 0.6,
+    "reconnectMaxAttempts": 10,
+    "reconnectBaseDelayMs": 1000,
+    "maxQueueSize": 10000,
+    "requestTimeoutMs": 10000
+  },
+  "hooks": [
+    "post_command",
+    "pre_task",
+    "on_error"
+  ],
+  "commands": [
+    "mem-search",
+    "mem-sync",
+    "mem-status",
+    "mem-timeline"
+  ]
+}
