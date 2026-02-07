@@ -2,7 +2,7 @@
 
 ## Overview
 
-PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1.0 foundation through v4.0's Autonomous Intelligence, we've built 43 commands, 618 tests, 20+ lib modules, and a sophisticated multi-agent system.
+PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1.0 foundation through v4.1's Claude-Mem Integration, we've built 47 commands, 793 tests, 25+ lib modules, and a sophisticated multi-agent system with persistent cross-session memory.
 
 ## Milestones
 
@@ -10,6 +10,8 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 - ✅ **v3.3 Polish, Docs & Stability** - Phases 10-18 (complete 2026-01-24)
 - ✅ **v3.4 Enhanced Experience** - Phases 19-28 (complete 2026-02-01)
 - ✅ **v4.0 Autonomous Intelligence** - Phases 29-40 (complete 2026-02-01)
+- ✅ **v4.1 Claude-Mem Integration** - Phases 41-42 (complete 2026-02-04)
+- 🚧 **v5.0 Connected Intelligence** - Phases 43-52 (in progress)
 
 ---
 
@@ -112,7 +114,7 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 ---
 
-<details open>
+<details>
 <summary>✅ v4.0 Autonomous Intelligence (Phases 29-40) - COMPLETE 2026-02-01</summary>
 
 ### v4.0 Autonomous Intelligence
@@ -201,6 +203,141 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 ---
 
+<details>
+<summary>✅ v4.1 Claude-Mem Integration (Phases 41-42) - COMPLETE 2026-02-04</summary>
+
+### v4.1 Claude-Mem Integration
+
+**Milestone Goal:** Integrate claude-mem persistent memory system for cross-session learning. Real-time SSE streaming, tool-level observation mapping, and batch sync to GYWD GlobalMemory.
+
+#### Phase 41: claude-mem-plugin ✅
+
+- [x] 41-01: SSE client with auto-reconnect and exponential backoff
+- [x] 41-02: Observation mapper for all Claude Code tools
+- [x] 41-03: Sync manager with batched import (100 items/batch, 30s interval)
+- [x] 41-04: Plugin infrastructure (manifest, index, lifecycle)
+- [x] 41-05: 4 plugin commands (search, sync, status, timeline)
+
+**Deliverables:** `lib/plugins/claude-mem-integration/` - SSEClient, ObservationMapper, SyncManager, 4 command handlers
+
+#### Phase 42: claude-mem-bootstrap ✅
+
+- [x] 42-01: Plugin config system with enabled plugins registry
+- [x] 42-02: Bootstrap system (initPluginSystem, shutdownPluginSystem)
+- [x] 42-03: 4 GYWD skill commands (mem-search, mem-sync, mem-status, mem-timeline)
+- [x] 42-04: Integration test script
+- [x] 42-05: 175 tests (159 plugin + 16 bootstrap)
+- [x] 42-06: Perpetual context folder (.claude-mem/)
+
+**Deliverables:** `lib/plugins/config.js`, `lib/plugins/bootstrap.js`, `commands/gywd/mem-*.md`, `scripts/test-claude-mem-integration.js`
+
+</details>
+
+---
+
+<details open>
+<summary>🚧 v5.0 Connected Intelligence (Phases 43-52) - IN PROGRESS</summary>
+
+### v5.0 Connected Intelligence
+
+**Milestone Goal:** Transform GYWD from a CLI-only tool into a connected platform with web dashboard, semantic memory, multi-model support, real-time collaboration, and CI/CD integration.
+
+#### Phase 43: web-dashboard-core
+
+- [ ] 43-01: Next.js project scaffold with TypeScript
+- [ ] 43-02: Dashboard layout (sidebar, header, main content area)
+- [ ] 43-03: Project overview page (progress, phases, active work)
+- [ ] 43-04: Real-time status feed via WebSocket/SSE
+
+**Goal:** Browser-based project visualization with live updates
+
+#### Phase 44: web-dashboard-charts
+
+- [ ] 44-01: Interactive timeline chart (phases, decisions, milestones)
+- [ ] 44-02: Pattern heatmap (tool usage, confidence distribution)
+- [ ] 44-03: Decision graph visualization (nodes, edges, impact)
+- [ ] 44-04: Performance metrics dashboard (tests, coverage, health)
+
+**Goal:** Rich visual analytics for project intelligence
+
+#### Phase 45: api-gateway
+
+- [ ] 45-01: Express/Fastify REST API server
+- [ ] 45-02: WebSocket server for real-time dashboard updates
+- [ ] 45-03: Authentication middleware (API keys, JWT)
+- [ ] 45-04: Rate limiting, CORS, request validation
+- [ ] 45-05: OpenAPI/Swagger documentation
+
+**Goal:** Secure API layer connecting GYWD core to dashboard and external tools
+
+#### Phase 46: semantic-memory
+
+- [ ] 46-01: Vector embedding pipeline (observations → embeddings)
+- [ ] 46-02: Semantic search across GYWD + claude-mem data
+- [ ] 46-03: Auto-context injection (relevant past patterns surfaced before tasks)
+- [ ] 46-04: Decision similarity detection (find related past decisions)
+
+**Goal:** AI-powered memory that understands meaning, not just keywords
+
+#### Phase 47: multi-model-support
+
+- [ ] 47-01: Model adapter interface (standardized input/output)
+- [ ] 47-02: OpenAI adapter (GPT-4, o1, o3)
+- [ ] 47-03: Google adapter (Gemini 2.0)
+- [ ] 47-04: Local model adapter (Ollama, llama.cpp)
+- [ ] 47-05: Model router (cost, capability, latency-based selection)
+
+**Goal:** Use the best model for each task, not just Claude
+
+#### Phase 48: crdt-collaboration
+
+- [ ] 48-01: CRDT library integration (Yjs or Automerge)
+- [ ] 48-02: Collaborative plan editing (real-time multi-user)
+- [ ] 48-03: Decision voting system (team consensus)
+- [ ] 48-04: Conflict resolution for concurrent state changes
+
+**Goal:** Real-time team collaboration on plans and decisions
+
+#### Phase 49: cloud-sync-service
+
+- [ ] 49-01: Cloud storage backend (S3/R2 compatible)
+- [ ] 49-02: Encrypted sync protocol (E2E encryption)
+- [ ] 49-03: Cross-machine state sync (laptop ↔ desktop ↔ CI)
+- [ ] 49-04: Version history and rollback for synced state
+
+**Goal:** Seamless GYWD state across all your machines
+
+#### Phase 50: enterprise-features
+
+- [ ] 50-01: SSO integration (OIDC, SAML)
+- [ ] 50-02: Role-based access control (admin, developer, viewer)
+- [ ] 50-03: Audit log system (who did what, when)
+- [ ] 50-04: Compliance reporting (SOC2, GDPR data handling)
+
+**Goal:** Enterprise-ready security and governance
+
+#### Phase 51: ci-cd-integration
+
+- [ ] 51-01: GitHub Actions workflow (auto-run GYWD checks on PR)
+- [ ] 51-02: GitLab CI template
+- [ ] 51-03: Pre-merge validation (drift check, decision conflicts, test health)
+- [ ] 51-04: Automated release notes from GYWD decision graph
+
+**Goal:** GYWD intelligence in every CI/CD pipeline
+
+#### Phase 52: v5.0-release
+
+- [ ] 52-01: Version bump to 5.0.0
+- [ ] 52-02: Migration guide from v4.x
+- [ ] 52-03: Updated documentation and examples
+- [ ] 52-04: npm publish, GitHub release, changelog
+
+**Goal:** Ship v5.0 Connected Intelligence
+
+</details>
+
+---
+
 ## Progress Summary
 
 | Milestone | Phases | Status | Released |
@@ -209,27 +346,19 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 | v3.3 Polish & Docs | 10-18 | ✅ Complete | 2026-01-24 |
 | v3.4 Enhanced Experience | 19-28 | ✅ Complete | 2026-02-01 |
 | v4.0 Autonomous Intelligence | 29-40 | ✅ Complete | 2026-02-01 |
+| v4.1 Claude-Mem Integration | 41-42 | ✅ Complete | 2026-02-04 |
+| v5.0 Connected Intelligence | 43-52 | 🚧 In Progress | - |
 
 ## Stats
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 40 |
-| Commands | 43 |
-| Tests | 618 |
-| Lib Modules | 20+ |
-| Lines of Code | 15,000+ |
+| Total Phases | 52 (42 complete, 10 planned) |
+| Commands | 47 |
+| Tests | 793 |
+| Lib Modules | 25+ |
+| Lines of Code | 19,000+ |
 
 ---
 
-## Future Considerations (v5.0+)
-
-- **Web Dashboard** - Full web UI for project visualization
-- **Real-time Collaboration** - CRDTs for live team editing
-- **Cloud Hosting** - Managed GYWD service
-- **Enterprise Features** - SSO, audit logs, compliance
-- **AI Model Integration** - Multiple LLM support
-
----
-
-*Last updated: 2026-02-01 - v4.0.0 Released*
+*Last updated: 2026-02-04 - v5.0 Planning*
