@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gywd-bg: #0f172a;
+  --gywd-surface: #1e293b;
+  --gywd-border: #334155;
+  --gywd-text: #e2e8f0;
+  --gywd-muted: #94a3b8;
+}
+
+body {
+  background-color: var(--gywd-bg);
+  color: var(--gywd-text);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gywd-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gywd-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gywd-muted);
+}
