@@ -12,9 +12,9 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Overview', href: '/overview', icon: '📊' },
+  { label: 'Charts', href: '/charts', icon: '📉' },
+  { label: 'Analytics', href: '/analytics', icon: '📈' },
   { label: 'Memory', href: '/memory', icon: '🧠', disabled: true },
-  { label: 'Patterns', href: '/patterns', icon: '🔍', disabled: true },
-  { label: 'Analytics', href: '/analytics', icon: '📈', disabled: true },
   { label: 'Settings', href: '/settings', icon: '⚙️', disabled: true },
 ];
 

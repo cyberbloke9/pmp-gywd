@@ -5,23 +5,23 @@
 **Building:** A connected context engineering platform for Claude Code. Features autonomous agents, persistent cross-session memory (claude-mem), plugin system, and now planning web dashboard, semantic memory, multi-model support, and real-time collaboration.
 
 **Current milestone:** v5.0 Connected Intelligence
-**Focus:** Phase 43 - Web Dashboard Core
+**Focus:** Phase 45 - API Gateway
 
 ## Current Position
 
-**Phase:** 43 of 52 (web-dashboard-core)
+**Phase:** 45 of 52 (api-gateway)
 **Status:** Not Started
 
-**Progress:** [████████░░] 81% overall (42/52 phases complete)
+**Progress:** [█████████░] 85% overall (44/52 phases complete)
 
-Last activity: 2026-02-04 - Completed v4.1 Claude-Mem Integration, planned v5.0
+Last activity: 2026-02-09 - Completed Phase 44 Web Dashboard Charts
 
 ## v5.0 Connected Intelligence - Phase Overview
 
 | Phase | Title | Status |
 |-------|-------|--------|
-| 43 | Web Dashboard Core | Not Started |
-| 44 | Web Dashboard Charts | Not Started |
+| 43 | Web Dashboard Core | Complete |
+| 44 | Web Dashboard Charts | Complete |
 | 45 | API Gateway | Not Started |
 | 46 | Semantic Memory | Not Started |
 | 47 | Multi-Model Support | Not Started |
@@ -55,9 +55,9 @@ Last activity: 2026-02-04 - Completed v4.1 Claude-Mem Integration, planned v5.0
 |--------|-------|
 | Version | v4.1.0 (current), v5.0.0 (target) |
 | Commands | 47 |
-| Tests | 793 passing |
+| Tests | 888 passing (793 core + 95 dashboard) |
 | Lib Modules | 25+ |
-| Total Phases | 52 (42 complete, 10 planned) |
+| Total Phases | 52 (44 complete, 8 remaining) |
 | Milestones | 6 (5 complete, 1 in progress) |
 
 ## Key Decisions Made
@@ -75,10 +75,29 @@ Last activity: 2026-02-04 - Completed v4.1 Claude-Mem Integration, planned v5.0
 | Batch sync | Queue overflow protection, efficient GlobalMemory imports |
 | Next.js for dashboard | React ecosystem, SSR, TypeScript, API routes |
 
+## Phase 43 Completion (2026-02-09)
+
+- **Web Dashboard Core:** Next.js 14 + TypeScript + Tailwind in `dashboard/`
+- **Bridge:** `gywd-bridge.ts` reads JSON/Markdown files directly (no CJS imports)
+- **Components:** Sidebar, Header, Card, ProgressBar, Badge, Skeleton, StatusCards, ProgressSection, PhaseTimeline, MemorySummary
+- **API Routes:** /api/status, /api/memory, /api/patterns, /api/planning, /api/stream (SSE)
+- **SSE:** sse-manager with fs.watch(), useSSE React hook
+- **Tests:** 62 new tests across 9 suites
+- **Commit:** `968d891`
+
+## Phase 44 Completion (2026-02-09)
+
+- **Charts:** TimelineChart, PatternHeatmap, DecisionGraph, ExpertiseRadar, MilestoneProgress, PatternDistribution
+- **Pages:** `/charts` (5 charts) and `/analytics` (metrics + radar + health)
+- **API:** `/api/charts` route with per-chart and all-data queries
+- **Data layer:** `chart-data.ts` with 6 data transformer functions
+- **Tests:** 33 new tests across 7 suites (95 dashboard total)
+- **Commit:** pending
+
 ## Next Action
 
-Start Phase 43: Web Dashboard Core
-- `/gywd:plan-phase 43`
+Start Phase 45: API Gateway
+- `/gywd:plan-phase 45`
 
 ---
-*Last updated: 2026-02-04 - v5.0 Planning Complete*
+*Last updated: 2026-02-09 - Phase 44 Complete*

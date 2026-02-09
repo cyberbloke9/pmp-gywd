@@ -242,23 +242,23 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 **Milestone Goal:** Transform GYWD from a CLI-only tool into a connected platform with web dashboard, semantic memory, multi-model support, real-time collaboration, and CI/CD integration.
 
-#### Phase 43: web-dashboard-core
+#### Phase 43: web-dashboard-core ✅
 
-- [ ] 43-01: Next.js project scaffold with TypeScript
-- [ ] 43-02: Dashboard layout (sidebar, header, main content area)
-- [ ] 43-03: Project overview page (progress, phases, active work)
-- [ ] 43-04: Real-time status feed via WebSocket/SSE
+- [x] 43-01: Next.js 14 project scaffold with TypeScript, Tailwind, Jest (port 3943)
+- [x] 43-02: Dashboard layout (Sidebar, Header, DashboardLayout) + shared components (Card, ProgressBar, Badge, Skeleton)
+- [x] 43-03: Overview page (StatusCards, ProgressSection, PhaseTimeline, MemorySummary) + 4 API routes
+- [x] 43-04: Real-time SSE stream (sse-manager with fs.watch, /api/stream endpoint, useSSE hook)
 
-**Goal:** Browser-based project visualization with live updates
+**Deliverables:** `dashboard/` — 43 files, 62 tests, Next.js build passes
 
-#### Phase 44: web-dashboard-charts
+#### Phase 44: web-dashboard-charts ✅
 
-- [ ] 44-01: Interactive timeline chart (phases, decisions, milestones)
-- [ ] 44-02: Pattern heatmap (tool usage, confidence distribution)
-- [ ] 44-03: Decision graph visualization (nodes, edges, impact)
-- [ ] 44-04: Performance metrics dashboard (tests, coverage, health)
+- [x] 44-01: Interactive timeline chart (phase bars, status colors, current phase highlight)
+- [x] 44-02: Pattern heatmap (type x confidence grid) + Pattern distribution pie chart
+- [x] 44-03: Decision graph visualization (SVG nodes, edges, rationale tooltips)
+- [x] 44-04: Performance metrics dashboard (expertise radar, milestone progress, key metrics, health bars)
 
-**Goal:** Rich visual analytics for project intelligence
+**Deliverables:** 6 chart components, `/charts` and `/analytics` pages, `/api/charts` route, `chart-data.ts` transformer, 33 new tests
 
 #### Phase 45: api-gateway
 
@@ -353,12 +353,12 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 52 (42 complete, 10 planned) |
+| Total Phases | 52 (44 complete, 8 remaining) |
 | Commands | 47 |
-| Tests | 793 |
+| Tests | 888 (793 core + 95 dashboard) |
 | Lib Modules | 25+ |
 | Lines of Code | 19,000+ |
 
 ---
 
-*Last updated: 2026-02-04 - v5.0 Planning*
+*Last updated: 2026-02-09 - Phase 44 Complete*
