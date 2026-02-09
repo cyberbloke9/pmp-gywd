@@ -270,14 +270,14 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 **Deliverables:** `api-gateway/` — Express + WS + auth + rate limiting + Zod + OpenAPI
 
-#### Phase 46: semantic-memory
+#### Phase 46: semantic-memory ✅
 
-- [ ] 46-01: Vector embedding pipeline (observations → embeddings)
-- [ ] 46-02: Semantic search across GYWD + claude-mem data
-- [ ] 46-03: Auto-context injection (relevant past patterns surfaced before tasks)
-- [ ] 46-04: Decision similarity detection (find related past decisions)
+- [x] 46-01: TF-IDF vector embedding pipeline (tokenize, termFrequency, Embedder class, cosineSimilarity)
+- [x] 46-02: SemanticSearch engine (buildIndex, search with type/score filtering, findSimilar, export)
+- [x] 46-03: ContextInjector (auto-surfaces patterns/expertise/projects from ~/.gywd/global/)
+- [x] 46-04: DecisionSimilarity detector (findSimilar, checkConflict with threshold)
 
-**Goal:** AI-powered memory that understands meaning, not just keywords
+**Deliverables:** `lib/semantic/` — embedder.js, search.js, context-injector.js, decision-similarity.js, index.js, 70 tests across 4 suites. Zero external dependencies.
 
 #### Phase 47: multi-model-support
 
@@ -353,12 +353,12 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 52 (45 complete, 7 remaining) |
+| Total Phases | 52 (46 complete, 6 remaining) |
 | Commands | 47 |
-| Tests | 933 (793 core + 95 dashboard + 45 api-gateway) |
-| Lib Modules | 25+ |
-| Lines of Code | 19,000+ |
+| Tests | 1,003 (863 core + 95 dashboard + 45 api-gateway) |
+| Lib Modules | 29 (25 + 4 semantic) |
+| Lines of Code | 20,000+ |
 
 ---
 
-*Last updated: 2026-02-09 - Phase 45 Complete*
+*Last updated: 2026-02-09 - Phase 46 Complete*
