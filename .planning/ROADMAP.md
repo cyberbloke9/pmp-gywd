@@ -260,15 +260,15 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 **Deliverables:** 6 chart components, `/charts` and `/analytics` pages, `/api/charts` route, `chart-data.ts` transformer, 33 new tests
 
-#### Phase 45: api-gateway
+#### Phase 45: api-gateway ✅
 
-- [ ] 45-01: Express/Fastify REST API server
-- [ ] 45-02: WebSocket server for real-time dashboard updates
-- [ ] 45-03: Authentication middleware (API keys, JWT)
-- [ ] 45-04: Rate limiting, CORS, request validation
-- [ ] 45-05: OpenAPI/Swagger documentation
+- [x] 45-01: Express REST API server on port 3945 with 5 route modules
+- [x] 45-02: WebSocket server at /ws with file watching, debounced broadcasts, heartbeat
+- [x] 45-03: API key auth middleware (X-API-Key header, ~/.gywd/api-keys.json, generate/revoke/list)
+- [x] 45-04: Rate limiter (100 req/min per key), CORS, Zod body/query validation
+- [x] 45-05: OpenAPI 3.0.3 spec at /api/v1/docs, 45 tests across 7 suites
 
-**Goal:** Secure API layer connecting GYWD core to dashboard and external tools
+**Deliverables:** `api-gateway/` — Express + WS + auth + rate limiting + Zod + OpenAPI
 
 #### Phase 46: semantic-memory
 
@@ -353,12 +353,12 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 52 (44 complete, 8 remaining) |
+| Total Phases | 52 (45 complete, 7 remaining) |
 | Commands | 47 |
-| Tests | 888 (793 core + 95 dashboard) |
+| Tests | 933 (793 core + 95 dashboard + 45 api-gateway) |
 | Lib Modules | 25+ |
 | Lines of Code | 19,000+ |
 
 ---
 
-*Last updated: 2026-02-09 - Phase 44 Complete*
+*Last updated: 2026-02-09 - Phase 45 Complete*

@@ -5,16 +5,16 @@
 **Building:** A connected context engineering platform for Claude Code. Features autonomous agents, persistent cross-session memory (claude-mem), plugin system, and now planning web dashboard, semantic memory, multi-model support, and real-time collaboration.
 
 **Current milestone:** v5.0 Connected Intelligence
-**Focus:** Phase 45 - API Gateway
+**Focus:** Phase 46 - Semantic Memory
 
 ## Current Position
 
-**Phase:** 45 of 52 (api-gateway)
+**Phase:** 46 of 52 (semantic-memory)
 **Status:** Not Started
 
-**Progress:** [█████████░] 85% overall (44/52 phases complete)
+**Progress:** [█████████░] 87% overall (45/52 phases complete)
 
-Last activity: 2026-02-09 - Completed Phase 44 Web Dashboard Charts
+Last activity: 2026-02-09 - Completed Phase 45 API Gateway
 
 ## v5.0 Connected Intelligence - Phase Overview
 
@@ -22,7 +22,7 @@ Last activity: 2026-02-09 - Completed Phase 44 Web Dashboard Charts
 |-------|-------|--------|
 | 43 | Web Dashboard Core | Complete |
 | 44 | Web Dashboard Charts | Complete |
-| 45 | API Gateway | Not Started |
+| 45 | API Gateway | Complete |
 | 46 | Semantic Memory | Not Started |
 | 47 | Multi-Model Support | Not Started |
 | 48 | CRDT Collaboration | Not Started |
@@ -55,9 +55,9 @@ Last activity: 2026-02-09 - Completed Phase 44 Web Dashboard Charts
 |--------|-------|
 | Version | v4.1.0 (current), v5.0.0 (target) |
 | Commands | 47 |
-| Tests | 888 passing (793 core + 95 dashboard) |
+| Tests | 933 passing (793 core + 95 dashboard + 45 api-gateway) |
 | Lib Modules | 25+ |
-| Total Phases | 52 (44 complete, 8 remaining) |
+| Total Phases | 52 (45 complete, 7 remaining) |
 | Milestones | 6 (5 complete, 1 in progress) |
 
 ## Key Decisions Made
@@ -94,10 +94,21 @@ Last activity: 2026-02-09 - Completed Phase 44 Web Dashboard Charts
 - **Tests:** 33 new tests across 7 suites (95 dashboard total)
 - **Commit:** pending
 
+## Phase 45 Completion (2026-02-09)
+
+- **API Gateway:** Express server on port 3945 in `api-gateway/`
+- **Routes:** /api/v1/status, /api/v1/memory, /api/v1/patterns, /api/v1/planning, /api/v1/keys
+- **WebSocket:** ws://localhost:3945/ws with file watching + heartbeat
+- **Auth:** API key middleware (X-API-Key header, generate/revoke/list in ~/.gywd/api-keys.json)
+- **Rate Limiting:** 100 req/min per key, with X-RateLimit headers
+- **Validation:** Zod schemas for query params and request bodies
+- **OpenAPI:** 3.0.3 spec at /api/v1/docs
+- **Tests:** 45 new tests across 7 suites
+
 ## Next Action
 
-Start Phase 45: API Gateway
-- `/gywd:plan-phase 45`
+Start Phase 46: Semantic Memory
+- `/gywd:plan-phase 46`
 
 ---
-*Last updated: 2026-02-09 - Phase 44 Complete*
+*Last updated: 2026-02-09 - Phase 45 Complete*
