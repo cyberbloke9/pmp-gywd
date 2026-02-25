@@ -316,14 +316,14 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 **Deliverables:** `lib/enterprise/` — sso.js, rbac.js, audit-log.js, compliance.js, index.js, 76 tests across 4 suites. Zero external dependencies.
 
-#### Phase 51: ci-cd-integration
+#### Phase 51: ci-cd-integration ✅
 
-- [ ] 51-01: GitHub Actions workflow (auto-run GYWD checks on PR)
-- [ ] 51-02: GitLab CI template
-- [ ] 51-03: Pre-merge validation (drift check, decision conflicts, test health)
-- [ ] 51-04: Automated release notes from GYWD decision graph
+- [x] 51-01: GitHub Actions workflow (.github/workflows/gywd-checks.yml — PR validation + comment + artifacts)
+- [x] 51-02: GitLab CI template (ci-templates/gitlab-ci.yml — validate/drift/decisions/test-health/release-notes jobs)
+- [x] 51-03: Pre-merge validation engine (lib/ci/ — 6 checks: drift, decisions, test-health, patterns, phase-alignment, state-integrity)
+- [x] 51-04: Automated release notes from GYWD decision graph (ReleaseNotesGenerator + CIRunner CLI)
 
-**Goal:** GYWD intelligence in every CI/CD pipeline
+**Deliverables:** `lib/ci/` — pre-merge-validator.js, release-notes.js, ci-runner.js, index.js + `.github/workflows/gywd-checks.yml` + `ci-templates/gitlab-ci.yml`, 72 tests across 3 suites. Zero external dependencies.
 
 #### Phase 52: v5.0-release
 
@@ -353,12 +353,12 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 52 (49 complete, 3 remaining) |
+| Total Phases | 52 (50 complete, 2 remaining) |
 | Commands | 47 |
-| Tests | 1,227 (1,087 core + 95 dashboard + 45 api-gateway) |
-| Lib Modules | 45 (25 + 4 semantic + 6 models + 5 crdt + 5 enterprise) |
-| Lines of Code | 24,000+ |
+| Tests | 1,299 (1,159 core + 95 dashboard + 45 api-gateway) |
+| Lib Modules | 49 (25 + 4 semantic + 6 models + 5 crdt + 5 enterprise + 4 ci) |
+| Lines of Code | 25,000+ |
 
 ---
 
-*Last updated: 2026-02-25 - Phase 50 Complete*
+*Last updated: 2026-02-25 - Phase 51 Complete*

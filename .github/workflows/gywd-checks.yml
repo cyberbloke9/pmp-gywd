@@ -1,0 +1,153 @@
+name: GYWD Pre-Merge Checks
+
+on:
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+    inputs:
+      strict:
+        description: 'Run in strict mode (warnings also fail)'
+        required: false
+        default: 'false'
+        type: boolean
+      checks:
+        description: 'Comma-separated check IDs to run (empty = all)'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  gywd-validate:
+    name: GYWD Validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run GYWD pre-merge checks
+        id: gywd-checks
+        run: |
+          ARGS="validate"
+          if [ "${{ inputs.strict }}" = "true" ]; then
+            ARGS="$ARGS --strict"
+          fi
+          if [ -n "${{ inputs.checks }}" ]; then
+            ARGS="$ARGS --only ${{ inputs.checks }}"
+          fi
+          ARGS="$ARGS --json"
+          node lib/ci/ci-runner.js $ARGS > gywd-report.json || true
+          cat gywd-report.json
+
+      - name: Parse results
+        id: parse
+        run: |
+          if [ -f gywd-report.json ]; then
+            PASSED=$(node -e "const r=require('./gywd-report.json'); console.log(r.report?.passed ?? true)")
+            echo "passed=$PASSED" >> $GITHUB_OUTPUT
+
+            SUMMARY=$(node -e "
+              const r = require('./gywd-report.json');
+              const s = r.report?.summary || {};
+              console.log('Checks: ' + (s.passed||0) + ' passed, ' + (s.failed||0) + ' failed, ' + (s.warnings||0) + ' warnings');
+            ")
+            echo "summary=$SUMMARY" >> $GITHUB_OUTPUT
+          else
+            echo "passed=true" >> $GITHUB_OUTPUT
+            echo "summary=No report generated" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate markdown report
+        if: always()
+        run: |
+          node lib/ci/ci-runner.js validate --markdown > gywd-report.md || true
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = '## GYWD Pre-Merge Check Results\n\n';
+            try {
+              body += fs.readFileSync('gywd-report.md', 'utf8');
+            } catch {
+              body += 'Report generation failed. Check workflow logs.';
+            }
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c =>
+              c.user.login === 'github-actions[bot]' &&
+              c.body.includes('GYWD Pre-Merge Check')
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gywd-report
+          path: |
+            gywd-report.json
+            gywd-report.md
+          retention-days: 30
+
+      - name: Check result
+        if: steps.parse.outputs.passed == 'false'
+        run: |
+          echo "::error::GYWD pre-merge validation failed: ${{ steps.parse.outputs.summary }}"
+          exit 1
+
+  gywd-release-notes:
+    name: GYWD Release Notes (Draft)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && contains(github.head_ref, 'release')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate release notes
+        run: |
+          node lib/ci/ci-runner.js release-notes --markdown > release-notes.md
+          cat release-notes.md
+
+      - name: Upload release notes
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md
+          retention-days: 30

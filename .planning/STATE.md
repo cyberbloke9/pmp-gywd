@@ -5,16 +5,16 @@
 **Building:** A connected context engineering platform for Claude Code. Features autonomous agents, persistent cross-session memory (claude-mem), plugin system, and now planning web dashboard, semantic memory, multi-model support, and real-time collaboration.
 
 **Current milestone:** v5.0 Connected Intelligence
-**Focus:** Phase 51 - CI/CD Integration
+**Focus:** Phase 52 - v5.0 Release
 
 ## Current Position
 
-**Phase:** 51 of 52 (ci-cd-integration)
+**Phase:** 52 of 52 (v5.0-release)
 **Status:** Not Started
 
-**Progress:** [█████████░] 94% overall (49/52 phases complete)
+**Progress:** [██████████] 96% overall (50/52 phases complete)
 
-Last activity: 2026-02-25 - Completed Phase 50 Enterprise Features (skipped Phase 49 — no S3/R2 backend)
+Last activity: 2026-02-25 - Completed Phase 51 CI/CD Integration
 
 ## v5.0 Connected Intelligence - Phase Overview
 
@@ -28,7 +28,7 @@ Last activity: 2026-02-25 - Completed Phase 50 Enterprise Features (skipped Phas
 | 48 | CRDT Collaboration | Complete |
 | 49 | Cloud Sync Service | Deferred (no S3/R2) |
 | 50 | Enterprise Features | Complete |
-| 51 | CI/CD Integration | Not Started |
+| 51 | CI/CD Integration | Complete |
 | 52 | v5.0 Release | Not Started |
 
 ## v4.1 Completion Summary (2026-02-04)
@@ -55,9 +55,9 @@ Last activity: 2026-02-25 - Completed Phase 50 Enterprise Features (skipped Phas
 |--------|-------|
 | Version | v4.1.0 (current), v5.0.0 (target) |
 | Commands | 47 |
-| Tests | 1,227 passing (1,087 core + 95 dashboard + 45 api-gateway) |
-| Lib Modules | 45 (25 + 4 semantic + 6 models + 5 crdt + 5 enterprise) |
-| Total Phases | 52 (49 complete, 3 remaining) |
+| Tests | 1,299 passing (1,159 core + 95 dashboard + 45 api-gateway) |
+| Lib Modules | 49 (25 + 4 semantic + 6 models + 5 crdt + 5 enterprise + 4 ci) |
+| Total Phases | 52 (50 complete, 2 remaining) |
 | Milestones | 6 (5 complete, 1 in progress) |
 
 ## Key Decisions Made
@@ -142,10 +142,20 @@ Last activity: 2026-02-25 - Completed Phase 50 Enterprise Features (skipped Phas
 - **ComplianceReporter:** SOC2 (8 checks: RBAC, SSO, audit, integrity, retention, monitoring) + GDPR (7 checks: minimization, access/erasure rights, processing records) + custom check registration
 - **Tests:** 76 new tests across 4 suites (1,227 total across all sub-projects)
 
+## Phase 51 Completion (2026-02-25)
+
+- **CI/CD Integration:** Pre-merge validation engine + release notes generator in `lib/ci/`
+- **PreMergeValidator:** 6 checks (drift, decisions, test-health, patterns, phase-alignment, state-integrity), custom check registration, strict mode, markdown report
+- **ReleaseNotesGenerator:** Extracts phases/decisions/patterns/stats from GYWD data, renders markdown
+- **CIRunner:** CLI entry point with validate/release-notes/report commands, JSON/markdown/text output
+- **GitHub Actions:** `.github/workflows/gywd-checks.yml` — PR comment with results, artifact upload, release notes on release branches
+- **GitLab CI:** `ci-templates/gitlab-ci.yml` — validate/drift/decisions/test-health/release-notes jobs
+- **Tests:** 72 new tests across 3 suites (1,299 total across all sub-projects)
+
 ## Next Action
 
-Start Phase 51: CI/CD Integration
-- `/gywd:plan-phase 51`
+Start Phase 52: v5.0 Release
+- `/gywd:plan-phase 52`
 
 ---
-*Last updated: 2026-02-25 - Phase 50 Complete*
+*Last updated: 2026-02-25 - Phase 51 Complete*
