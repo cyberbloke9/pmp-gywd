@@ -4,10 +4,10 @@
 
 **Ship faster with AI that remembers your decisions.**
 
-*The autonomous context engineering framework for Claude Code — 43 commands · 618 tests · 20+ lib modules · Zero runtime deps*
+*The connected context engineering framework for Claude Code — 47 commands · 1,299 tests · 49 lib modules · Zero runtime deps*
 
-[![Version](https://img.shields.io/badge/version-4.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
-[![Tests](https://img.shields.io/badge/tests-618%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
+[![Version](https://img.shields.io/badge/version-5.0.0-blue?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/releases)
+[![Tests](https://img.shields.io/badge/tests-1%2C299%20passing-brightgreen?style=for-the-badge)](https://github.com/cyberbloke9/pmp-gywd/actions)
 [![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](LICENSE)
 
 <br>
@@ -22,67 +22,64 @@ npx pmp-gywd
 
 ---
 
-## What's New in v4.0?
+## What's New in v5.0?
 
-**Autonomous Intelligence** — Executable agents, permission scanning, and self-validation.
+**Connected Intelligence** — Web dashboard, semantic memory, multi-model LLMs, CRDT collaboration, enterprise security, and CI/CD integration.
 
 | Feature | Description |
 |---------|-------------|
-| **Agent Runtime** | 6 specialized agents (Critic, Devil's Advocate, Red Team, Chaos, Skeptic) |
-| **Permission Scanner** | Auto-approve safe operations, block dangerous ones |
-| **Analytics Agents** | dbt-style model, test, and review generators |
-| **Self-Grilling** | Plan challenger, change validator, decision griller |
-| **Multi-Agent** | Coordination, messaging, conflict resolution |
-| **Plugin System** | Load custom plugins, marketplace integration |
-| **Visual Dashboard** | ASCII charts, metrics, activity feeds |
+| **Web Dashboard** | Next.js 14 planning dashboard with real-time SSE, charts, and analytics |
+| **API Gateway** | Express REST + WebSocket API with auth and rate limiting |
+| **Semantic Memory** | Zero-dep TF-IDF embeddings for context-aware search and decision similarity |
+| **Multi-Model** | Provider-agnostic LLM adapters (OpenAI, Google, Local) with smart routing |
+| **CRDT Collaboration** | Multi-user plan editing, decision voting, conflict resolution |
+| **Enterprise** | SSO (OIDC/SAML), RBAC, audit logging, SOC2/GDPR compliance |
+| **CI/CD Integration** | Pre-merge validation, release notes generation, GitHub/GitLab templates |
 
 ```
-          v4.0 Autonomous Intelligence
+          v5.0 Connected Intelligence
 ┌─────────────────────────────────────────────────┐
-│  Agent Runtime                                   │
-│  ┌─────────┐ ┌─────────┐ ┌─────────┐           │
-│  │ Critic  │ │Red Team │ │  Chaos  │           │
-│  └────┬────┘ └────┬────┘ └────┬────┘           │
-│       └──────────┬┴──────────┘                 │
-│                  ▼                              │
-│           AgentOrchestrator                     │
-│    (sequential/parallel/priority/pipeline)      │
-│                  │                              │
-│       ┌──────────┼──────────┐                  │
-│       ▼          ▼          ▼                  │
-│  Permission   Self-      Analytics             │
-│   Scanner    Grilling     Agents               │
-│       │          │          │                  │
-│       └──────────┼──────────┘                  │
-│                  ▼                              │
-│           Plugin System                         │
-│         + Visual Dashboard                      │
+│  Web Dashboard    API Gateway    CI/CD Pipeline  │
+│  (Next.js 14)    (Express+WS)   (GH Actions)   │
+│       │              │              │            │
+│       └──────────────┼──────────────┘            │
+│                      ▼                           │
+│  ┌───────────────────────────────────────────┐  │
+│  │         v5.0 Connected Layer              │  │
+│  │  Semantic · Models · CRDT · Enterprise    │  │
+│  └─────────────────────┬─────────────────────┘  │
+│                        │                         │
+│  ┌─────────────────────┴─────────────────────┐  │
+│  │         v4.0 Agent Runtime                │  │
+│  │  Critic · Red Team · Chaos · Skeptic      │  │
+│  └─────────────────────┬─────────────────────┘  │
+│                        │                         │
+│  ┌─────────────────────┴─────────────────────┐  │
+│  │         v3.0 Brain + v3.2 Memory          │  │
+│  │  Profile · Questioning · GlobalMemory     │  │
+│  └─────────────────────┬─────────────────────┘  │
+│                        │                         │
+│  ┌─────────────────────┴─────────────────────┐  │
+│  │         Plugin System (47 commands)        │  │
+│  └───────────────────────────────────────────┘  │
 └─────────────────────────────────────────────────┘
 ```
 
----
+<details>
+<summary><b>Previous versions</b></summary>
+
+### v4.0: Autonomous Intelligence
+Agent Runtime (6 agents), Permission Scanner, Analytics Agents, Self-Grilling, Multi-Agent Coordination, Plugin System, Visual Dashboard
 
 ### v3.4: Enhanced Experience
+MetadataCache, KeywordIndex, graph persistence, VS Code extension, MCP Server
 
-| Feature | Description |
-|---------|-------------|
-| **Performance** | MetadataCache, KeywordIndex, graph persistence |
-| **New Commands** | `/gywd:undo`, `/gywd:compare`, `/gywd:snapshot` |
-| **VS Code** | Extension with status bar integration |
-| **MCP Server** | Claude Desktop integration |
-| **Developer UX** | ErrorFormatter, ProgressIndicator, HookManager |
+### v3.2: Enhanced Learning
+GlobalMemory, PatternAggregator, FeedbackCollector, ConfidenceCalibrator, TeamSync
 
-### v3.2: Enhanced Learning System
+</details>
 
-| Module | What It Does |
-|--------|--------------|
-| **GlobalMemory** | Persist patterns across projects in `~/.gywd/global/` |
-| **PatternAggregator** | Detect consensus, identify outliers, Bayesian boosting |
-| **FeedbackCollector** | Track suggestion outcomes, detect suppression |
-| **ConfidenceCalibrator** | Beta-Binomial Bayesian confidence scoring |
-| **TeamSync** | Export/import patterns with conflict resolution |
-
-*See [CHANGELOG.md](CHANGELOG.md) for full version history.*
+*See [CHANGELOG.md](CHANGELOG.md) for full version history. See [MIGRATION.md](MIGRATION.md) for upgrade guide.*
 
 ---
 
@@ -143,7 +140,7 @@ Choose **global** (all projects) or **local** (this project only).
 | Review my approach | `/gywd:challenge` |
 | Save state before stopping | `/gywd:pause-work` |
 
-*See `/gywd:help` for all 43 commands*
+*See `/gywd:help` for all 47 commands*
 
 ---
 
@@ -196,9 +193,24 @@ Pre-loads relevant decisions, patterns, and past implementations before you star
 
 ---
 
-## Library Modules (v4.0)
+## Library Modules
 
 ```javascript
+// Semantic Memory (v5.0)
+const { Embedder, SemanticSearch, ContextInjector, DecisionSimilarity } = require('pmp-gywd/lib/semantic');
+
+// Multi-Model LLM (v5.0)
+const { OpenAIAdapter, GoogleAdapter, LocalAdapter, ModelRouter } = require('pmp-gywd/lib/models');
+
+// CRDT Collaboration (v5.0)
+const { GCounter, PNCounter, LWWRegister, ORSet, PlanEditor, DecisionVoting, ConflictResolver } = require('pmp-gywd/lib/crdt');
+
+// Enterprise (v5.0)
+const { SSOManager, RBAC, AuditLog, ComplianceReporter } = require('pmp-gywd/lib/enterprise');
+
+// CI/CD (v5.0)
+const { PreMergeValidator, ReleaseNotesGenerator, CIRunner } = require('pmp-gywd/lib/ci');
+
 // Agents (v4.0)
 const { CriticAgent, RedTeamAgent, AgentOrchestrator } = require('pmp-gywd/lib/agents');
 
@@ -208,70 +220,48 @@ const { PermissionRouter, RiskScorer } = require('pmp-gywd/lib/permissions');
 // Analytics (v4.0)
 const { ModelGeneratorAgent, ReviewAgent } = require('pmp-gywd/lib/analytics');
 
-// Self-Grilling (v4.0)
-const { PlanChallengerAgent, DecisionGrillerAgent } = require('pmp-gywd/lib/grilling');
-
-// Multi-Agent (v4.0)
-const { MultiAgentCoordinator, MessageQueue } = require('pmp-gywd/lib/multi-agent');
-
-// Plugins (v4.0)
-const { PluginLoader, PluginMarketplace } = require('pmp-gywd/lib/plugins');
-
-// Dashboard (v4.0)
-const { DashboardRenderer } = require('pmp-gywd/lib/dashboard');
-
 // Memory (v3.2)
 const { GlobalMemory, PatternAggregator, TeamSync } = require('pmp-gywd/lib/memory');
-
-// Profile & Questioning
-const { ProfileManager } = require('pmp-gywd/lib/profile');
-const { QuestionEngine } = require('pmp-gywd/lib/questioning');
 
 // Context & Automation
 const { ContextPredictor } = require('pmp-gywd/lib/context');
 const { DependencyAnalyzer } = require('pmp-gywd/lib/automation');
 ```
 
-**20+ modules** · **Zero runtime dependencies** · Works offline
+**49 modules** · **Zero runtime dependencies** · Works offline
 
 ---
 
-## Architecture (v4.0)
+## Architecture (v5.0)
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                    GYWD v4.0 Core                       │
+│                    GYWD v5.0 Core                       │
 ├─────────────────────────────────────────────────────────┤
 │                                                         │
 │  ┌───────────────────────────────────────────────┐     │
-│  │            Agent Runtime (v4.0)                │     │
-│  │  Critic · Red Team · Chaos · Skeptic · Devil  │     │
-│  │            AgentOrchestrator                   │     │
+│  │       Web Dashboard · API Gateway · CI/CD      │     │
+│  │   (Next.js 14)    (Express+WS)   (GH/GitLab) │     │
 │  └─────────────────────┬─────────────────────────┘     │
 │                        │                               │
 │  ┌─────────┬───────────┼───────────┬─────────┐        │
-│  │Permission│  Self-    │  Analytics │  Multi- │        │
-│  │ Scanner │ Grilling  │   Agents  │  Agent  │        │
+│  │Semantic │  Multi-   │   CRDT    │Enterpr- │        │
+│  │ Memory  │  Model    │  Collab   │  ise    │        │
 │  └────┬────┴─────┬─────┴─────┬─────┴────┬────┘        │
 │       └──────────┴───────────┴──────────┘              │
 │                        │                               │
 │  ┌─────────────────────┴─────────────────────────┐    │
-│  │              v3.0 Brain                        │    │
-│  │  Profile ◄──► Questioning ──► Predictor       │    │
-│  │            Continuous Learning                 │    │
+│  │           Agent Runtime (v4.0)                 │    │
+│  │  Critic · Red Team · Chaos · Skeptic · Devil  │    │
 │  └─────────────────────┬─────────────────────────┘    │
 │                        │                               │
 │  ┌─────────────────────┴─────────────────────────┐    │
-│  │           v3.2 Memory Module                  │    │
-│  │  GlobalMemory · PatternAggregator · TeamSync  │    │
+│  │  Brain + Memory + Profile + Context             │    │
+│  │  GlobalMemory · PatternAggregator · TeamSync   │    │
 │  └─────────────────────┬─────────────────────────┘    │
 │                        │                               │
 │  ┌─────────────────────┴─────────────────────────┐    │
-│  │     Plugin System + Visual Dashboard           │    │
-│  └─────────────────────┬─────────────────────────┘    │
-│                        │                               │
-│  ┌─────────────────────┴─────────────────────────┐    │
-│  │            Command Layer (43)                  │    │
+│  │       Plugin System + Command Layer (47)       │    │
 │  └────────────────────────────────────────────────┘    │
 │                                                         │
 └─────────────────────────────────────────────────────────┘
@@ -282,17 +272,24 @@ const { DependencyAnalyzer } = require('pmp-gywd/lib/automation');
 ## CI/CD Pipeline
 
 - **12 test matrix combinations** (3 OS x 4 Node versions)
-- **618 automated tests** with Jest (25 test suites)
+- **1,299 automated tests** with Jest (50 test suites)
+- **GYWD pre-merge validation** — drift detection, decision conflicts, test health
 - **ESLint** with zero external plugins
-- **Schema validation** for all JSON files
-- **Command validation** for all 43 commands
+- **Schema/command validation** for all 47 commands
 - **Security scanning** with npm audit
+- **GitHub Actions** workflow with PR comments and artifact uploads
+- **GitLab CI** template with reusable job definitions
 
 ```bash
 npm run precommit    # Run all checks locally
 npm test             # Run tests
 npm run lint         # Run linter
 npm run validate:all # Validate schemas and commands
+
+# GYWD-specific CI checks
+node lib/ci/ci-runner.js validate          # Pre-merge validation
+node lib/ci/ci-runner.js release-notes     # Generate release notes
+node lib/ci/ci-runner.js report            # Full CI report
 ```
 
 ---
@@ -306,8 +303,9 @@ npm run validate:all # Validate schemas and commands
 **v3.0** is the sophisticated brain - learning, adapting, predicting.
 **v3.4** is enhanced experience - performance, IDE integration, MCP server.
 **v4.0** is autonomous intelligence - agents that challenge, validate, and protect.
+**v5.0** is connected intelligence - web dashboard, multi-model LLMs, collaboration, enterprise, and CI/CD.
 
-The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase, understands YOU as a developer, and **actively challenges assumptions** before they become problems.
+The paradigm shift: Instead of generating "plausible code," GYWD generates **decision-coherent code** that respects the WHY behind your codebase, understands YOU as a developer, **actively challenges assumptions**, and now connects across tools, models, and teams.
 
 ---
 
@@ -341,7 +339,7 @@ npx pmp-gywd@latest
 Issues and PRs welcome at [github.com/cyberbloke9/pmp-gywd](https://github.com/cyberbloke9/pmp-gywd).
 
 Before submitting:
-- Run `npm test` (618 tests must pass)
+- Run `npm test` (1,299 tests must pass)
 - Run `npm run lint`
 
 See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for full guidelines.
@@ -356,8 +354,8 @@ MIT License - See [LICENSE](LICENSE)
 
 <div align="center">
 
-**Understand decisions. Challenge assumptions. Ship coherent code.**
+**Understand decisions. Challenge assumptions. Connect intelligence. Ship coherent code.**
 
-*Built with autonomous intelligence by [cyberbloke9](https://github.com/cyberbloke9)*
+*Built with connected intelligence by [cyberbloke9](https://github.com/cyberbloke9)*
 
 </div>

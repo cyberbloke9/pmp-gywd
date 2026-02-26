@@ -1,6 +1,6 @@
 {
   "name": "pmp-gywd",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "PMP (GYWD - Get Your Work Done) - Decision-aware, context-engineered development system for Claude Code. Understands WHY code exists, not just WHAT it does.",
   "bin": {
     "pmp-gywd": "bin/install.js"
@@ -8,6 +8,7 @@
   "files": [
     "bin",
     "commands",
+    "ci-templates",
     "docs",
     "get-your-work-done",
     "lib"
@@ -39,6 +40,10 @@
     "decision-intelligence",
     "autonomous-agents",
     "multi-agent",
+    "semantic-memory",
+    "crdt",
+    "multi-model",
+    "ci-cd",
     "pmp",
     "gywd"
   ],

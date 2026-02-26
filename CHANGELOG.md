@@ -5,6 +5,75 @@ All notable changes to PMP-GYWD will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.0.0] - 2026-02-26
+
+### Added
+
+#### Web Dashboard (Phases 43-44)
+- **Planning Dashboard** (`dashboard/`) — Next.js 14 + TypeScript + Tailwind web UI
+- **Bridge Layer** (`gywd-bridge.ts`) — reads GYWD JSON/Markdown files directly (no CJS imports)
+- **Components** — Sidebar, Header, StatusCards, ProgressSection, PhaseTimeline, MemorySummary, Skeleton loaders
+- **Charts** — TimelineChart, PatternHeatmap, DecisionGraph, ExpertiseRadar, MilestoneProgress, PatternDistribution
+- **API Routes** — `/api/status`, `/api/memory`, `/api/patterns`, `/api/planning`, `/api/stream` (SSE), `/api/charts`
+- **SSE Manager** — real-time updates with `fs.watch()` and `useSSE` React hook
+- **95 dashboard tests** across 9 suites
+
+#### API Gateway (Phase 45)
+- **Express Server** (`api-gateway/`) — REST API on port 3945 with WebSocket support
+- **Routes** — `/api/v1/status`, `/api/v1/memory`, `/api/v1/patterns`, `/api/v1/planning`, `/api/v1/keys`
+- **Authentication** — API key middleware (X-API-Key header), generate/revoke/list keys
+- **Rate Limiting** — 100 req/min per key with X-RateLimit headers
+- **Validation** — Zod schemas for query params and request bodies
+- **OpenAPI** — 3.0.3 spec at `/api/v1/docs`
+- **45 API gateway tests** across 7 suites
+
+#### Semantic Memory (Phase 46)
+- **Embedder** (`lib/semantic/embedder.js`) — zero-dependency TF-IDF tokenizer, term frequency, cosine similarity
+- **SemanticSearch** (`lib/semantic/search.js`) — index building, filtered search, findSimilar, export/import
+- **ContextInjector** (`lib/semantic/context-injector.js`) — auto-loads patterns/expertise/projects, surfaces relevant context
+- **DecisionSimilarity** (`lib/semantic/decision-similarity.js`) — find similar past decisions, detect conflicts
+
+#### Multi-Model Support (Phase 47)
+- **BaseAdapter** (`lib/models/base-adapter.js`) — abstract LLM interface, MODEL_PRICING (16 models), MODEL_CAPABILITIES
+- **OpenAIAdapter** — GPT-4o, GPT-4o-mini, o1, o3, o3-mini with reasoning model 'developer' role mapping
+- **GoogleAdapter** — Gemini 2.0 Flash/Pro with systemInstruction + contents format
+- **LocalAdapter** — Ollama (chat API) + llama.cpp (completion API) backends
+- **ModelRouter** — 4 strategies (cheapest/fastest/best/balanced), task-type routing, fallback chains, usage stats
+
+#### CRDT Collaboration (Phase 48)
+- **GCounter** (`lib/crdt/base-crdt.js`) — grow-only counter
+- **PNCounter** — increment/decrement counter
+- **LWWRegister** — last-writer-wins register
+- **ORSet** — observed-remove set with add-wins semantics
+- **PlanEditor** (`lib/crdt/plan-editor.js`) — multi-user plan editing with LWW fields, OR-Set tasks, presence tracking
+- **DecisionVoting** (`lib/crdt/decision-voting.js`) — team consensus with majority/unanimous/plurality strategies
+- **ConflictResolver** (`lib/crdt/conflict-resolver.js`) — three-way diff with 7 merge strategies
+
+#### Enterprise Features (Phase 50)
+- **SSOManager** (`lib/enterprise/sso.js`) — OIDC JWT validation + SAML assertion parsing, provider registry, session management
+- **RBAC** (`lib/enterprise/rbac.js`) — 3 built-in roles (admin/developer/viewer), custom roles, enforce(), permission union
+- **AuditLog** (`lib/enterprise/audit-log.js`) — append-only with SHA-256 hash chain, query/filter, integrity verification
+- **ComplianceReporter** (`lib/enterprise/compliance.js`) — SOC2 (8 checks) + GDPR (7 checks) + custom check registration
+
+#### CI/CD Integration (Phase 51)
+- **PreMergeValidator** (`lib/ci/pre-merge-validator.js`) — 6 checks: drift, decisions, test-health, patterns, phase-alignment, state-integrity
+- **ReleaseNotesGenerator** (`lib/ci/release-notes.js`) — auto-generate notes from GYWD phases/decisions/patterns/stats
+- **CIRunner** (`lib/ci/ci-runner.js`) — CLI entry point: validate, release-notes, report commands
+- **GitHub Actions** (`.github/workflows/gywd-checks.yml`) — PR validation with comments, artifact uploads, release notes
+- **GitLab CI** (`ci-templates/gitlab-ci.yml`) — validate/drift/decisions/test-health/release-notes jobs
+
+### Changed
+- Test count: 618 → 1,299 (1,159 core + 95 dashboard + 45 api-gateway)
+- Lib modules: 20+ → 49 (25 original + 4 semantic + 6 models + 5 crdt + 5 enterprise + 4 ci)
+- Commands: 43 → 47 (added mem-search, mem-sync, mem-status, mem-timeline)
+- Added `ci-templates` to npm package files
+- Added new keywords: semantic-memory, crdt, multi-model, ci-cd
+
+### Deferred
+- **Phase 49: Cloud Sync Service** — deferred (no S3/R2 storage backend available)
+
+---
+
 ## [4.0.0] - 2026-02-01
 
 ### Added
