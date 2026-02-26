@@ -133,7 +133,7 @@ describe('SSOManager', () => {
     const session = sso.createSession({ sub: 'u', roles: [] }, 'p');
     // Wait for expiry
     const start = Date.now();
-    while (Date.now() - start < 5) {} // Busy wait 5ms
+    while (Date.now() - start < 5) { /* busy wait */ }
     expect(sso.getSession(session.id)).toBeNull();
   });
 

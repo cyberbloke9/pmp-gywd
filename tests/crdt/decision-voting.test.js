@@ -48,8 +48,8 @@ describe('DecisionVoting', () => {
     expect(result.success).toBe(true);
 
     const tally = voting.getTally('d1');
-    expect(tally.options['A']).toBe(1);
-    expect(tally.options['B']).toBe(0);
+    expect(tally.options.A).toBe(1);
+    expect(tally.options.B).toBe(0);
     expect(tally.totalVotes).toBe(1);
     expect(tally.leading).toBe('A');
   });
@@ -72,8 +72,8 @@ describe('DecisionVoting', () => {
     voting.vote('d1', 'B'); // Change vote
 
     const tally = voting.getTally('d1');
-    expect(tally.options['A']).toBe(0);
-    expect(tally.options['B']).toBe(1);
+    expect(tally.options.A).toBe(0);
+    expect(tally.options.B).toBe(1);
     expect(tally.totalVotes).toBe(1);
   });
 
@@ -84,8 +84,8 @@ describe('DecisionVoting', () => {
     voting.vote('d1', 'B', 'voter3');
 
     const tally = voting.getTally('d1');
-    expect(tally.options['A']).toBe(2);
-    expect(tally.options['B']).toBe(1);
+    expect(tally.options.A).toBe(2);
+    expect(tally.options.B).toBe(1);
     expect(tally.totalVotes).toBe(3);
     expect(tally.leading).toBe('A');
   });

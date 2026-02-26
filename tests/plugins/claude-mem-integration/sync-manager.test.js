@@ -20,14 +20,14 @@ describe('SyncManager', () => {
       getPatternsByType: jest.fn((type) => {
         return mockGlobalMemory.patterns.filter(p => p.type === type);
       }),
-      save: jest.fn()
+      save: jest.fn(),
     };
 
     syncManager = new SyncManager({
       globalMemory: mockGlobalMemory,
       batchSize: 5,
       syncInterval: 100,
-      maxQueueSize: 10
+      maxQueueSize: 10,
     });
   });
 
@@ -68,7 +68,7 @@ describe('SyncManager', () => {
         errors: 0,
         batches: 0,
         lastSync: null,
-        lastError: null
+        lastError: null,
       });
     });
   });
@@ -131,7 +131,7 @@ describe('SyncManager', () => {
         globalMemory: mockGlobalMemory,
         batchSize: 100, // Large enough to not trigger auto-sync
         syncInterval: 100,
-        maxQueueSize: 10
+        maxQueueSize: 10,
       });
       testManager.start();
 
@@ -181,7 +181,7 @@ describe('SyncManager', () => {
     it('should queue multiple patterns', () => {
       const patterns = [
         { type: 'tool:read', pattern: 'Read' },
-        { type: 'tool:write', pattern: 'Write' }
+        { type: 'tool:write', pattern: 'Write' },
       ];
 
       const count = syncManager.queueBatch(patterns);
@@ -241,7 +241,7 @@ describe('SyncManager', () => {
         globalMemory: mockGlobalMemory,
         batchSize: 5,
         syncInterval: 100000, // Long interval to prevent scheduled sync
-        maxQueueSize: 100
+        maxQueueSize: 100,
       });
       // Note: don't start() to avoid auto-sync on batch size
 
@@ -249,7 +249,7 @@ describe('SyncManager', () => {
       for (let i = 0; i < 8; i++) {
         testManager._queue.push({
           pattern: { type: 'tool:read', pattern: `Read${i}` },
-          queuedAt: Date.now()
+          queuedAt: Date.now(),
         });
       }
       testManager.state = SYNC_STATE.RUNNING;
@@ -312,7 +312,7 @@ describe('SyncManager', () => {
         type: 'tool:read',
         pattern: 'Read',
         confidence: 0.6,
-        source: 'claude-mem'
+        source: 'claude-mem',
       });
     });
 
@@ -321,14 +321,14 @@ describe('SyncManager', () => {
         type: 'tool:read',
         pattern: 'Read',
         confidence: 0.6,
-        sources: ['my-project']
+        sources: ['my-project'],
       });
 
       expect(mockGlobalMemory.recordPattern).toHaveBeenCalledWith({
         type: 'tool:read',
         pattern: 'Read',
         confidence: 0.6,
-        source: 'my-project'
+        source: 'my-project',
       });
     });
   });
@@ -453,7 +453,7 @@ describe('SyncManager', () => {
         errors: 0,
         batches: 0,
         lastSync: null,
-        lastError: null
+        lastError: null,
       });
     });
   });

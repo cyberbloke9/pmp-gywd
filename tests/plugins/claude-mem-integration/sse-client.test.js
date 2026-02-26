@@ -15,7 +15,7 @@ describe('SSEClient', () => {
       host: '127.0.0.1',
       port: 37777,
       maxReconnectAttempts: 3,
-      baseReconnectDelay: 100
+      baseReconnectDelay: 100,
     });
   });
 
@@ -93,7 +93,7 @@ describe('SSEClient', () => {
         state: CONNECTION_STATE.DISCONNECTED,
         reconnectAttempts: 0,
         host: '127.0.0.1',
-        port: 37777
+        port: 37777,
       });
     });
 

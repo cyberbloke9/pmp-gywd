@@ -28,7 +28,7 @@ describe('ObservationMapper', () => {
       expect(mapper.stats).toEqual({
         mapped: 0,
         skipped: 0,
-        byType: {}
+        byType: {},
       });
     });
   });
@@ -39,7 +39,7 @@ describe('ObservationMapper', () => {
         id: 1,
         tool_name: 'Read',
         project: 'test-project',
-        created_at: '2024-01-01T00:00:00Z'
+        created_at: '2024-01-01T00:00:00Z',
       };
 
       const pattern = mapper.toPattern(observation);
@@ -114,7 +114,7 @@ describe('ObservationMapper', () => {
       const observations = [
         { tool_name: 'Read' },
         { tool_name: 'Write' },
-        { tool_name: 'Edit' }
+        { tool_name: 'Edit' },
       ];
 
       const patterns = mapper.toPatterns(observations);
@@ -129,7 +129,7 @@ describe('ObservationMapper', () => {
       const observations = [
         { tool_name: 'Read' },
         { id: 1 }, // No tool_name
-        { tool_name: 'Write' }
+        { tool_name: 'Write' },
       ];
 
       const patterns = mapper.toPatterns(observations);
@@ -153,7 +153,7 @@ describe('ObservationMapper', () => {
       const patterns = [
         { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-01' },
         { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj2'], confidence: 0.6, lastSeen: '2024-01-02' },
-        { type: 'tool:write', pattern: 'Write', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-01' }
+        { type: 'tool:write', pattern: 'Write', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-01' },
       ];
 
       const aggregated = mapper.aggregate(patterns);
@@ -169,7 +169,7 @@ describe('ObservationMapper', () => {
     it('should boost confidence on aggregation', () => {
       const patterns = [
         { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-01' },
-        { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj2'], confidence: 0.6, lastSeen: '2024-01-02' }
+        { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj2'], confidence: 0.6, lastSeen: '2024-01-02' },
       ];
 
       const aggregated = mapper.aggregate(patterns);
@@ -185,7 +185,7 @@ describe('ObservationMapper', () => {
         occurrences: 1,
         sources: ['proj'],
         confidence: 0.6,
-        lastSeen: '2024-01-01'
+        lastSeen: '2024-01-01',
       }));
 
       const aggregated = mapper.aggregate(patterns);
@@ -197,7 +197,7 @@ describe('ObservationMapper', () => {
     it('should keep latest lastSeen date', () => {
       const patterns = [
         { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-01' },
-        { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj2'], confidence: 0.6, lastSeen: '2024-01-15' }
+        { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj2'], confidence: 0.6, lastSeen: '2024-01-15' },
       ];
 
       const aggregated = mapper.aggregate(patterns);
@@ -209,7 +209,7 @@ describe('ObservationMapper', () => {
     it('should deduplicate sources', () => {
       const patterns = [
         { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-01' },
-        { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-02' }
+        { type: 'tool:read', pattern: 'Read', occurrences: 1, sources: ['proj1'], confidence: 0.6, lastSeen: '2024-01-02' },
       ];
 
       const aggregated = mapper.aggregate(patterns);
@@ -258,56 +258,56 @@ describe('ObservationMapper', () => {
       expect(mapper.stats).toEqual({
         mapped: 0,
         skipped: 0,
-        byType: {}
+        byType: {},
       });
     });
   });
 
   describe('TOOL_TYPE_MAP', () => {
     it('should map Read to tool:read', () => {
-      expect(TOOL_TYPE_MAP['Read']).toBe('tool:read');
+      expect(TOOL_TYPE_MAP.Read).toBe('tool:read');
     });
 
     it('should map Write to tool:write', () => {
-      expect(TOOL_TYPE_MAP['Write']).toBe('tool:write');
+      expect(TOOL_TYPE_MAP.Write).toBe('tool:write');
     });
 
     it('should map Edit to tool:edit', () => {
-      expect(TOOL_TYPE_MAP['Edit']).toBe('tool:edit');
+      expect(TOOL_TYPE_MAP.Edit).toBe('tool:edit');
     });
 
     it('should map Bash to tool:bash', () => {
-      expect(TOOL_TYPE_MAP['Bash']).toBe('tool:bash');
+      expect(TOOL_TYPE_MAP.Bash).toBe('tool:bash');
     });
 
     it('should map Grep and Glob to tool:search', () => {
-      expect(TOOL_TYPE_MAP['Grep']).toBe('tool:search');
-      expect(TOOL_TYPE_MAP['Glob']).toBe('tool:search');
+      expect(TOOL_TYPE_MAP.Grep).toBe('tool:search');
+      expect(TOOL_TYPE_MAP.Glob).toBe('tool:search');
     });
 
     it('should map Task to tool:agent', () => {
-      expect(TOOL_TYPE_MAP['Task']).toBe('tool:agent');
+      expect(TOOL_TYPE_MAP.Task).toBe('tool:agent');
     });
 
     it('should map WebFetch and WebSearch to tool:web', () => {
-      expect(TOOL_TYPE_MAP['WebFetch']).toBe('tool:web');
-      expect(TOOL_TYPE_MAP['WebSearch']).toBe('tool:web');
+      expect(TOOL_TYPE_MAP.WebFetch).toBe('tool:web');
+      expect(TOOL_TYPE_MAP.WebSearch).toBe('tool:web');
     });
 
     it('should map LSP to tool:lsp', () => {
-      expect(TOOL_TYPE_MAP['LSP']).toBe('tool:lsp');
+      expect(TOOL_TYPE_MAP.LSP).toBe('tool:lsp');
     });
 
     it('should map NotebookEdit to tool:notebook', () => {
-      expect(TOOL_TYPE_MAP['NotebookEdit']).toBe('tool:notebook');
+      expect(TOOL_TYPE_MAP.NotebookEdit).toBe('tool:notebook');
     });
 
     it('should map AskUserQuestion to tool:interaction', () => {
-      expect(TOOL_TYPE_MAP['AskUserQuestion']).toBe('tool:interaction');
+      expect(TOOL_TYPE_MAP.AskUserQuestion).toBe('tool:interaction');
     });
 
     it('should map Skill to tool:skill', () => {
-      expect(TOOL_TYPE_MAP['Skill']).toBe('tool:skill');
+      expect(TOOL_TYPE_MAP.Skill).toBe('tool:skill');
     });
   });
 
@@ -316,8 +316,8 @@ describe('ObservationMapper', () => {
       const map = ObservationMapper.getToolTypeMap();
       expect(map).toEqual(TOOL_TYPE_MAP);
 
-      map['NewTool'] = 'tool:new'; // Mutate copy
-      expect(TOOL_TYPE_MAP['NewTool']).toBeUndefined(); // Original unchanged
+      map.NewTool = 'tool:new'; // Mutate copy
+      expect(TOOL_TYPE_MAP.NewTool).toBeUndefined(); // Original unchanged
     });
   });
 

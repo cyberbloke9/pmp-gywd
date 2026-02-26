@@ -50,6 +50,10 @@
     "./commands/gywd/bootstrap.md",
     "./commands/gywd/undo.md",
     "./commands/gywd/compare.md",
-    "./commands/gywd/snapshot.md"
+    "./commands/gywd/snapshot.md",
+    "./commands/gywd/mem-search.md",
+    "./commands/gywd/mem-sync.md",
+    "./commands/gywd/mem-status.md",
+    "./commands/gywd/mem-timeline.md"
   ]
 }

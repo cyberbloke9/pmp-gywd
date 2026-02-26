@@ -5,7 +5,7 @@
  */
 
 const { memSearch, parseArgs: parseSearchArgs, formatResults: formatSearchResults } = require('../../../lib/plugins/claude-mem-integration/commands/mem-search');
-const { memSync, parseArgs: parseSyncArgs, formatResults: formatSyncResults } = require('../../../lib/plugins/claude-mem-integration/commands/mem-sync');
+const { memSync: _memSync, parseArgs: parseSyncArgs, formatResults: formatSyncResults } = require('../../../lib/plugins/claude-mem-integration/commands/mem-sync');
 const { memStatus, formatStatus, getPatternsByType } = require('../../../lib/plugins/claude-mem-integration/commands/mem-status');
 const { memTimeline, parseArgs: parseTimelineArgs, formatTimeline } = require('../../../lib/plugins/claude-mem-integration/commands/mem-timeline');
 
@@ -62,8 +62,8 @@ describe('mem-search command', () => {
         limit: 20,
         results: [
           { id: 1, title: 'Test Result 1', type: 'observation', project: 'proj1', created_at_epoch: Date.now() },
-          { id: 2, title: 'Test Result 2', subtitle: 'A subtitle', type: 'prompt', project: 'proj2', created_at_epoch: Date.now() }
-        ]
+          { id: 2, title: 'Test Result 2', subtitle: 'A subtitle', type: 'prompt', project: 'proj2', created_at_epoch: Date.now() },
+        ],
       };
 
       const output = formatSearchResults(results);
@@ -90,8 +90,8 @@ describe('mem-search command', () => {
         query: 'test',
         limit: 20,
         results: [
-          { id: 1, type: 'observation', project: 'proj1', created_at_epoch: Date.now() }
-        ]
+          { id: 1, type: 'observation', project: 'proj1', created_at_epoch: Date.now() },
+        ],
       };
 
       const output = formatSearchResults(results);
@@ -108,7 +108,7 @@ describe('mem-search command', () => {
 
     it('should call plugin.search with parsed args', async () => {
       const mockPlugin = {
-        search: jest.fn().mockResolvedValue({ count: 0, results: [] })
+        search: jest.fn().mockResolvedValue({ count: 0, results: [] }),
       };
 
       await memSearch('test query --limit 10', mockPlugin);
@@ -116,13 +116,13 @@ describe('mem-search command', () => {
       expect(mockPlugin.search).toHaveBeenCalledWith('test query', {
         type: undefined,
         limit: 10,
-        project: undefined
+        project: undefined,
       });
     });
 
     it('should handle search errors', async () => {
       const mockPlugin = {
-        search: jest.fn().mockRejectedValue(new Error('Search failed'))
+        search: jest.fn().mockRejectedValue(new Error('Search failed')),
       };
 
       const result = await memSearch('test', mockPlugin);
@@ -164,7 +164,7 @@ describe('mem-sync command', () => {
         imported: 80,
         merged: 15,
         errors: 5,
-        duration: 1234
+        duration: 1234,
       };
 
       const output = formatSyncResults(results);
@@ -184,7 +184,7 @@ describe('mem-sync command', () => {
         merged: 0,
         errors: 5,
         lastError: 'Test error',
-        duration: 1000
+        duration: 1000,
       };
 
       const output = formatSyncResults(results);
@@ -206,7 +206,7 @@ describe('mem-status command', () => {
           observationsReceived: 100,
           patternsImported: 50,
           errors: 2,
-          lastSync: '2024-01-01T12:00:00Z'
+          lastSync: '2024-01-01T12:00:00Z',
         },
         syncManagerStats: {
           queueLength: 5,
@@ -214,8 +214,8 @@ describe('mem-status command', () => {
           synced: 95,
           dropped: 0,
           batches: 10,
-          state: 'running'
-        }
+          state: 'running',
+        },
       };
 
       const output = formatStatus(status);
@@ -230,7 +230,7 @@ describe('mem-status command', () => {
       const status = {
         status: 'disconnected',
         config: { workerHost: '127.0.0.1', workerPort: 37777 },
-        stats: {}
+        stats: {},
       };
 
       const output = formatStatus(status);
@@ -243,7 +243,7 @@ describe('mem-status command', () => {
       const status = {
         status: 'error',
         config: { workerHost: '127.0.0.1', workerPort: 37777 },
-        stats: {}
+        stats: {},
       };
 
       const output = formatStatus(status);
@@ -263,8 +263,8 @@ describe('mem-status command', () => {
           dropped: 5,
           batches: 20,
           state: 'running',
-          lastError: 'Some error'
-        }
+          lastError: 'Some error',
+        },
       };
 
       const output = formatStatus(status);
@@ -284,8 +284,8 @@ describe('mem-status command', () => {
         patternsByType: {
           'tool:read': 50,
           'tool:write': 30,
-          'tool:bash': 20
-        }
+          'tool:bash': 20,
+        },
       };
 
       const output = formatStatus(status);
@@ -300,7 +300,7 @@ describe('mem-status command', () => {
         status: 'connected',
         config: { workerHost: '127.0.0.1', workerPort: 37777 },
         stats: {},
-        patternsByType: {}
+        patternsByType: {},
       };
 
       const output = formatStatus(status);
@@ -323,9 +323,9 @@ describe('mem-status command', () => {
         getStatus: jest.fn().mockReturnValue({
           status: 'connected',
           config: { workerHost: '127.0.0.1', workerPort: 37777 },
-          stats: {}
+          stats: {},
         }),
-        globalMemory: null
+        globalMemory: null,
       };
 
       const result = await memStatus({}, mockPlugin);
@@ -338,7 +338,7 @@ describe('mem-status command', () => {
       const mockPlugin = {
         getStatus: jest.fn().mockImplementation(() => {
           throw new Error('Status error');
-        })
+        }),
       };
 
       const result = await memStatus({}, mockPlugin);
@@ -386,8 +386,8 @@ describe('mem-timeline command', () => {
         count: 2,
         results: [
           { id: 1, title: 'Item 1', type: 'observation', project: 'proj1', created_at_epoch: now },
-          { id: 2, title: 'Item 2', type: 'session', project: 'proj2', created_at_epoch: now }
-        ]
+          { id: 2, title: 'Item 2', type: 'session', project: 'proj2', created_at_epoch: now },
+        ],
       };
 
       const output = formatTimeline(results);
@@ -416,8 +416,8 @@ describe('mem-timeline command', () => {
           { id: 1, title: 'Obs', type: 'observation', created_at_epoch: Date.now() },
           { id: 2, title: 'Sess', type: 'session', created_at_epoch: Date.now() },
           { id: 3, title: 'Prompt', type: 'prompt', created_at_epoch: Date.now() },
-          { id: 4, title: 'Summary', type: 'summary', created_at_epoch: Date.now() }
-        ]
+          { id: 4, title: 'Summary', type: 'summary', created_at_epoch: Date.now() },
+        ],
       };
 
       const output = formatTimeline(results);
@@ -432,8 +432,8 @@ describe('mem-timeline command', () => {
       const results = {
         count: 1,
         results: [
-          { id: 1, title: 'Item', type: 'observation', project: 'test-project', created_at_epoch: Date.now() }
-        ]
+          { id: 1, title: 'Item', type: 'observation', project: 'test-project', created_at_epoch: Date.now() },
+        ],
       };
 
       const output = formatTimeline(results);
@@ -446,8 +446,8 @@ describe('mem-timeline command', () => {
         count: 1,
         query: 'search term',
         results: [
-          { id: 1, title: 'Item', type: 'observation', created_at_epoch: Date.now() }
-        ]
+          { id: 1, title: 'Item', type: 'observation', created_at_epoch: Date.now() },
+        ],
       };
 
       const output = formatTimeline(results);
@@ -464,8 +464,8 @@ describe('mem-timeline command', () => {
         count: 2,
         results: [
           { id: 1, title: 'Today', type: 'observation', created_at_epoch: today.getTime() },
-          { id: 2, title: 'Yesterday', type: 'observation', created_at_epoch: yesterday.getTime() }
-        ]
+          { id: 2, title: 'Yesterday', type: 'observation', created_at_epoch: yesterday.getTime() },
+        ],
       };
 
       const output = formatTimeline(results);
@@ -478,7 +478,7 @@ describe('mem-timeline command', () => {
   describe('memTimeline', () => {
     it('should call plugin.getTimeline with defaults', async () => {
       const mockPlugin = {
-        getTimeline: jest.fn().mockResolvedValue({ count: 0, results: [] })
+        getTimeline: jest.fn().mockResolvedValue({ count: 0, results: [] }),
       };
 
       await memTimeline('', mockPlugin);
@@ -486,13 +486,13 @@ describe('mem-timeline command', () => {
       expect(mockPlugin.getTimeline).toHaveBeenCalledWith(expect.objectContaining({
         limit: 50,
         depth_before: 5,
-        depth_after: 5
+        depth_after: 5,
       }));
     });
 
     it('should handle timeline errors', async () => {
       const mockPlugin = {
-        getTimeline: jest.fn().mockRejectedValue(new Error('Timeline error'))
+        getTimeline: jest.fn().mockRejectedValue(new Error('Timeline error')),
       };
 
       const result = await memTimeline('', mockPlugin);

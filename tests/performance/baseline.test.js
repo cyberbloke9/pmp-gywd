@@ -83,7 +83,7 @@ describe('Performance Baseline', () => {
 
     test('batches multiple rapid saves into single write', async () => {
       let writeCount = 0;
-      const originalDoWrite = memory._doWrite.bind(memory);
+      const _originalDoWrite = memory._doWrite.bind(memory);
       memory._doWrite = () => {
         writeCount++;
         // Don't actually write to disk in tests

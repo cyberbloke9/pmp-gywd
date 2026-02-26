@@ -156,7 +156,6 @@ describe('CIRunner', () => {
     });
 
     test('defaults to validate', () => {
-      const result = CIRunner.run(['--project', tmpDir]);
       // First arg '--project' is treated as command, which is unknown
       // So with no args it defaults to validate
       const defaultResult = CIRunner.run([]);

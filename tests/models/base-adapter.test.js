@@ -132,9 +132,9 @@ describe('MODEL_PRICING', () => {
   });
 
   test('local models are free', () => {
-    expect(MODEL_PRICING['llama3'].input).toBe(0);
-    expect(MODEL_PRICING['llama3'].output).toBe(0);
-    expect(MODEL_PRICING['mistral'].input).toBe(0);
+    expect(MODEL_PRICING.llama3.input).toBe(0);
+    expect(MODEL_PRICING.llama3.output).toBe(0);
+    expect(MODEL_PRICING.mistral.input).toBe(0);
   });
 
   test('has _default fallback', () => {
@@ -158,7 +158,7 @@ describe('MODEL_CAPABILITIES', () => {
 
   test('premium models have reasoning capability', () => {
     expect(MODEL_CAPABILITIES['claude-opus-4-6'].capabilities).toContain('reasoning');
-    expect(MODEL_CAPABILITIES['o1'].capabilities).toContain('reasoning');
+    expect(MODEL_CAPABILITIES.o1.capabilities).toContain('reasoning');
     expect(MODEL_CAPABILITIES['gpt-4o'].capabilities).toContain('reasoning');
   });
 

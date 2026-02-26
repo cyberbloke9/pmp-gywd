@@ -53,7 +53,7 @@ async function fetch(url, options = {}) {
       timeout: 5000,
     }, (res) => {
       let data = '';
-      res.on('data', chunk => data += chunk);
+      res.on('data', (chunk) => { data += chunk; });
       res.on('end', () => {
         resolve({
           ok: res.statusCode >= 200 && res.statusCode < 300,
@@ -121,11 +121,7 @@ async function testSSEStream() {
   log('\n4. Testing SSE Stream...', 'blue');
 
   return new Promise((resolve) => {
-    const timeout = setTimeout(() => {
-      req.destroy();
-      resolve(logResult('SSE stream', true, 'Connection established (no events in 2s)'));
-    }, 2000);
-
+    const state = { timeout: null };
     const req = http.request({
       hostname: WORKER_HOST,
       port: WORKER_PORT,
@@ -137,20 +133,25 @@ async function testSSEStream() {
       },
     }, (res) => {
       if (res.statusCode !== 200) {
-        clearTimeout(timeout);
+        clearTimeout(state.timeout);
         resolve(logResult('SSE stream', false, `HTTP ${res.statusCode}`));
         return;
       }
 
       res.once('data', () => {
-        clearTimeout(timeout);
+        clearTimeout(state.timeout);
         req.destroy();
         resolve(logResult('SSE stream', true, 'Receiving events'));
       });
     });
 
+    state.timeout = setTimeout(() => {
+      req.destroy();
+      resolve(logResult('SSE stream', true, 'Connection established (no events in 2s)'));
+    }, 2000);
+
     req.on('error', (error) => {
-      clearTimeout(timeout);
+      clearTimeout(state.timeout);
       resolve(logResult('SSE stream', false, error.message));
     });
 

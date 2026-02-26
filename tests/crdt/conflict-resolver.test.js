@@ -102,7 +102,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { x: 1 },
         { x: 10 },
-        { x: 20 }
+        { x: 20 },
       );
       expect(merged.x).toBe(10);
     });
@@ -112,7 +112,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { x: 1 },
         { x: 10 },
-        { x: 20 }
+        { x: 20 },
       );
       expect(merged.x).toBe(20);
     });
@@ -122,7 +122,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { count: 5 },
         { count: 10 },
-        { count: 8 }
+        { count: 8 },
       );
       expect(merged.count).toBe(10);
     });
@@ -132,7 +132,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { priority: 5 },
         { priority: 3 },
-        { priority: 7 }
+        { priority: 7 },
       );
       expect(merged.priority).toBe(3);
     });
@@ -142,7 +142,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { tags: ['a'] },
         { tags: ['a', 'b'] },
-        { tags: ['a', 'c'] }
+        { tags: ['a', 'c'] },
       );
       expect(merged.tags).toContain('b');
       expect(merged.tags).toContain('c');
@@ -153,7 +153,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { notes: 'base' },
         { notes: 'local note' },
-        { notes: 'remote note' }
+        { notes: 'remote note' },
       );
       expect(merged.notes).toContain('local note');
       expect(merged.notes).toContain('remote note');
@@ -164,7 +164,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { config: { a: 1, b: 2 } },
         { config: { a: 10, b: 2 } },
-        { config: { a: 1, b: 20 } }
+        { config: { a: 1, b: 20 } },
       );
       expect(merged.config.a).toBe(10);
       expect(merged.config.b).toBe(20);
@@ -178,7 +178,7 @@ describe('ConflictResolver', () => {
       const { merged } = r.resolve(
         { title: 'T', version: 1 },
         { title: 'Local', version: 3 },
-        { title: 'Remote', version: 5 }
+        { title: 'Remote', version: 5 },
       );
       expect(merged.title).toBe('Local'); // local-wins
       expect(merged.version).toBe(5); // max
