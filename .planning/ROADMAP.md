@@ -338,6 +338,95 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 
 ---
 
+### 🚧 v6.0 Live Intelligence (In Progress)
+
+**Milestone Goal:** npm publish, real-time dashboard with WebSocket/SSE, AI-driven code reviews and pattern intelligence
+
+#### Phase 53: npm-publish
+
+**Goal:** Publish `pmp-gywd@5.0.0` to npm registry, verify global/local install, test bin entry point
+**Depends on:** v5.0 complete
+**Research:** Unlikely (established npm patterns)
+**Plans:** TBD
+
+Plans:
+- [ ] 53-01: TBD (run /gywd:plan-phase 53 to break down)
+
+#### Phase 54: live-dashboard-websocket
+
+**Goal:** Wire Next.js dashboard to API gateway via WebSocket for real-time state/pattern updates
+**Depends on:** Phase 53
+**Research:** Unlikely (ws already in api-gateway)
+**Plans:** TBD
+
+Plans:
+- [ ] 54-01: TBD
+
+#### Phase 55: live-dashboard-sse-bridge
+
+**Goal:** Replace dashboard file-watch SSE with API gateway SSE, add reconnection and event buffering
+**Depends on:** Phase 54
+**Research:** Unlikely (SSE already built in both projects)
+**Plans:** TBD
+
+Plans:
+- [ ] 55-01: TBD
+
+#### Phase 56: live-dashboard-interactive
+
+**Goal:** Add interactive controls — trigger plan execution, edit state, run GYWD commands from the web UI
+**Depends on:** Phase 55
+**Research:** Unlikely (internal patterns)
+**Plans:** TBD
+
+Plans:
+- [ ] 56-01: TBD
+
+#### Phase 57: ai-code-review-engine
+
+**Goal:** Build AI-powered code review engine wiring multi-model adapters to semantic search
+**Depends on:** Phase 56
+**Research:** Likely (LLM API integration, prompt design)
+**Research topics:** Optimal review prompt patterns, diff chunking strategies, model selection for code tasks
+**Plans:** TBD
+
+Plans:
+- [ ] 57-01: TBD
+
+#### Phase 58: ai-decision-analyzer
+
+**Goal:** AI-driven decision conflict detection and architecture coherence checking
+**Depends on:** Phase 57
+**Research:** Likely (LLM prompt engineering for decision analysis)
+**Research topics:** Decision graph traversal prompts, contradiction detection patterns
+**Plans:** TBD
+
+Plans:
+- [ ] 58-01: TBD
+
+#### Phase 59: ai-pattern-recommender
+
+**Goal:** AI agent that recommends patterns from global memory based on current task context
+**Depends on:** Phase 58
+**Research:** Likely (RAG-style retrieval + LLM synthesis)
+**Research topics:** TF-IDF → LLM pipeline, context window optimization for pattern injection
+**Plans:** TBD
+
+Plans:
+- [ ] 59-01: TBD
+
+#### Phase 60: v6-release
+
+**Goal:** Version bump to 6.0.0, changelog, docs update, npm publish v6.0.0
+**Depends on:** Phase 59
+**Research:** Unlikely (internal patterns)
+**Plans:** TBD
+
+Plans:
+- [ ] 60-01: TBD
+
+---
+
 ## Progress Summary
 
 | Milestone | Phases | Status | Released |
@@ -348,18 +437,19 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 | v4.0 Autonomous Intelligence | 29-40 | ✅ Complete | 2026-02-01 |
 | v4.1 Claude-Mem Integration | 41-42 | ✅ Complete | 2026-02-04 |
 | v5.0 Connected Intelligence | 43-52 | ✅ Complete | 2026-02-26 |
+| v6.0 Live Intelligence | 53-60 | 🚧 In Progress | - |
 
 ## Stats
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 52 (51 complete, 1 deferred) |
+| Total Phases | 60 (51 complete, 1 deferred, 8 planned) |
 | Commands | 47 |
 | Tests | 1,299 (1,159 core + 95 dashboard + 45 api-gateway) |
-| Lib Modules | 49 (25 + 4 semantic + 6 models + 5 crdt + 5 enterprise + 4 ci) |
+| Lib Modules | 49 |
 | Lines of Code | 25,000+ |
-| Milestones | 6 (all complete) |
+| Milestones | 7 (6 complete, 1 in progress) |
 
 ---
 
-*Last updated: 2026-02-26 - v5.0.0 RELEASED — All milestones complete*
+*Last updated: 2026-03-25 - v6.0 Live Intelligence milestone created*
