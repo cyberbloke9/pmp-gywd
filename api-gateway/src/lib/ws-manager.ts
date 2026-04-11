@@ -56,7 +56,8 @@ export class WsManager {
     return this.clients.size;
   }
 
-  private broadcast(event: string, data: unknown): void {
+  /** Broadcast an event to all connected WebSocket clients */
+  broadcast(event: string, data: unknown): void {
     const message = JSON.stringify({ event, data, timestamp: new Date().toISOString() });
     for (const client of this.clients) {
       if (client.ws.readyState === WebSocket.OPEN) {

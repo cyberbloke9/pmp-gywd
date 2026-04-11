@@ -7,6 +7,7 @@ import memoryRouter from './routes/memory';
 import patternsRouter from './routes/patterns';
 import planningRouter from './routes/planning';
 import keysRouter from './routes/keys';
+import commandsRouter from './routes/commands';
 import { openapiSpec } from './lib/openapi-spec';
 
 export function createApp() {
@@ -36,6 +37,7 @@ export function createApp() {
   app.use('/api/v1/patterns', patternsRouter);
   app.use('/api/v1/planning', planningRouter);
   app.use('/api/v1/keys', keysRouter);
+  app.use('/api/v1/commands', commandsRouter);
 
   // 404 handler
   app.use((_req, res) => {
