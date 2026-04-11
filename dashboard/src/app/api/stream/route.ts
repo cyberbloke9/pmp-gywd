@@ -1,11 +1,9 @@
-import { getWsClient } from '@/lib/ws-client';
 import { getSSEManager } from '@/lib/sse-manager';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const wsClient = getWsClient();
-  const useGateway = wsClient.isConnected();
+  const manager = getSSEManager();
 
   const stream = new ReadableStream({
     start(controller) {
@@ -17,44 +15,22 @@ export async function GET() {
             encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`),
           );
         } catch {
-          // Stream closed — clean up listeners
-          cleanup();
+          // Stream closed
+          manager.removeListener(send);
         }
       }
 
-      let unsubscribeWs: (() => void) | null = null;
-      let cleanedUp = false;
-
-      function cleanup() {
-        if (cleanedUp) return;
-        cleanedUp = true;
-        if (unsubscribeWs) unsubscribeWs();
-        sseManager?.removeListener(send);
-      }
-
-      // Send connected event
+      // Send connected event with source info
       send('connected', {
         timestamp: new Date().toISOString(),
-        source: useGateway ? 'gateway' : 'local',
+        source: manager.getMode(),
       });
 
-      if (useGateway) {
-        // Proxy events from gateway WebSocket
-        unsubscribeWs = wsClient.onEvent((wsEvent) => {
-          // Skip internal gateway_connected events
-          if (wsEvent.event === 'gateway_connected') return;
-          send(wsEvent.event, wsEvent.data);
-        });
-      }
+      // Replay buffered events to this new listener
+      manager.replayTo(send);
 
-      // Always attach local SSE manager as fallback / supplement
-      const sseManager = getSSEManager();
-      if (!useGateway) {
-        sseManager.addListener(send);
-      }
-
-      // Keep reference for cleanup
-      void cleanup;
+      // Register for future events
+      manager.addListener(send);
     },
   });
 

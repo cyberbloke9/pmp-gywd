@@ -359,15 +359,11 @@ Plans:
 
 **Deliverables:** `useWebSocket.ts`, `ws-client.ts`, `config.ts`, updated 4 API routes + stream route, `.env.local.example`, 19 tests
 
-#### Phase 55: live-dashboard-sse-bridge
+#### Phase 55: live-dashboard-sse-bridge ✅
 
-**Goal:** Replace dashboard file-watch SSE with API gateway SSE, add reconnection and event buffering
-**Depends on:** Phase 54
-**Research:** Unlikely (SSE already built in both projects)
-**Plans:** TBD
+- [x] 55-01: SSE manager dual-mode (gateway/local), event buffer + replay, stream route simplified
 
-Plans:
-- [ ] 55-01: TBD
+**Deliverables:** Refactored `sse-manager.ts` (gateway-aware, event buffer, replay), simplified `stream/route.ts`, 15 SSE tests rewritten
 
 #### Phase 56: live-dashboard-interactive
 
@@ -440,7 +436,7 @@ Plans:
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 60 (53 complete, 1 deferred, 6 planned) |
+| Total Phases | 60 (54 complete, 1 deferred, 5 planned) |
 | Commands | 47 |
 | Tests | 1,299 (1,159 core + 95 dashboard + 45 api-gateway) |
 | Lib Modules | 49 |
