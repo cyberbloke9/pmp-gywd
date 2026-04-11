@@ -14,6 +14,7 @@ const navItems: NavItem[] = [
   { label: 'Overview', href: '/overview', icon: '📊' },
   { label: 'Charts', href: '/charts', icon: '📉' },
   { label: 'Analytics', href: '/analytics', icon: '📈' },
+  { label: 'Commands', href: '/commands', icon: '🎮' },
   { label: 'Memory', href: '/memory', icon: '🧠', disabled: true },
   { label: 'Settings', href: '/settings', icon: '⚙️', disabled: true },
 ];
