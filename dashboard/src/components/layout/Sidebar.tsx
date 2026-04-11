@@ -21,10 +21,19 @@ const navItems: NavItem[] = [
 
 interface SidebarProps {
   connected?: boolean;
+  reconnecting?: boolean;
+  mode?: 'gateway' | 'reconnecting' | 'disconnected';
 }
 
-export default function Sidebar({ connected = false }: SidebarProps) {
+const STATUS_CONFIG = {
+  gateway: { dot: 'bg-gywd-green', label: 'Live (Gateway)', pulse: false },
+  reconnecting: { dot: 'bg-yellow-500', label: 'Reconnecting...', pulse: true },
+  disconnected: { dot: 'bg-gywd-red', label: 'Local Only', pulse: false },
+};
+
+export default function Sidebar({ connected = false, mode = 'disconnected' }: SidebarProps) {
   const pathname = usePathname();
+  const status = STATUS_CONFIG[mode] || STATUS_CONFIG.disconnected;
 
   return (
     <aside className="w-64 bg-gywd-surface border-r border-gywd-border flex flex-col h-full">
@@ -64,9 +73,9 @@ export default function Sidebar({ connected = false }: SidebarProps) {
       <div className="p-4 border-t border-gywd-border">
         <div className="flex items-center gap-2 text-xs text-gywd-muted">
           <span
-            className={`w-2 h-2 rounded-full ${connected ? 'bg-gywd-green' : 'bg-gywd-red'}`}
+            className={`w-2 h-2 rounded-full ${status.dot} ${status.pulse ? 'animate-pulse' : ''}`}
           />
-          <span>{connected ? 'Live' : 'Disconnected'}</span>
+          <span>{status.label}</span>
         </div>
       </div>
     </aside>

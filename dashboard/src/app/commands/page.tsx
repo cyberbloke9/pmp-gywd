@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header';
 import CommandList from '@/components/commands/CommandList';
 import QuickActions from '@/components/commands/QuickActions';
 import ExecutionLog from '@/components/commands/ExecutionLog';
+import Skeleton from '@/components/shared/Skeleton';
 
 interface Command {
   name: string;
@@ -23,6 +24,7 @@ interface LogEntry {
 export default function CommandsPage() {
   const [commands, setCommands] = useState<Command[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
 
   useEffect(() => {
@@ -31,10 +33,12 @@ export default function CommandsPage() {
       .then((data) => {
         if (data.success && data.data?.commands) {
           setCommands(data.data.commands);
+        } else if (data.data?.error) {
+          setError(data.data.error);
         }
       })
-      .catch(() => {
-        // Gateway unavailable
+      .catch((err) => {
+        setError(`Failed to load commands: ${String(err)}`);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -59,8 +63,25 @@ export default function CommandsPage() {
 
         {/* Command Reference */}
         {loading ? (
-          <div className="bg-gywd-surface border border-gywd-border rounded-lg p-8 text-center">
-            <p className="text-sm text-gywd-muted animate-pulse">Loading commands...</p>
+          <div className="bg-gywd-surface border border-gywd-border rounded-lg">
+            <div className="px-4 py-3 border-b border-gywd-border">
+              <Skeleton className="h-4 w-32" />
+            </div>
+            <div className="p-4 space-y-3">
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
+          </div>
+        ) : error ? (
+          <div className="bg-gywd-surface border border-red-500/30 rounded-lg p-6 text-center">
+            <p className="text-sm text-red-400">{error}</p>
+            <p className="text-xs text-gywd-muted mt-2">
+              Make sure the API gateway is running on port 3945
+            </p>
           </div>
         ) : (
           <CommandList
