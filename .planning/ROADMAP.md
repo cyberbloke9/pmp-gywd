@@ -353,10 +353,9 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 **Goal:** Wire Next.js dashboard to API gateway via WebSocket for real-time state/pattern updates
 **Depends on:** Phase 53
 **Research:** Unlikely (ws already in api-gateway)
-**Plans:** TBD
 
 Plans:
-- [ ] 54-01: TBD
+- [ ] 54-01: useWebSocket hook + WS client + API route proxying + fallback + tests (7 tasks)
 
 #### Phase 55: live-dashboard-sse-bridge
 
