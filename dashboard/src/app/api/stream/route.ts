@@ -1,9 +1,11 @@
+import { getWsClient } from '@/lib/ws-client';
 import { getSSEManager } from '@/lib/sse-manager';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const manager = getSSEManager();
+  const wsClient = getWsClient();
+  const useGateway = wsClient.isConnected();
 
   const stream = new ReadableStream({
     start(controller) {
@@ -12,28 +14,47 @@ export async function GET() {
       function send(event: string, data: unknown) {
         try {
           controller.enqueue(
-            encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
+            encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`),
           );
         } catch {
-          // Stream closed
-          manager.removeListener(send);
+          // Stream closed — clean up listeners
+          cleanup();
         }
       }
 
+      let unsubscribeWs: (() => void) | null = null;
+      let cleanedUp = false;
+
+      function cleanup() {
+        if (cleanedUp) return;
+        cleanedUp = true;
+        if (unsubscribeWs) unsubscribeWs();
+        sseManager?.removeListener(send);
+      }
+
       // Send connected event
-      send('connected', { timestamp: new Date().toISOString() });
+      send('connected', {
+        timestamp: new Date().toISOString(),
+        source: useGateway ? 'gateway' : 'local',
+      });
 
-      // Register listener
-      manager.addListener(send);
+      if (useGateway) {
+        // Proxy events from gateway WebSocket
+        unsubscribeWs = wsClient.onEvent((wsEvent) => {
+          // Skip internal gateway_connected events
+          if (wsEvent.event === 'gateway_connected') return;
+          send(wsEvent.event, wsEvent.data);
+        });
+      }
 
-      // Cleanup when stream closes
-      const cleanup = () => {
-        manager.removeListener(send);
-      };
+      // Always attach local SSE manager as fallback / supplement
+      const sseManager = getSSEManager();
+      if (!useGateway) {
+        sseManager.addListener(send);
+      }
 
-      // AbortController not available on ReadableStream, cleanup on error
-      controller.enqueue; // keep reference
-      void cleanup; // used by GC via closure
+      // Keep reference for cleanup
+      void cleanup;
     },
   });
 

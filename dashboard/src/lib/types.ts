@@ -79,17 +79,24 @@ export interface PatternClassification {
   outlier: Pattern[];
 }
 
-// ==================== SSE Types ====================
+// ==================== Real-time Event Types ====================
 
 export type SSEEventType =
   | 'connected'
   | 'state_changed'
   | 'patterns_updated'
+  | 'data_updated'
   | 'feedback_updated'
   | 'heartbeat';
 
 export interface SSEEvent {
   type: SSEEventType;
+  data: unknown;
+  timestamp: string;
+}
+
+export interface WsEvent {
+  event: string;
   data: unknown;
   timestamp: string;
 }

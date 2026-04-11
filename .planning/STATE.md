@@ -9,19 +9,19 @@
 
 ## Current Position
 
-**Phase:** 54 of 60 (live-dashboard-websocket)
+**Phase:** 55 of 60 (live-dashboard-sse-bridge)
 **Status:** Not Started
 
-**Progress:** [██████████░░░░░░] 87% overall (52/60 phases complete, 1 deferred)
+**Progress:** [██████████░░░░░░] 88% overall (53/60 phases complete, 1 deferred)
 
-Last activity: 2026-03-25 - Phase 53 complete — pmp-gywd@5.0.0 published to npm
+Last activity: 2026-03-25 - Phase 54 complete — dashboard wired to API gateway via WebSocket
 
 ## v6.0 Live Intelligence - Phase Overview
 
 | Phase | Title | Status |
 |-------|-------|--------|
 | 53 | npm Publish | Complete |
-| 54 | Live Dashboard WebSocket | Not Started |
+| 54 | Live Dashboard WebSocket | Complete |
 | 55 | Live Dashboard SSE Bridge | Not Started |
 | 56 | Live Dashboard Interactive | Not Started |
 | 57 | AI Code Review Engine | Not Started |
@@ -165,10 +165,20 @@ Last activity: 2026-03-25 - Phase 53 complete — pmp-gywd@5.0.0 published to np
 - **Install:** `npx pmp-gywd` or `npm install -g pmp-gywd`
 - **prepublishOnly:** All 1,159 tests passed + schema/command validation
 
+## Phase 54 Completion (2026-03-25)
+
+- **Live Dashboard WebSocket:** Wired Next.js dashboard to API gateway WS
+- **useWebSocket hook:** Browser-side React hook with exponential backoff reconnect
+- **WS client singleton:** Server-side WebSocket client for dashboard ↔ gateway
+- **API route proxying:** status/patterns/memory/planning routes fetch from gateway REST, fallback to direct fs
+- **SSE stream proxy:** Forwards gateway WS events as SSE to browser, fallback to file-watch SSE
+- **Config:** `getGatewayConfig()`, `fetchFromGateway()`, env vars for URL/key/auth
+- **Tests:** 19 new tests (config: 9, ws-client: 10), 114 dashboard total
+
 ## Next Action
 
-Start Phase 54: Live Dashboard WebSocket
-- `/gywd:plan-phase 54`
+Start Phase 55: Live Dashboard SSE Bridge
+- `/gywd:plan-phase 55`
 
 ---
 *Last updated: 2026-03-25 - v6.0 Live Intelligence milestone created*

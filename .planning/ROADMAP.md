@@ -355,7 +355,9 @@ PMP-GYWD is an autonomous context engineering framework for Claude Code. From v1
 **Research:** Unlikely (ws already in api-gateway)
 
 Plans:
-- [ ] 54-01: useWebSocket hook + WS client + API route proxying + fallback + tests (7 tasks)
+- [x] 54-01: useWebSocket hook + WS client + API route proxying + fallback + tests (7 tasks)
+
+**Deliverables:** `useWebSocket.ts`, `ws-client.ts`, `config.ts`, updated 4 API routes + stream route, `.env.local.example`, 19 tests
 
 #### Phase 55: live-dashboard-sse-bridge
 
@@ -438,7 +440,7 @@ Plans:
 
 | Metric | Value |
 |--------|-------|
-| Total Phases | 60 (51 complete, 1 deferred, 8 planned) |
+| Total Phases | 60 (53 complete, 1 deferred, 6 planned) |
 | Commands | 47 |
 | Tests | 1,299 (1,159 core + 95 dashboard + 45 api-gateway) |
 | Lib Modules | 49 |
