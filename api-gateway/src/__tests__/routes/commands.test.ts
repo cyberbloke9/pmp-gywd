@@ -7,6 +7,7 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 
 // Disable auth for route tests
 process.env.GYWD_API_AUTH = 'disabled';
+process.env.NODE_ENV = 'development';
 
 // Mock server module to prevent circular dep and provide mock wsManager
 jest.mock('../../server', () => ({
@@ -130,12 +131,12 @@ describe('Commands API', () => {
       expect(res.body.success).toBe(false);
     });
 
-    it('returns 500 for unknown action', async () => {
+    it('returns 400 for unknown action', async () => {
       const res = await request('POST', '/api/v1/commands/execute', { action: 'unknown-action' });
 
-      expect(res.status).toBe(500);
+      // Now Zod validates and returns 400 (was 500 with old custom error)
+      expect(res.status).toBe(400);
       expect(res.body.success).toBe(false);
-      expect(res.body.error).toContain('Unknown action');
     });
 
     it('executes refresh-state', async () => {
@@ -183,6 +184,7 @@ describe('Commands API', () => {
         params: { field: 'status' },
       });
 
+      // Zod schema allows missing value (optional), but action handler throws → 500
       expect(res.status).toBe(500);
       expect(res.body.error).toContain('requires field and value');
     });

@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { authMiddleware } from '../../middleware/auth';
+import { authMiddleware, _resetAuthWarning } from '../../middleware/auth';
 
 // Mock api-keys module
 jest.mock('../../lib/api-keys', () => ({
@@ -23,10 +23,17 @@ function createMocks(path = '/api/v1/status', apiKey?: string) {
 
 describe('authMiddleware', () => {
   const origAuth = process.env.GYWD_API_AUTH;
+  const origNodeEnv = process.env.NODE_ENV;
+
+  beforeEach(() => {
+    _resetAuthWarning();
+  });
 
   afterEach(() => {
     if (origAuth === undefined) delete process.env.GYWD_API_AUTH;
     else process.env.GYWD_API_AUTH = origAuth;
+    if (origNodeEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = origNodeEnv;
   });
 
   it('skips auth for /health', () => {
@@ -41,8 +48,9 @@ describe('authMiddleware', () => {
     expect(next).toHaveBeenCalled();
   });
 
-  it('skips auth when GYWD_API_AUTH=disabled', () => {
+  it('skips auth when GYWD_API_AUTH=disabled and NODE_ENV=development', () => {
     process.env.GYWD_API_AUTH = 'disabled';
+    process.env.NODE_ENV = 'development';
     const { req, res, next } = createMocks('/api/v1/status');
     authMiddleware(req, res, next);
     expect(next).toHaveBeenCalled();

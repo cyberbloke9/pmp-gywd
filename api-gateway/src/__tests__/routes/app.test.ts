@@ -5,6 +5,7 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 
 // Disable auth for route tests
 process.env.GYWD_API_AUTH = 'disabled';
+process.env.NODE_ENV = 'development';
 
 import { createApp } from '../../app';
 import http from 'http';

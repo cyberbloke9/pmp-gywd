@@ -1,28 +1,55 @@
 import { Router } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import { z } from 'zod';
 
 const router = Router();
 
-/**
- * Get the commands directory path.
- * Commands are .md files in commands/gywd/
- */
+// ---- Limits (DoS protection) ----
+const MAX_VALUE_LENGTH = 200;
+const MAX_FIELD_LENGTH = 50;
+const MAX_PHASE_LENGTH = 10;
+const MAX_STATUS_LENGTH = 50;
+
+// ---- Mutex for STATE.md writes (prevents corruption from concurrent writes) ----
+let stateWriteMutex: Promise<void> = Promise.resolve();
+
+async function withStateLock<T>(fn: () => Promise<T> | T): Promise<T> {
+  const release = stateWriteMutex;
+  let resolveNext: () => void;
+  stateWriteMutex = new Promise((r) => { resolveNext = r; });
+  try {
+    await release;
+    return await fn();
+  } finally {
+    resolveNext!();
+  }
+}
+
+// ---- Helpers ----
+
+/** Escape a string for safe insertion into a regex pattern */
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/** Atomic file write: write to .tmp then rename */
+function atomicWriteFileSync(target: string, content: string): void {
+  const tmp = `${target}.tmp.${process.pid}.${Date.now()}`;
+  fs.writeFileSync(tmp, content, 'utf8');
+  fs.renameSync(tmp, target);
+}
+
 function getCommandsDir(): string {
   return process.env.GYWD_COMMANDS_DIR || path.join(process.cwd(), 'commands', 'gywd');
 }
 
-/**
- * Parse a command .md file to extract metadata.
- * Reads the first few lines for title/description.
- */
 function parseCommandFile(filePath: string): { name: string; description: string; filename: string } | null {
   try {
     const content = fs.readFileSync(filePath, 'utf8');
     const filename = path.basename(filePath, '.md');
     const name = `gywd:${filename}`;
 
-    // Extract first heading or first non-empty line as description
     const lines = content.split('\n').filter((l) => l.trim());
     let description = '';
 
@@ -72,8 +99,36 @@ router.get('/', (_req, res) => {
 /** GET /api/v1/commands/:name - Get a single command's details */
 router.get('/:name', (req, res) => {
   const commandsDir = getCommandsDir();
-  const filename = req.params.name.replace(/^gywd:/, '') + '.md';
+  const rawName = req.params.name.replace(/^gywd:/, '');
+
+  // Reject path-traversal characters
+  if (rawName.includes('/') || rawName.includes('\\') || rawName.includes('..') || rawName.includes('\0')) {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid command name: contains illegal characters',
+    });
+  }
+
+  // Reject overly long names
+  if (rawName.length === 0 || rawName.length > 100) {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid command name: length must be 1-100 chars',
+    });
+  }
+
+  const filename = rawName + '.md';
   const filePath = path.join(commandsDir, filename);
+
+  // Containment check — resolved path must be inside commandsDir
+  const resolvedFile = path.resolve(filePath);
+  const resolvedDir = path.resolve(commandsDir);
+  if (!resolvedFile.startsWith(resolvedDir + path.sep) && resolvedFile !== resolvedDir) {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid command name: path traversal detected',
+    });
+  }
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({
@@ -94,30 +149,51 @@ router.get('/:name', (req, res) => {
   });
 });
 
+// ---- Execute schema (Zod) ----
+
+const ExecuteParamsSchema = z.object({
+  field: z.string().max(MAX_FIELD_LENGTH).optional(),
+  value: z.string().max(MAX_VALUE_LENGTH).optional(),
+  phase: z.union([z.string().max(MAX_PHASE_LENGTH), z.number()]).optional(),
+  status: z.string().max(MAX_STATUS_LENGTH).optional(),
+}).strict(); // strict() rejects unknown keys
+
+const ExecuteBodySchema = z.object({
+  action: z.enum(['refresh-state', 'refresh-patterns', 'update-state', 'mark-phase']),
+  params: ExecuteParamsSchema.optional(),
+}).strict();
+
+/** Strip prototype-pollution keys defensively (in addition to Zod's strict mode) */
+function sanitizeKeys<T>(obj: T): T {
+  if (!obj || typeof obj !== 'object') return obj;
+  const o = obj as Record<string, unknown>;
+  // Use bracket notation to bypass TS optional-delete check
+  delete (o as Record<string, unknown>)['__proto__'];
+  delete (o as Record<string, unknown>)['constructor'];
+  delete (o as Record<string, unknown>)['prototype'];
+  return obj;
+}
+
 /**
  * POST /api/v1/commands/execute - Execute a GYWD action
- *
- * This does NOT run slash commands (those require Claude Code).
- * Instead, it performs supported dashboard actions:
- *   - "refresh-state": Re-read and broadcast current state
- *   - "refresh-patterns": Re-read and broadcast patterns
- *   - "update-state": Write a field to STATE.md
- *   - "mark-phase": Update phase status in STATE.md
- *
- * Body: { action: string, params?: object }
  */
-router.post('/execute', (req, res) => {
-  const { action, params } = req.body || {};
+router.post('/execute', async (req, res) => {
+  // Sanitize before parsing (defense in depth)
+  const rawBody = sanitizeKeys(req.body || {});
+  if (rawBody.params) sanitizeKeys(rawBody.params);
 
-  if (!action || typeof action !== 'string') {
+  // Validate with Zod
+  const parsed = ExecuteBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
     return res.status(400).json({
       success: false,
-      error: 'Missing required field: action',
+      error: `Invalid request: ${parsed.error.errors.map((e) => `${e.path.join('.')}: ${e.message}`).join('; ')}`,
     });
   }
 
-  // Import wsManager lazily to avoid circular deps
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { action, params } = parsed.data;
+
+  // Lazy require wsManager
   let wsManager: { broadcast: (event: string, data: unknown) => void } | null = null;
   try {
     const server = require('../server');
@@ -127,9 +203,8 @@ router.post('/execute', (req, res) => {
   }
 
   try {
-    const result = executeAction(action, params || {});
+    const result = await executeAction(action, params || {});
 
-    // Broadcast the execution event
     if (wsManager) {
       wsManager.broadcast('command_executed', {
         action,
@@ -157,7 +232,10 @@ interface ActionResult {
   data?: unknown;
 }
 
-function executeAction(action: string, params: Record<string, unknown>): ActionResult {
+async function executeAction(
+  action: string,
+  params: Record<string, unknown>,
+): Promise<ActionResult> {
   const { parseState, getPatterns, getPlanningDir } = require('../lib/gywd-data');
 
   switch (action) {
@@ -172,61 +250,89 @@ function executeAction(action: string, params: Record<string, unknown>): ActionR
     }
 
     case 'update-state': {
-      const { field, value } = params;
-      if (!field || !value) {
+      const field = params.field as string | undefined;
+      const value = params.value as string | undefined;
+
+      if (!field || value === undefined || value === null) {
         throw new Error('update-state requires field and value params');
       }
+
       const planningDir = getPlanningDir();
       const statePath = path.join(planningDir, 'STATE.md');
 
-      if (!fs.existsSync(statePath)) {
-        throw new Error('STATE.md not found');
-      }
-
-      let content = fs.readFileSync(statePath, 'utf8');
-
-      // Update known fields
+      // Whitelist allowed fields
       const fieldPatterns: Record<string, RegExp> = {
-        status: /\*\*Status:\*\*\s*.+/,
-        focus: /\*\*Focus:\*\*\s*.+/,
+        status: /\*\*Status:\*\*\s*[^\n]*/,
+        focus: /\*\*Focus:\*\*\s*[^\n]*/,
       };
 
-      const pattern = fieldPatterns[field as string];
+      const pattern = fieldPatterns[field];
       if (!pattern) {
         throw new Error(`Unknown field: ${field}. Supported: ${Object.keys(fieldPatterns).join(', ')}`);
       }
 
-      if (pattern.test(content)) {
-        content = content.replace(pattern, `**${(field as string).charAt(0).toUpperCase() + (field as string).slice(1)}:** ${value}`);
-        fs.writeFileSync(statePath, content, 'utf8');
-        return { action, message: `Updated ${field} to "${value}"`, data: { field, value } };
-      }
+      // Strip newlines from value to prevent table corruption
+      const cleanValue = value.replace(/[\r\n]+/g, ' ').slice(0, MAX_VALUE_LENGTH);
 
-      throw new Error(`Field "${field}" not found in STATE.md`);
+      return await withStateLock(() => {
+        if (!fs.existsSync(statePath)) {
+          throw new Error('STATE.md not found');
+        }
+        let content = fs.readFileSync(statePath, 'utf8');
+
+        if (!pattern.test(content)) {
+          throw new Error(`Field "${field}" not found in STATE.md`);
+        }
+
+        const fieldLabel = field.charAt(0).toUpperCase() + field.slice(1);
+        // Use callback form to avoid $&/$1 backref interpretation
+        content = content.replace(pattern, () => `**${fieldLabel}:** ${cleanValue}`);
+        atomicWriteFileSync(statePath, content);
+
+        return { action, message: `Updated ${field} to "${cleanValue}"`, data: { field, value: cleanValue } };
+      });
     }
 
     case 'mark-phase': {
-      const { phase, status: phaseStatus } = params;
-      if (!phase || !phaseStatus) {
+      const phaseRaw = params.phase as string | number | undefined;
+      const phaseStatus = params.status as string | undefined;
+
+      if (phaseRaw === undefined || !phaseStatus) {
         throw new Error('mark-phase requires phase and status params');
       }
+
+      const phaseStr = String(phaseRaw).trim();
+      if (!/^\d{1,5}$/.test(phaseStr)) {
+        throw new Error('phase must be a positive integer (1-5 digits)');
+      }
+      if (phaseStatus.length > MAX_STATUS_LENGTH) {
+        throw new Error(`status exceeds max length of ${MAX_STATUS_LENGTH}`);
+      }
+
+      const cleanStatus = phaseStatus.replace(/[\r\n|]/g, ' ');
       const planningDir2 = getPlanningDir();
       const statePath2 = path.join(planningDir2, 'STATE.md');
 
-      if (!fs.existsSync(statePath2)) {
-        throw new Error('STATE.md not found');
-      }
+      return await withStateLock(() => {
+        if (!fs.existsSync(statePath2)) {
+          throw new Error('STATE.md not found');
+        }
+        let content2 = fs.readFileSync(statePath2, 'utf8');
 
-      let content2 = fs.readFileSync(statePath2, 'utf8');
-      const phasePattern = new RegExp(`(\\|\\s*${phase}\\s*\\|[^|]+\\|)\\s*[^|]+\\s*\\|`);
+        // Escape phase before regex construction (defense in depth — already validated as digits)
+        const escapedPhase = escapeRegex(phaseStr);
+        const phasePattern = new RegExp(`(\\|\\s*${escapedPhase}\\s*\\|[^|]+\\|)\\s*[^|]+\\s*\\|`);
 
-      if (phasePattern.test(content2)) {
-        content2 = content2.replace(phasePattern, `$1 ${phaseStatus} |`);
-        fs.writeFileSync(statePath2, content2, 'utf8');
-        return { action, message: `Phase ${phase} marked as ${phaseStatus}`, data: { phase, status: phaseStatus } };
-      }
+        if (!phasePattern.test(content2)) {
+          throw new Error(`Phase ${phaseStr} not found in STATE.md`);
+        }
 
-      throw new Error(`Phase ${phase} not found in STATE.md`);
+        // Use callback form to prevent $1/$& interpretation in cleanStatus
+        content2 = content2.replace(phasePattern, (_match, p1) => `${p1} ${cleanStatus} |`);
+        atomicWriteFileSync(statePath2, content2);
+
+        return { action, message: `Phase ${phaseStr} marked as ${cleanStatus}`, data: { phase: phaseStr, status: cleanStatus } };
+      });
     }
 
     default:
@@ -234,4 +340,6 @@ function executeAction(action: string, params: Record<string, unknown>): ActionR
   }
 }
 
+// Exported for tests
+export { escapeRegex, atomicWriteFileSync, withStateLock };
 export default router;
