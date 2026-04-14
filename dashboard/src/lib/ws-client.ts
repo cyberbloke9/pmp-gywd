@@ -20,6 +20,8 @@ type EventCallback = (event: WsEvent) => void;
 const MAX_BUFFER_SIZE = 50;
 const RECONNECT_DELAY_INITIAL = 1000;
 const RECONNECT_DELAY_MAX = 30000;
+const STABLE_CONNECTION_MS = 5000;
+const HEARTBEAT_TIMEOUT_MS = 60000;
 
 class GatewayWsClient {
   private ws: WebSocket | null = null;
@@ -28,11 +30,26 @@ class GatewayWsClient {
   private connected = false;
   private reconnectDelay = RECONNECT_DELAY_INITIAL;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private stableTimer: ReturnType<typeof setTimeout> | null = null;
+  private heartbeatTimer: ReturnType<typeof setTimeout> | null = null;
   private closed = false;
+
+  private resetHeartbeatTimer(): void {
+    if (this.heartbeatTimer) clearTimeout(this.heartbeatTimer);
+    this.heartbeatTimer = setTimeout(() => {
+      // Treat dead silence as disconnect
+      if (this.ws) this.ws.close();
+    }, HEARTBEAT_TIMEOUT_MS);
+  }
 
   connect(): void {
     if (this.closed) return;
     if (this.ws && this.ws.readyState === WebSocket.OPEN) return;
+    // Dedup: close any half-open prior socket before creating a new one
+    if (this.ws) {
+      try { this.ws.close(); } catch { /* ignore */ }
+      this.ws = null;
+    }
 
     const config = getGatewayConfig();
     const url = config.wsUrl;
@@ -42,11 +59,17 @@ class GatewayWsClient {
 
       this.ws.on('open', () => {
         this.connected = true;
-        this.reconnectDelay = RECONNECT_DELAY_INITIAL;
+        // Only reset backoff after STABLE_CONNECTION_MS uptime
+        if (this.stableTimer) clearTimeout(this.stableTimer);
+        this.stableTimer = setTimeout(() => {
+          this.reconnectDelay = RECONNECT_DELAY_INITIAL;
+        }, STABLE_CONNECTION_MS);
+        this.resetHeartbeatTimer();
         this.emit({ event: 'gateway_connected', data: {}, timestamp: new Date().toISOString() });
       });
 
       this.ws.on('message', (raw: WebSocket.Data) => {
+        this.resetHeartbeatTimer();
         try {
           const msg = JSON.parse(raw.toString()) as WsEvent;
           this.bufferEvent(msg);
@@ -58,12 +81,13 @@ class GatewayWsClient {
 
       this.ws.on('close', () => {
         this.connected = false;
+        if (this.stableTimer) { clearTimeout(this.stableTimer); this.stableTimer = null; }
+        if (this.heartbeatTimer) { clearTimeout(this.heartbeatTimer); this.heartbeatTimer = null; }
         this.scheduleReconnect();
       });
 
       this.ws.on('error', () => {
         this.connected = false;
-        // close event will follow and trigger reconnect
       });
     } catch {
       this.connected = false;
@@ -129,10 +153,9 @@ class GatewayWsClient {
    */
   close(): void {
     this.closed = true;
-    if (this.reconnectTimer) {
-      clearTimeout(this.reconnectTimer);
-      this.reconnectTimer = null;
-    }
+    if (this.reconnectTimer) { clearTimeout(this.reconnectTimer); this.reconnectTimer = null; }
+    if (this.stableTimer) { clearTimeout(this.stableTimer); this.stableTimer = null; }
+    if (this.heartbeatTimer) { clearTimeout(this.heartbeatTimer); this.heartbeatTimer = null; }
     if (this.ws) {
       this.ws.close();
       this.ws = null;

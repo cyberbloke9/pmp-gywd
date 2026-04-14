@@ -1,16 +1,21 @@
 import * as fs from 'fs';
 import { WebSocketServer, WebSocket } from 'ws';
-import type { Server } from 'http';
+import type { Server, IncomingMessage } from 'http';
 import { parseState, getPatterns, getWatchPaths } from './gywd-data';
 
 interface WsClient {
   ws: WebSocket;
   alive: boolean;
+  ip: string;
 }
+
+const MAX_CLIENTS_PER_IP = 20;
+const MAX_TOTAL_CLIENTS = 1000;
 
 export class WsManager {
   private wss: WebSocketServer | null = null;
   private clients: Set<WsClient> = new Set();
+  private clientsPerIp: Map<string, number> = new Map();
   private watchers: fs.FSWatcher[] = [];
   private heartbeatInterval: ReturnType<typeof setInterval> | null = null;
   private debounceTimers: Map<string, ReturnType<typeof setTimeout>> = new Map();
@@ -18,12 +23,33 @@ export class WsManager {
   attach(server: Server): void {
     this.wss = new WebSocketServer({ server, path: '/ws' });
 
-    this.wss.on('connection', (ws) => {
-      const client: WsClient = { ws, alive: true };
+    this.wss.on('connection', (ws, req: IncomingMessage) => {
+      const ip = req.socket.remoteAddress || 'unknown';
+
+      // Per-IP cap
+      const ipCount = this.clientsPerIp.get(ip) || 0;
+      if (ipCount >= MAX_CLIENTS_PER_IP) {
+        ws.close(1008, 'Too many connections from this IP');
+        return;
+      }
+
+      // Global cap
+      if (this.clients.size >= MAX_TOTAL_CLIENTS) {
+        ws.close(1013, 'Server overloaded');
+        return;
+      }
+
+      const client: WsClient = { ws, alive: true, ip };
       this.clients.add(client);
+      this.clientsPerIp.set(ip, ipCount + 1);
 
       ws.on('pong', () => { client.alive = true; });
-      ws.on('close', () => { this.clients.delete(client); });
+      ws.on('close', () => {
+        this.clients.delete(client);
+        const count = (this.clientsPerIp.get(ip) || 1) - 1;
+        if (count <= 0) this.clientsPerIp.delete(ip);
+        else this.clientsPerIp.set(ip, count);
+      });
 
       // Send welcome
       this.send(ws, 'connected', { timestamp: new Date().toISOString(), clients: this.clients.size });

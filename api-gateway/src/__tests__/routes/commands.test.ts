@@ -8,18 +8,16 @@ const mockFs = fs as jest.Mocked<typeof fs>;
 // Disable auth for route tests
 process.env.GYWD_API_AUTH = 'disabled';
 process.env.NODE_ENV = 'development';
-
-// Mock server module to prevent circular dep and provide mock wsManager
-jest.mock('../../server', () => ({
-  wsManager: {
-    broadcast: jest.fn(),
-  },
-}));
+process.env.GYWD_DISABLE_RATE_LIMIT = 'true';
 
 import { createApp } from '../../app';
 import http from 'http';
 
+// Mock wsManager for broadcast verification
+const mockBroadcast = jest.fn();
+
 const app = createApp();
+app.locals.wsManager = { broadcast: mockBroadcast };
 
 function request(method: string, urlPath: string, body?: unknown): Promise<{ status: number; body: Record<string, unknown> }> {
   return new Promise((resolve, reject) => {
@@ -67,6 +65,12 @@ function request(method: string, urlPath: string, body?: unknown): Promise<{ sta
 describe('Commands API', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockBroadcast.mockReset();
+    // Default statSync mock for caching
+    (mockFs.statSync as jest.Mock).mockReturnValue({ mtimeMs: 1000 });
+    // Clear command cache between tests so each run is fresh
+    const { _clearCommandCache } = require('../../routes/commands');
+    _clearCommandCache();
   });
 
   describe('GET /api/v1/commands', () => {
@@ -164,13 +168,12 @@ describe('Commands API', () => {
     });
 
     it('broadcasts command_executed event via WS', async () => {
-      const { wsManager } = require('../../server');
       mockFs.existsSync.mockReturnValue(true);
       mockFs.readFileSync.mockReturnValue('[]');
 
       await request('POST', '/api/v1/commands/execute', { action: 'refresh-patterns' });
 
-      expect(wsManager.broadcast).toHaveBeenCalledWith(
+      expect(mockBroadcast).toHaveBeenCalledWith(
         'command_executed',
         expect.objectContaining({
           action: 'refresh-patterns',

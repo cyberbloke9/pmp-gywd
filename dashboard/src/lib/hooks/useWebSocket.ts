@@ -17,6 +17,8 @@ interface WsMessage {
 
 const MAX_RECONNECT_DELAY = 30000;
 const INITIAL_RECONNECT_DELAY = 1000;
+const STABLE_CONNECTION_MS = 5000; // Only reset backoff after this much uptime
+const HEARTBEAT_TIMEOUT_MS = 60000; // No server event in 60s? Kill and reconnect.
 
 /**
  * useWebSocket — connects to the API gateway WebSocket for real-time events.
@@ -37,6 +39,8 @@ export function useWebSocket(wsUrl?: string): WebSocketState {
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectDelayRef = useRef(INITIAL_RECONNECT_DELAY);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const stableTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const heartbeatTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mountedRef = useRef(true);
 
   const getUrl = useCallback(() => {
@@ -62,19 +66,33 @@ export function useWebSocket(wsUrl?: string): WebSocketState {
       const ws = new WebSocket(url);
       wsRef.current = ws;
 
+      const resetHeartbeatTimer = () => {
+        if (heartbeatTimerRef.current) clearTimeout(heartbeatTimerRef.current);
+        heartbeatTimerRef.current = setTimeout(() => {
+          // No server activity → connection is dead, force reconnect
+          if (wsRef.current) wsRef.current.close();
+        }, HEARTBEAT_TIMEOUT_MS);
+      };
+
       ws.onopen = () => {
         if (!mountedRef.current) return;
-        reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
         setState((prev) => ({
           ...prev,
           connected: true,
           error: null,
           reconnecting: false,
         }));
+        // Only reset backoff after STABLE_CONNECTION_MS of uptime (prevents thundering herd on flappy servers)
+        if (stableTimerRef.current) clearTimeout(stableTimerRef.current);
+        stableTimerRef.current = setTimeout(() => {
+          reconnectDelayRef.current = INITIAL_RECONNECT_DELAY;
+        }, STABLE_CONNECTION_MS);
+        resetHeartbeatTimer();
       };
 
       ws.onmessage = (event) => {
         if (!mountedRef.current) return;
+        resetHeartbeatTimer();
         try {
           const msg: WsMessage = JSON.parse(event.data);
           setState((prev) => ({
@@ -133,9 +151,9 @@ export function useWebSocket(wsUrl?: string): WebSocketState {
 
     return () => {
       mountedRef.current = false;
-      if (reconnectTimerRef.current) {
-        clearTimeout(reconnectTimerRef.current);
-      }
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      if (stableTimerRef.current) clearTimeout(stableTimerRef.current);
+      if (heartbeatTimerRef.current) clearTimeout(heartbeatTimerRef.current);
       if (wsRef.current) {
         wsRef.current.close();
         wsRef.current = null;

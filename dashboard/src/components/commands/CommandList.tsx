@@ -11,11 +11,9 @@ interface Command {
 
 interface CommandListProps {
   commands: Command[];
-  onExecute: (action: string) => void;
-  executing: boolean;
 }
 
-export default function CommandList({ commands, onExecute, executing }: CommandListProps) {
+export default function CommandList({ commands }: CommandListProps) {
   const [search, setSearch] = useState('');
   const [expandedCmd, setExpandedCmd] = useState<string | null>(null);
 

@@ -15,10 +15,42 @@ interface Command {
 }
 
 interface LogEntry {
+  id: string;
   action: string;
   message: string;
   error?: string;
   timestamp: string;
+}
+
+const LOG_STORAGE_KEY = 'gywd.execution-log.v1';
+const LOG_MAX_ENTRIES = 100;
+
+function loadLogFromStorage(): LogEntry[] {
+  if (typeof window === 'undefined') return [];
+  try {
+    const raw = window.localStorage.getItem(LOG_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.slice(0, LOG_MAX_ENTRIES) as LogEntry[];
+  } catch {
+    return [];
+  }
+}
+
+function saveLogToStorage(entries: LogEntry[]): void {
+  if (typeof window === 'undefined') return;
+  try {
+    window.localStorage.setItem(LOG_STORAGE_KEY, JSON.stringify(entries.slice(0, LOG_MAX_ENTRIES)));
+  } catch {
+    // Quota exceeded or disabled — silently drop
+  }
+}
+
+let idCounter = 0;
+function nextId(): string {
+  idCounter += 1;
+  return `${Date.now()}-${idCounter}`;
 }
 
 export default function CommandsPage() {
@@ -26,6 +58,18 @@ export default function CommandsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [log, setLog] = useState<LogEntry[]>([]);
+  const [logLoaded, setLogLoaded] = useState(false);
+
+  // Load persisted log on mount
+  useEffect(() => {
+    setLog(loadLogFromStorage());
+    setLogLoaded(true);
+  }, []);
+
+  // Persist log on change (after initial load)
+  useEffect(() => {
+    if (logLoaded) saveLogToStorage(log);
+  }, [log, logLoaded]);
 
   useEffect(() => {
     fetch('/api/commands')
@@ -44,10 +88,18 @@ export default function CommandsPage() {
   }, []);
 
   const handleResult = (result: { action: string; message: string; error?: string }) => {
-    setLog((prev) => [
-      { ...result, timestamp: new Date().toISOString() },
-      ...prev,
-    ]);
+    setLog((prev) => {
+      const entry: LogEntry = {
+        id: nextId(),
+        ...result,
+        timestamp: new Date().toISOString(),
+      };
+      return [entry, ...prev].slice(0, LOG_MAX_ENTRIES);
+    });
+  };
+
+  const handleClearLog = () => {
+    setLog([]);
   };
 
   return (
@@ -55,13 +107,11 @@ export default function CommandsPage() {
       <Header title="Commands" projectName="PMP-GYWD" />
 
       <div className="p-6 space-y-6">
-        {/* Quick Actions + Execution Log */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <QuickActions onResult={handleResult} />
-          <ExecutionLog entries={log} />
+          <ExecutionLog entries={log} onClear={handleClearLog} />
         </div>
 
-        {/* Command Reference */}
         {loading ? (
           <div className="bg-gywd-surface border border-gywd-border rounded-lg">
             <div className="px-4 py-3 border-b border-gywd-border">
@@ -84,11 +134,7 @@ export default function CommandsPage() {
             </p>
           </div>
         ) : (
-          <CommandList
-            commands={commands}
-            onExecute={() => {}}
-            executing={false}
-          />
+          <CommandList commands={commands} />
         )}
       </div>
     </DashboardLayout>

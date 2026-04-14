@@ -20,8 +20,8 @@ export function rateLimiter(options: RateLimiterOptions = {}) {
   const windowMs = options.windowMs || DEFAULT_WINDOW_MS;
 
   return (req: Request, res: Response, next: NextFunction): void => {
-    // Skip rate limiting for health checks
-    if (req.path === '/health') {
+    // Skip rate limiting for health checks and tests
+    if (req.path === '/health' || process.env.GYWD_DISABLE_RATE_LIMIT === 'true') {
       next();
       return;
     }

@@ -11,14 +11,24 @@ interface FeedEntry {
   timestamp: string;
 }
 
-const EVENT_CONFIG: Record<string, { icon: string; color: string; label: string }> = {
+const EVENT_CONFIG: Record<string, { icon: string; color: string; label: string }> = Object.freeze({
   state_changed: { icon: '📋', color: 'text-gywd-blue', label: 'State Changed' },
   patterns_updated: { icon: '🧩', color: 'text-purple-400', label: 'Patterns Updated' },
   data_updated: { icon: '📂', color: 'text-gywd-muted', label: 'Data Updated' },
   command_executed: { icon: '🎮', color: 'text-gywd-green', label: 'Command Executed' },
   connected: { icon: '🔗', color: 'text-gywd-green', label: 'Connected' },
   heartbeat: { icon: '💓', color: 'text-gywd-muted', label: 'Heartbeat' },
-};
+});
+
+const FALLBACK_CONFIG = { icon: '?', color: 'text-gywd-muted', label: 'unknown' };
+
+/** Lookup event config with prototype-pollution defense */
+function getEventConfig(type: string): { icon: string; color: string; label: string } {
+  if (!Object.prototype.hasOwnProperty.call(EVENT_CONFIG, type)) {
+    return { ...FALLBACK_CONFIG, label: type.slice(0, 50) };
+  }
+  return EVENT_CONFIG[type];
+}
 
 const MAX_ENTRIES = 50;
 
@@ -75,47 +85,79 @@ export default function ActivityFeed() {
   const [connected, setConnected] = useState(false);
   const [showHeartbeats, setShowHeartbeats] = useState(false);
   const eventSourceRef = useRef<EventSource | null>(null);
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const mountedRef = useRef(true);
+  // Batching buffer — collects events during a 50ms window, flushes once
+  const pendingRef = useRef<FeedEntry[]>([]);
+  const flushTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const es = new EventSource('/api/stream');
-    eventSourceRef.current = es;
+    mountedRef.current = true;
 
-    function handleEvent(type: string) {
-      return (e: MessageEvent) => {
-        try {
-          const data = JSON.parse(e.data);
-          if (type === 'connected') {
-            setConnected(true);
-          }
-          setEntries((prev) => {
-            const entry = eventToEntry(type, data);
-            const next = [entry, ...prev];
-            return next.slice(0, MAX_ENTRIES);
-          });
-        } catch {
-          // Ignore parse errors
-        }
-      };
-    }
-
-    es.addEventListener('connected', handleEvent('connected'));
-    es.addEventListener('state_changed', handleEvent('state_changed'));
-    es.addEventListener('patterns_updated', handleEvent('patterns_updated'));
-    es.addEventListener('data_updated', handleEvent('data_updated'));
-    es.addEventListener('command_executed', handleEvent('command_executed'));
-    es.addEventListener('heartbeat', handleEvent('heartbeat'));
-
-    es.onerror = () => {
-      setConnected(false);
-      es.close();
-      // Reconnect after 5s
-      setTimeout(() => {
-        eventSourceRef.current = null;
-      }, 5000);
+    const scheduleFlush = () => {
+      if (flushTimerRef.current) return;
+      flushTimerRef.current = setTimeout(() => {
+        flushTimerRef.current = null;
+        if (!mountedRef.current || pendingRef.current.length === 0) return;
+        const toAdd = pendingRef.current;
+        pendingRef.current = [];
+        setEntries((prev) => {
+          const next = [...toAdd.reverse(), ...prev];
+          return next.slice(0, MAX_ENTRIES);
+        });
+      }, 50);
     };
 
+    const connect = () => {
+      if (!mountedRef.current) return;
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close();
+      }
+
+      const es = new EventSource('/api/stream');
+      eventSourceRef.current = es;
+
+      function handleEvent(type: string) {
+        return (e: MessageEvent) => {
+          if (!mountedRef.current) return;
+          try {
+            const data = JSON.parse(e.data);
+            if (type === 'connected') {
+              setConnected(true);
+            }
+            const entry = eventToEntry(type, data);
+            pendingRef.current.push(entry);
+            scheduleFlush();
+          } catch {
+            // Ignore parse errors
+          }
+        };
+      }
+
+      es.addEventListener('connected', handleEvent('connected'));
+      es.addEventListener('state_changed', handleEvent('state_changed'));
+      es.addEventListener('patterns_updated', handleEvent('patterns_updated'));
+      es.addEventListener('data_updated', handleEvent('data_updated'));
+      es.addEventListener('command_executed', handleEvent('command_executed'));
+      es.addEventListener('heartbeat', handleEvent('heartbeat'));
+
+      es.onerror = () => {
+        if (!mountedRef.current) return;
+        setConnected(false);
+        es.close();
+        // Schedule an actual reconnect (not just null the ref)
+        if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+        reconnectTimerRef.current = setTimeout(connect, 5000);
+      };
+    };
+
+    connect();
+
     return () => {
-      es.close();
+      mountedRef.current = false;
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      if (flushTimerRef.current) clearTimeout(flushTimerRef.current);
+      eventSourceRef.current?.close();
     };
   }, []);
 
@@ -150,7 +192,7 @@ export default function ActivityFeed() {
         )}
 
         {visibleEntries.map((entry) => {
-          const config = EVENT_CONFIG[entry.type] || { icon: '?', color: 'text-gywd-muted', label: entry.type };
+          const config = getEventConfig(entry.type);
 
           return (
             <div

@@ -8,6 +8,9 @@ const app = createApp();
 const server = http.createServer(app);
 const wsManager = new WsManager();
 
+// Inject wsManager for routes to access via req.app.locals
+app.locals.wsManager = wsManager;
+
 wsManager.attach(server);
 
 server.listen(PORT, () => {

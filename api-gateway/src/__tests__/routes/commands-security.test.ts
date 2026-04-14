@@ -2,18 +2,16 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
-jest.mock('../../server', () => ({
-  wsManager: { broadcast: jest.fn() },
-}));
-
 process.env.GYWD_API_AUTH = 'disabled';
 process.env.NODE_ENV = 'development';
+process.env.GYWD_DISABLE_RATE_LIMIT = 'true';
 
 import { createApp } from '../../app';
 import { escapeRegex, atomicWriteFileSync, withStateLock } from '../../routes/commands';
 import http from 'http';
 
 const app = createApp();
+app.locals.wsManager = { broadcast: jest.fn() };
 
 function request(method: string, urlPath: string, body?: unknown): Promise<{ status: number; body: Record<string, unknown> }> {
   return new Promise((resolve, reject) => {

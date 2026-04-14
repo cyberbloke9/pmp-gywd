@@ -20,6 +20,29 @@ export interface GatewayConfig {
   authDisabled: boolean;
 }
 
+/**
+ * Allowlist of hosts the dashboard is allowed to proxy to.
+ * Prevents SSRF by rejecting URLs pointing at cloud metadata or internal services.
+ * Override via GYWD_API_URL_ALLOWLIST (comma-separated hostnames).
+ */
+export function getAllowedHosts(): string[] {
+  const extra = (process.env.GYWD_API_URL_ALLOWLIST || '')
+    .split(',')
+    .map((h) => h.trim())
+    .filter(Boolean);
+  return ['localhost', '127.0.0.1', '::1', ...extra];
+}
+
+export function isHostAllowed(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    const allowed = getAllowedHosts();
+    return allowed.includes(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
 export function getGatewayConfig(): GatewayConfig {
   const baseUrl = process.env.GYWD_API_URL || 'http://localhost:3945';
   const publicBaseUrl = process.env.NEXT_PUBLIC_GYWD_API_URL || baseUrl;
@@ -54,12 +77,19 @@ export function getGatewayHeaders(): Record<string, string> {
 }
 
 /**
- * Fetch from gateway with error handling
- * Returns null if gateway is unavailable (for fallback logic)
+ * Fetch from gateway with error handling.
+ * Returns null if gateway is unavailable OR the host is not in the allowlist.
  */
 export async function fetchFromGateway<T>(path: string): Promise<T | null> {
   const config = getGatewayConfig();
   const url = `${config.httpUrl}${path}`;
+
+  // SSRF guard
+  if (!isHostAllowed(config.httpUrl)) {
+    // eslint-disable-next-line no-console
+    console.error(`[config] Blocked fetch to non-allowlisted host: ${config.httpUrl}`);
+    return null;
+  }
 
   try {
     const response = await fetch(url, {
@@ -72,7 +102,6 @@ export async function fetchFromGateway<T>(path: string): Promise<T | null> {
     const json = await response.json();
     return json as T;
   } catch {
-    // Gateway unavailable — caller should fall back to direct fs reads
     return null;
   }
 }

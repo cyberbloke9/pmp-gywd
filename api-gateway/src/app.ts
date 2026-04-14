@@ -37,7 +37,9 @@ export function createApp() {
   app.use('/api/v1/patterns', patternsRouter);
   app.use('/api/v1/planning', planningRouter);
   app.use('/api/v1/keys', keysRouter);
-  app.use('/api/v1/commands', commandsRouter);
+
+  // Stricter rate limit for mutation endpoints (20/min vs 100/min general)
+  app.use('/api/v1/commands', rateLimiter({ max: 20, windowMs: 60000 }), commandsRouter);
 
   // 404 handler
   app.use((_req, res) => {

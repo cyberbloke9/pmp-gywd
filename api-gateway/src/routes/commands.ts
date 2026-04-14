@@ -5,6 +5,19 @@ import { z } from 'zod';
 
 const router = Router();
 
+// ---- Commands cache with mtime invalidation ----
+interface CachedCommand {
+  name: string;
+  description: string;
+  filename: string;
+  mtimeMs: number;
+}
+const commandCache = new Map<string, CachedCommand>();
+
+export function _clearCommandCache(): void {
+  commandCache.clear();
+}
+
 // ---- Limits (DoS protection) ----
 const MAX_VALUE_LENGTH = 200;
 const MAX_FIELD_LENGTH = 50;
@@ -44,8 +57,12 @@ function getCommandsDir(): string {
   return process.env.GYWD_COMMANDS_DIR || path.join(process.cwd(), 'commands', 'gywd');
 }
 
-function parseCommandFile(filePath: string): { name: string; description: string; filename: string } | null {
+function parseCommandFile(filePath: string): CachedCommand | null {
   try {
+    const stat = fs.statSync(filePath);
+    const cached = commandCache.get(filePath);
+    if (cached && cached.mtimeMs === stat.mtimeMs) return cached;
+
     const content = fs.readFileSync(filePath, 'utf8');
     const filename = path.basename(filePath, '.md');
     const name = `gywd:${filename}`;
@@ -65,7 +82,9 @@ function parseCommandFile(filePath: string): { name: string; description: string
       }
     }
 
-    return { name, description: description || name, filename };
+    const entry: CachedCommand = { name, description: description || name, filename, mtimeMs: stat.mtimeMs };
+    commandCache.set(filePath, entry);
+    return entry;
   } catch {
     return null;
   }
@@ -193,14 +212,10 @@ router.post('/execute', async (req, res) => {
 
   const { action, params } = parsed.data;
 
-  // Lazy require wsManager
-  let wsManager: { broadcast: (event: string, data: unknown) => void } | null = null;
-  try {
-    const server = require('../server');
-    wsManager = server.wsManager;
-  } catch {
-    // Server module not available (testing)
-  }
+  // Get wsManager from app.locals (set by server.ts on startup)
+  const wsManager = req.app.locals.wsManager as
+    | { broadcast: (event: string, data: unknown) => void }
+    | undefined;
 
   try {
     const result = await executeAction(action, params || {});

@@ -33,7 +33,19 @@ import ActivityFeed from '@/components/overview/ActivityFeed';
 describe('ActivityFeed', () => {
   beforeEach(() => {
     MockEventSource.instances = [];
+    jest.useFakeTimers();
   });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  /** Flush the 50ms batch timer and apply React updates */
+  function flushBatch() {
+    act(() => {
+      jest.advanceTimersByTime(100);
+    });
+  }
 
   it('renders with connecting state', () => {
     render(<ActivityFeed />);
@@ -68,6 +80,7 @@ describe('ActivityFeed', () => {
         timestamp: '2026-01-01',
       });
     });
+    flushBatch();
 
     expect(screen.getByText('State Changed')).toBeInTheDocument();
     expect(screen.getByText('Phase 54/60')).toBeInTheDocument();
@@ -85,6 +98,7 @@ describe('ActivityFeed', () => {
         timestamp: '2026-01-01',
       });
     });
+    flushBatch();
 
     expect(screen.getByText('Command Executed')).toBeInTheDocument();
     expect(screen.getByText('refresh-state')).toBeInTheDocument();
@@ -98,6 +112,7 @@ describe('ActivityFeed', () => {
       es.emit('connected', { timestamp: '2026-01-01', source: 'local' });
       es.emit('patterns_updated', { count: 42, timestamp: '2026-01-01' });
     });
+    flushBatch();
 
     expect(screen.getByText('Patterns Updated')).toBeInTheDocument();
     expect(screen.getByText('42 patterns')).toBeInTheDocument();
@@ -111,6 +126,7 @@ describe('ActivityFeed', () => {
       es.emit('connected', { timestamp: '2026-01-01', source: 'local' });
       es.emit('heartbeat', { timestamp: '2026-01-01' });
     });
+    flushBatch();
 
     expect(screen.queryByText('Heartbeat')).not.toBeInTheDocument();
   });

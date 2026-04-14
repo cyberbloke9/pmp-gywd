@@ -3,6 +3,7 @@
 import Card from '@/components/shared/Card';
 
 interface LogEntry {
+  id: string;
   action: string;
   message: string;
   error?: string;
@@ -11,9 +12,10 @@ interface LogEntry {
 
 interface ExecutionLogProps {
   entries: LogEntry[];
+  onClear?: () => void;
 }
 
-export default function ExecutionLog({ entries }: ExecutionLogProps) {
+export default function ExecutionLog({ entries, onClear }: ExecutionLogProps) {
   if (entries.length === 0) {
     return (
       <Card title="Execution Log">
@@ -26,10 +28,20 @@ export default function ExecutionLog({ entries }: ExecutionLogProps) {
 
   return (
     <Card title={`Execution Log (${entries.length})`}>
+      <div className="flex justify-end mb-2">
+        {onClear && (
+          <button
+            onClick={onClear}
+            className="text-xs text-gywd-muted hover:text-gywd-text transition-colors"
+          >
+            Clear
+          </button>
+        )}
+      </div>
       <div className="space-y-2 max-h-[40vh] overflow-y-auto">
-        {entries.map((entry, i) => (
+        {entries.map((entry) => (
           <div
-            key={`${entry.timestamp}-${i}`}
+            key={entry.id}
             className={`px-3 py-2 rounded-md border text-sm ${
               entry.error
                 ? 'border-red-500/30 bg-red-500/5'
