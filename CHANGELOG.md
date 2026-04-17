@@ -5,6 +5,137 @@ All notable changes to PMP-GYWD will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [5.1.0] - 2026-04-17 — Enterprise Security Hardening
+
+**This is a security-focused release.** A third-party security audit identified 5 critical
+and 6 high-severity issues in the Phase 50 enterprise module (`lib/enterprise/`) and
+related components. All findings have been fixed. Users of the enterprise module should
+**upgrade immediately**.
+
+### Breaking Changes
+
+**`lib/enterprise/audit-log.js`:**
+- `AuditLog` constructor now requires a `secret` option (>=32 chars) when `hashChain` is
+  enabled (default). Existing callers must provide one, e.g. from `process.env.GYWD_AUDIT_SECRET`.
+- `log()` now throws if `userId` or `action` is missing, or if `outcome` is invalid.
+- `clear()` now requires `destructiveClearAllowed=true` in config AND a `reason`
+  (>=10 chars) + `callerId` at call time. Previously this silently wiped the chain.
+- FIFO `shift()` eviction REMOVED. Entries now rotate to archive JSONL files with
+  chain-carry; history is never lost.
+
+**`lib/enterprise/rbac.js`:**
+- All mutation methods (`createRole`, `deleteRole`, `assignRole`, `revokeRole`,
+  `addPermissionToRole`, `removePermissionFromRole`) now take `callerUserId` as the
+  first argument and enforce `manage_roles` / `manage_users`.
+- Custom role permissions must be in the permission registry; wildcards rejected.
+- Built-in roles are immutable at runtime.
+
+**`lib/enterprise/sso.js`:**
+- `registerProvider` for OIDC now requires `issuer`, `clientId`, and at least one
+  public key (via `publicKey` or `keys[]` for JWKS-style rotation). Algorithms
+  must be from the allowlist (RS/ES/EdDSA only).
+- `validateOIDCToken` now performs REAL cryptographic signature verification.
+  Tokens that previously passed (alg=none, forged signatures) are now correctly rejected.
+- `validateSAMLAssertion` is DEPRECATED — always returns `valid:false`. The home-grown
+  regex parser was XSW-vulnerable. Use OIDC or integrate `@node-saml/node-saml` directly.
+
+**`api-gateway/src/lib/api-keys.ts`:**
+- API keys are NO LONGER stored plaintext. Only scrypt hashes + per-key salt are persisted.
+- Key format changed from `gywd_<uuid>` to `gywd_<id>_<secret>` (id for O(1) lookup,
+  secret for hash comparison).
+- Generated key plaintext is returned ONCE at generation; cannot be retrieved later.
+- All `/api/v1/keys` endpoints now require `scope: 'admin'` on the calling key.
+- `revokeKey(id)` / `deleteKey(id)` operate by key ID, not by the full key string.
+- `listKeys()` returns metadata only (no prefix leak).
+
+**`lib/enterprise/compliance.js`:**
+- Compliance checks are now BEHAVIORAL PROBES, not presence checks.
+  - RBAC: attempts unauthorized role creation and verifies it is rejected.
+  - SSO: forges a JWT with `alg=none` and verifies it is rejected.
+  - Audit: mutates an entry and verifies `verifyIntegrity` reports the tamper.
+- GDPR rights (access, erasure) now require operator-provided implementations via
+  `dataSubjectOps.exportUserData(userId)` and `dataSubjectOps.eraseUserData(userId)`.
+  **The previous hardcoded `pass: true` for erasure has been removed.**
+
+**`lib/plugins/plugin-loader.js`:**
+- The `sandbox: true` option now performs REAL isolation via `vm.createContext`.
+  Previously it was a no-op that called `require()` directly.
+- Third-party plugins are sandboxed by default; first-party (built-in) plugins
+  use `trusted: true` in their config entry to bypass the sandbox.
+- Manifest `main` is validated to stay inside the plugin directory; path
+  traversal rejected.
+- Script execution timeout (default 5s) prevents infinite-loop DoS.
+- External npm requires must be declared in `manifest.peerDependencies`.
+- Forbidden core modules (`child_process`, `net`, `tls`, `vm`, etc.) always blocked.
+
+**Gateway middleware:**
+- `app.use(cors())` replaced with strict allowlist (`GYWD_ALLOWED_ORIGINS`).
+- Security headers (CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy,
+  Cross-Origin-*) added via new `securityHeaders` middleware.
+- Audit middleware now logs every authenticated request to the `AuditLog` on response.
+- `express.json()` has `limit: '100kb'` + `strict: true`.
+
+**Infrastructure:**
+- `engines.node` bumped from `>=16.7.0` to `>=20.0.0` (Node 16 is EOL).
+- Next.js upgraded from 14.2.0 to 16.2.4 (fixes 5 high CVEs).
+- Jest upgraded from 29 to 30 (fixes @tootallnate/once transitive).
+- Root `package-lock.json` regenerated (was v3 against package.json v5).
+- Zero npm audit vulnerabilities across all three workspaces.
+
+### Added
+
+**`lib/memory/team-sync.js`:**
+- HMAC-SHA256 signing for exports (`new TeamSync(gm, { signingSecret })`).
+- Signature verification on imports. Unsigned data is rejected when `requireSignature:true`.
+
+**`lib/multi-agent/cloud-sync.js`:**
+- `_mergeData` uses `Object.create(null)` and strips `__proto__`/`constructor`/`prototype`
+  keys from remote data (prototype pollution defense).
+
+**`lib/hooks/hook-manager.js`:**
+- Hook patterns are validated at register time: length cap (256), syntactic validity,
+  and heuristic rejection of ReDoS-prone constructs (nested quantifiers).
+- Patterns are precompiled (no runtime `new RegExp` on every trigger).
+- Command input is truncated to 1024 chars before pattern matching.
+
+**`api-gateway/src/middleware/`:**
+- New `security-headers.ts` — helmet-equivalent without adding a dependency.
+- New `audit.ts` — logs every authenticated request to the AuditLog.
+
+### Fixed
+
+- Root `package.json` v5.0.0 / lockfile v3.0.0 mismatch.
+- Command validation now runs clean after mem-* commands registered.
+- Plugin loader's "sandbox" (previously a no-op) now actually sandboxes.
+
+### Security
+
+**Full audit report:** `.planning/challenges/2026-04-12-whole-repo-security-audit.md`
+
+Addressed:
+- **C1** — SSO accepts forged tokens (CWE-347) — FIXED
+- **C2** — RBAC self-assignment without authorization (CWE-269) — FIXED
+- **C3** — Audit chain tamper-weak / FIFO breaks chain (CWE-353, CWE-778) — FIXED
+- **C4** — API keys stored plaintext + any key can mint keys (CWE-256, CWE-285) — FIXED
+- **C5** — Plugin "sandbox" is `require()` — RCE (CWE-693, CWE-94) — FIXED
+- **H1** — API key prefix + usage fingerprint leak — FIXED
+- **H2** — Cloud sync prototype pollution (CWE-1321) — FIXED
+- **H3** — TeamSync accepts unsigned data — FIXED
+- **H4** — Plugin-supplied regex ReDoS — FIXED
+- **H5** — CORS `*` on gateway (CWE-942) — FIXED
+- **H6** — Compliance checker is theater — FIXED (replaced with behavioral probes)
+
+### Tests
+
+- Enterprise: 123 → 154 (+31 security probes)
+- API Gateway: 92 → 101 (+9 security headers)
+- Plugins: 175 → 194 (+19 sandbox security)
+- Team sync: +9 signing tests
+- Hook manager: +7 ReDoS / validation tests
+- **Total: 1,241 core + 101 gateway + 132 dashboard = 1,474 tests**
+
+---
+
 ## [5.0.0] - 2026-02-26
 
 ### Added

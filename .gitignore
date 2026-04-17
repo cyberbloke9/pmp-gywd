@@ -1,5 +1,72 @@
+# Dependencies
 node_modules/
-.DS_Store
+
+# Build artifacts
+dist/
+build/
+*.tsbuildinfo
+.next/
+
+# Test + coverage
 coverage/
-*.log
 junit.xml
+*.lcov
+.nyc_output/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment / secrets — NEVER commit these
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Key material
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+id_rsa
+id_rsa.*
+id_ed25519
+id_ed25519.*
+known_hosts
+
+# Credentials / tokens
+credentials.json
+service-account*.json
+.npmrc
+.yarnrc
+
+# Claude-specific config backups
+.claude.json
+.claude.json.backup
+
+# GYWD runtime data (should NEVER be in repo)
+.gywd/
+audit-secret
+api-keys.json
+audit.jsonl
+audit-archive*.jsonl
+
+# Temporary
+*.tmp
+*.bak
+.cache/
