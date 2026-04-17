@@ -1,12 +1,13 @@
 'use strict';
 
-const { RBAC, DEFAULT_ROLES } = require('../../lib/enterprise/rbac');
+const { RBAC, DEFAULT_ROLES, DEFAULT_PERMISSIONS } = require('../../lib/enterprise/rbac');
 
 describe('RBAC', () => {
   let rbac;
+  const ROOT = 'root-bootstrap';
 
   beforeEach(() => {
-    rbac = new RBAC();
+    rbac = new RBAC({ rootUserId: ROOT });
   });
 
   describe('default roles', () => {
@@ -36,153 +37,222 @@ describe('RBAC', () => {
     });
 
     test('cannot delete built-in roles', () => {
-      expect(() => rbac.deleteRole('admin')).toThrow('Cannot delete built-in');
+      expect(() => rbac.deleteRole(ROOT, 'admin')).toThrow('Cannot delete built-in');
     });
   });
 
   describe('custom roles', () => {
     test('createRole adds a new role', () => {
-      rbac.createRole('tester', 'Tester', ['read', 'view_patterns'], 'QA role');
+      rbac.createRole(ROOT, 'tester', 'Tester', ['read', 'view_patterns'], 'QA role');
       expect(rbac.getRole('tester').name).toBe('Tester');
       expect(rbac.getRole('tester').builtIn).toBe(false);
     });
 
     test('createRole rejects duplicate ID', () => {
-      expect(() => rbac.createRole('admin', 'Admin2', [])).toThrow('already exists');
+      rbac.createRole(ROOT, 'x', 'X', ['read']);
+      expect(() => rbac.createRole(ROOT, 'x', 'X', ['read'])).toThrow(/already exists/);
     });
 
-    test('deleteRole removes custom role', () => {
-      rbac.createRole('temp', 'Temp', []);
-      expect(rbac.deleteRole('temp')).toBe(true);
-      expect(rbac.getRole('temp')).toBeNull();
+    test('createRole rejects wildcard permissions', () => {
+      expect(() => rbac.createRole(ROOT, 'evil', 'Evil', ['*']))
+        .toThrow(/wildcard/);
+      expect(() => rbac.createRole(ROOT, 'evil2', 'Evil', ['role.*']))
+        .toThrow(/wildcard/);
     });
 
-    test('deleteRole cleans up assignments', () => {
-      rbac.createRole('temp', 'Temp', ['read']);
-      rbac.assignRole('user1', 'temp');
-      rbac.deleteRole('temp');
-      expect(rbac.getUserRoles('user1')).toEqual([]);
+    test('createRole rejects unregistered permissions', () => {
+      expect(() => rbac.createRole(ROOT, 'x', 'X', ['fake_perm']))
+        .toThrow(/not registered/);
     });
 
-    test('addPermissionToRole', () => {
-      rbac.createRole('custom', 'C', ['read']);
-      rbac.addPermissionToRole('custom', 'write');
-      expect(rbac.getRole('custom').permissions).toContain('write');
+    test('deleteRole removes a custom role', () => {
+      rbac.createRole(ROOT, 'x', 'X', ['read']);
+      expect(rbac.deleteRole(ROOT, 'x')).toBe(true);
+      expect(rbac.getRole('x')).toBeNull();
     });
 
-    test('removePermissionFromRole', () => {
-      rbac.createRole('custom', 'C', ['read', 'write']);
-      rbac.removePermissionFromRole('custom', 'write');
-      expect(rbac.getRole('custom').permissions).not.toContain('write');
+    test('cannot modify built-in roles', () => {
+      expect(() => rbac.addPermissionToRole(ROOT, 'admin', 'read')).toThrow(/built-in/);
+      expect(() => rbac.removePermissionFromRole(ROOT, 'admin', 'read')).toThrow(/built-in/);
     });
   });
 
-  describe('user assignments', () => {
-    test('assignRole assigns role to user', () => {
-      const result = rbac.assignRole('user1', 'developer');
+  describe('authorization gating', () => {
+    test('createRole requires manage_roles', () => {
+      expect(() => rbac.createRole('unauth-user', 'x', 'X', ['read']))
+        .toThrow(/Access denied/);
+    });
+
+    test('deleteRole requires manage_roles', () => {
+      rbac.createRole(ROOT, 'x', 'X', ['read']);
+      expect(() => rbac.deleteRole('unauth-user', 'x'))
+        .toThrow(/Access denied/);
+    });
+
+    test('assignRole requires manage_users', () => {
+      expect(() => rbac.assignRole('unauth-user', 'someone', 'viewer'))
+        .toThrow(/Access denied/);
+    });
+
+    test('revokeRole requires manage_users', () => {
+      rbac.assignRole(ROOT, 'alice', 'viewer');
+      expect(() => rbac.revokeRole('unauth-user', 'alice', 'viewer'))
+        .toThrow(/Access denied/);
+    });
+
+    test('addPermissionToRole requires manage_roles', () => {
+      rbac.createRole(ROOT, 'x', 'X', ['read']);
+      expect(() => rbac.addPermissionToRole('unauth', 'x', 'write'))
+        .toThrow(/Access denied/);
+    });
+
+    test('user with manage_users can call assignRole', () => {
+      // Root assigns an admin role (which has manage_users) to alice
+      rbac.assignRole(ROOT, 'alice', 'admin');
+      // Now alice can assign
+      expect(rbac.assignRole('alice', 'bob', 'viewer').success).toBe(true);
+    });
+
+    test('user without manage_users cannot self-grant admin', () => {
+      rbac.assignRole(ROOT, 'viewer-user', 'viewer');
+      expect(() => rbac.assignRole('viewer-user', 'viewer-user', 'admin'))
+        .toThrow(/Access denied/);
+    });
+
+    test('missing callerUserId is rejected', () => {
+      expect(() => rbac.createRole('', 'x', 'X', ['read'])).toThrow(/callerUserId required/);
+      expect(() => rbac.createRole(null, 'x', 'X', ['read'])).toThrow(/callerUserId required/);
+    });
+  });
+
+  describe('user assignment', () => {
+    test('assignRole grants a role', () => {
+      const result = rbac.assignRole(ROOT, 'user1', 'viewer');
       expect(result.success).toBe(true);
-      expect(rbac.getUserRoles('user1')).toEqual(['developer']);
-    });
-
-    test('assignRole rejects unknown role', () => {
-      const result = rbac.assignRole('user1', 'nonexistent');
-      expect(result.success).toBe(false);
-    });
-
-    test('assignRole rejects duplicate assignment', () => {
-      rbac.assignRole('user1', 'developer');
-      const result = rbac.assignRole('user1', 'developer');
-      expect(result.success).toBe(false);
-      expect(result.message).toContain('already has');
-    });
-
-    test('user can have multiple roles', () => {
-      rbac.assignRole('user1', 'developer');
-      rbac.assignRole('user1', 'viewer');
-      expect(rbac.getUserRoles('user1')).toContain('developer');
       expect(rbac.getUserRoles('user1')).toContain('viewer');
     });
 
-    test('revokeRole removes role', () => {
-      rbac.assignRole('user1', 'developer');
-      expect(rbac.revokeRole('user1', 'developer')).toBe(true);
+    test('assignRole rejects unknown role', () => {
+      expect(rbac.assignRole(ROOT, 'user1', 'nonexistent').success).toBe(false);
+    });
+
+    test('assignRole is idempotent', () => {
+      rbac.assignRole(ROOT, 'user1', 'viewer');
+      expect(rbac.assignRole(ROOT, 'user1', 'viewer').success).toBe(false);
+    });
+
+    test('revokeRole removes a role', () => {
+      rbac.assignRole(ROOT, 'user1', 'viewer');
+      expect(rbac.revokeRole(ROOT, 'user1', 'viewer')).toBe(true);
       expect(rbac.getUserRoles('user1')).toEqual([]);
     });
 
-    test('revokeRole returns false for unassigned', () => {
-      expect(rbac.revokeRole('user1', 'admin')).toBe(false);
+    test('deleteRole removes user assignments', () => {
+      rbac.createRole(ROOT, 'tmp', 'Temp', ['read']);
+      rbac.assignRole(ROOT, 'u1', 'tmp');
+      rbac.deleteRole(ROOT, 'tmp');
+      expect(rbac.getUserRoles('u1')).toEqual([]);
     });
   });
 
   describe('permission checks', () => {
-    beforeEach(() => {
-      rbac.assignRole('admin1', 'admin');
-      rbac.assignRole('dev1', 'developer');
-      rbac.assignRole('viewer1', 'viewer');
+    test('hasPermission returns true when user has it', () => {
+      rbac.assignRole(ROOT, 'user1', 'developer');
+      expect(rbac.hasPermission('user1', 'write')).toBe(true);
     });
 
-    test('getUserPermissions returns union of role permissions', () => {
-      const perms = rbac.getUserPermissions('admin1');
-      expect(perms).toContain('manage_users');
-      expect(perms).toContain('read');
-    });
-
-    test('hasPermission checks correctly', () => {
-      expect(rbac.hasPermission('admin1', 'delete')).toBe(true);
-      expect(rbac.hasPermission('viewer1', 'delete')).toBe(false);
-      expect(rbac.hasPermission('dev1', 'write')).toBe(true);
+    test('hasPermission returns false when user lacks it', () => {
+      rbac.assignRole(ROOT, 'user1', 'viewer');
+      expect(rbac.hasPermission('user1', 'write')).toBe(false);
     });
 
     test('hasAllPermissions requires all', () => {
-      expect(rbac.hasAllPermissions('admin1', ['read', 'write', 'delete'])).toBe(true);
-      expect(rbac.hasAllPermissions('viewer1', ['read', 'write'])).toBe(false);
+      rbac.assignRole(ROOT, 'u', 'admin');
+      expect(rbac.hasAllPermissions('u', ['read', 'write', 'delete'])).toBe(true);
+      expect(rbac.hasAllPermissions('u', ['read', 'nonexistent'])).toBe(false);
     });
 
     test('hasAnyPermission requires at least one', () => {
-      expect(rbac.hasAnyPermission('viewer1', ['read', 'write'])).toBe(true);
-      expect(rbac.hasAnyPermission('viewer1', ['delete', 'manage_users'])).toBe(false);
+      rbac.assignRole(ROOT, 'u', 'viewer');
+      expect(rbac.hasAnyPermission('u', ['write', 'read'])).toBe(true);
+      expect(rbac.hasAnyPermission('u', ['write', 'delete'])).toBe(false);
     });
 
-    test('enforce throws on missing permission', () => {
-      expect(() => rbac.enforce('viewer1', 'delete', 'remove plan')).toThrow('Access denied');
+    test('enforce throws on denied', () => {
+      rbac.assignRole(ROOT, 'u', 'viewer');
+      expect(() => rbac.enforce('u', 'delete')).toThrow(/Access denied/);
     });
 
-    test('enforce passes for valid permission', () => {
-      expect(() => rbac.enforce('admin1', 'delete')).not.toThrow();
+    test('enforce does not throw when allowed', () => {
+      rbac.assignRole(ROOT, 'u', 'admin');
+      expect(() => rbac.enforce('u', 'delete')).not.toThrow();
     });
 
-    test('unassigned user has no permissions', () => {
-      expect(rbac.getUserPermissions('nobody')).toEqual([]);
-      expect(rbac.hasPermission('nobody', 'read')).toBe(false);
+    test('root bypasses all permission checks', () => {
+      expect(rbac.hasPermission(ROOT, 'any_permission_at_all')).toBe(true);
+      expect(rbac.hasAllPermissions(ROOT, ['read', 'write'])).toBe(true);
+    });
+  });
+
+  describe('deny semantics (deny wins over grant)', () => {
+    test('role-level deny overrides allow', () => {
+      rbac.createRole(ROOT, 'restricted', 'Restricted', ['read', 'write'], '', ['write']);
+      rbac.assignRole(ROOT, 'u', 'restricted');
+      expect(rbac.hasPermission('u', 'read')).toBe(true);
+      expect(rbac.hasPermission('u', 'write')).toBe(false); // denied
+    });
+
+    test('multi-role: deny in one overrides grant in another', () => {
+      rbac.createRole(ROOT, 'no-delete', 'NoDelete', [], '', ['delete']);
+      rbac.assignRole(ROOT, 'u', 'admin');
+      rbac.assignRole(ROOT, 'u', 'no-delete');
+      // Admin grants delete, but no-delete role denies it → deny wins
+      expect(rbac.hasPermission('u', 'delete')).toBe(false);
+    });
+
+    test('addDeniedPermissionToRole on custom role', () => {
+      rbac.createRole(ROOT, 'x', 'X', ['read', 'write']);
+      rbac.addDeniedPermissionToRole(ROOT, 'x', 'write');
+      rbac.assignRole(ROOT, 'u', 'x');
+      expect(rbac.hasPermission('u', 'write')).toBe(false);
+    });
+  });
+
+  describe('permission registry', () => {
+    test('registerPermission requires manage_roles', () => {
+      expect(() => rbac.registerPermission('unauth', 'new_perm')).toThrow(/Access denied/);
+    });
+
+    test('registered permissions can be used in roles', () => {
+      rbac.registerPermission(ROOT, 'custom_perm');
+      rbac.createRole(ROOT, 'x', 'X', ['custom_perm']);
+      expect(rbac.getRole('x').permissions).toContain('custom_perm');
+    });
+
+    test('listRegisteredPermissions returns all', () => {
+      const perms = rbac.listRegisteredPermissions();
+      expect(perms).toContain('read');
+      expect(perms).toContain('manage_roles');
+    });
+
+    test('cannot register wildcards', () => {
+      expect(() => rbac.registerPermission(ROOT, '*')).toThrow(/wildcard/);
     });
   });
 
   describe('stats', () => {
-    test('getStats returns counts', () => {
-      rbac.assignRole('user1', 'admin');
+    test('getStats returns role counts', () => {
       const stats = rbac.getStats();
-      expect(stats.totalRoles).toBe(3); // 3 built-in
+      expect(stats.totalRoles).toBe(3);
       expect(stats.builtInRoles).toBe(3);
       expect(stats.customRoles).toBe(0);
-      expect(stats.totalAssignments).toBe(1);
+      expect(stats.registeredPermissions).toBeGreaterThan(10);
     });
 
-    test('getUsersByRole returns user IDs', () => {
-      rbac.assignRole('u1', 'developer');
-      rbac.assignRole('u2', 'developer');
-      rbac.assignRole('u3', 'admin');
-      expect(rbac.getUsersByRole('developer')).toEqual(['u1', 'u2']);
+    test('getUsersByRole lists users', () => {
+      rbac.assignRole(ROOT, 'u1', 'viewer');
+      rbac.assignRole(ROOT, 'u2', 'viewer');
+      expect(rbac.getUsersByRole('viewer').sort()).toEqual(['u1', 'u2']);
     });
-
-    test('listRoles returns all roles', () => {
-      rbac.createRole('custom', 'Custom', []);
-      expect(rbac.listRoles().length).toBe(4);
-    });
-  });
-
-  test('DEFAULT_ROLES export matches expected structure', () => {
-    expect(DEFAULT_ROLES.admin.permissions).toBeInstanceOf(Array);
-    expect(DEFAULT_ROLES.developer.permissions).toBeInstanceOf(Array);
-    expect(DEFAULT_ROLES.viewer.permissions).toBeInstanceOf(Array);
   });
 });

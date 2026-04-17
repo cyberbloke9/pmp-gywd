@@ -48,8 +48,16 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
     return;
   }
 
-  // Auth bypass — only in development or with explicit opt-in
+  // Auth bypass — only in development or with explicit opt-in.
+  // In bypass mode, we populate authContext with 'admin' scope (so downstream
+  // scope checks succeed) but mark it as bypass so audit logs can record that.
   if (isAuthBypassAllowed()) {
+    (req as Request & { authContext?: unknown }).authContext = {
+      userId: 'dev-bypass',
+      scope: 'admin',
+      keyId: 'bypass',
+      bypass: true,
+    };
     next();
     return;
   }
@@ -64,8 +72,8 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
     return;
   }
 
-  const entry = validateKey(apiKey);
-  if (!entry) {
+  const info = validateKey(apiKey);
+  if (!info) {
     res.status(403).json({
       success: false,
       error: 'Invalid or revoked API key.',
@@ -73,7 +81,13 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
     return;
   }
 
-  // Attach key info to request for downstream use
-  (req as Request & { apiKeyName?: string }).apiKeyName = entry.name;
+  // Attach auth context (includes scope for downstream authz)
+  (req as Request & { authContext?: unknown; apiKeyName?: string }).authContext = {
+    userId: info.createdBy || `key:${info.id}`,
+    scope: info.scope,
+    keyId: info.id,
+    bypass: false,
+  };
+  (req as Request & { apiKeyName?: string }).apiKeyName = info.name;
   next();
 }

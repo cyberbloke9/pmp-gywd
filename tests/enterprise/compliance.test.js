@@ -1,9 +1,17 @@
 'use strict';
 
+const crypto = require('crypto');
 const { ComplianceReporter } = require('../../lib/enterprise/compliance');
 const { AuditLog } = require('../../lib/enterprise/audit-log');
 const { RBAC } = require('../../lib/enterprise/rbac');
 const { SSOManager } = require('../../lib/enterprise/sso');
+
+// Fixture RSA key for OIDC provider in tests
+const { publicKey: testPubKey } = crypto.generateKeyPairSync('rsa', {
+  modulusLength: 2048,
+  publicKeyEncoding: { type: 'spki', format: 'pem' },
+  privateKeyEncoding: { type: 'pkcs8', format: 'pem' },
+});
 
 describe('ComplianceReporter', () => {
   let reporter;
@@ -12,10 +20,14 @@ describe('ComplianceReporter', () => {
   let sso;
 
   beforeEach(() => {
-    auditLog = new AuditLog();
+    auditLog = new AuditLog({ secret: 'test-secret-at-least-32-bytes-long-for-hmac' });
     rbac = new RBAC();
     sso = new SSOManager();
-    sso.registerProvider({ id: 'okta', type: 'oidc', name: 'Okta' });
+    sso.registerProvider({
+      id: 'okta', type: 'oidc', name: 'Okta',
+      issuer: 'https://okta.example.com', clientId: 'test-client',
+      publicKey: testPubKey, algorithms: ['RS256'],
+    });
 
     reporter = new ComplianceReporter({ auditLog, rbac, sso });
   });

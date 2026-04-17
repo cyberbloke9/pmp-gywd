@@ -58,7 +58,7 @@
   },
   "homepage": "https://github.com/cyberbloke9/pmp-gywd#readme",
   "engines": {
-    "node": ">=16.7.0"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
